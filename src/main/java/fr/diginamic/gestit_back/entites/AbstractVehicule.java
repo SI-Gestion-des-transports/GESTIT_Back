@@ -19,5 +19,4 @@ public abstract class AbstractVehicule extends AbstractBaseEntity {
 
     @ManyToOne
     private Modele modele;
-
 }

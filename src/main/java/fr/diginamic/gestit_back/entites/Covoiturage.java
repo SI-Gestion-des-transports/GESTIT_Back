@@ -23,11 +23,14 @@ public class Covoiturage extends AbstractBaseEntity {
     @ManyToOne
     private Adresse adresseArrivee;
 
-    @ManyToMany(mappedBy = "covoiturages")
-    private Set<Collaborateur> passagers;
+    @ManyToMany(mappedBy = "covoituragesPassagers")
+    private Set<Utilisateur> passagers;
 
     @ManyToOne
-    private Organisateur organisateur;
+    private Utilisateur organisateur;
+
+    @ManyToOne
+    private VehiculePerso vehiculePerso;
 
     public Covoiturage() {
 

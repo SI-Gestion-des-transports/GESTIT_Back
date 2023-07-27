@@ -16,8 +16,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class VehiculeService extends AbstractVehicule {
 
+    @Column(name="photo_url")
     private String photoURL;
 
+    @Column(name="emission_co2")
     private Double emissionCO2;
 
     @Enumerated
