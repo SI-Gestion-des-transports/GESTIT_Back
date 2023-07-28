@@ -8,8 +8,6 @@ import fr.diginamic.gestit_back.repository.ModeleRepository;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import fr.diginamic.gestit_back.repository.VehiculePersoRepository;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +15,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-@Data
-//@Transactional
+@Transactional
 public class VehiculePersoService {
     private VehiculePersoRepository vehiculePersoRepository;
     private UtilisateurRepository utilisateurRepository;
