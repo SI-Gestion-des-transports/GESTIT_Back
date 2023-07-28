@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VehiculePersoRepository extends JpaRepository<VehiculePerso,Integer> {
+    public VehiculePerso findVehiculePersoByImmatriculation(String immatriculation);
+
 }
