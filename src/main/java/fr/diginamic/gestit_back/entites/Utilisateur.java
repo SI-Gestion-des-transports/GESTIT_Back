@@ -27,6 +27,7 @@ public class Utilisateur extends AbstractBaseEntity {
     private String motDePasse;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "collaborateur")
