@@ -23,13 +23,13 @@ public class VehiculeService extends AbstractVehicule {
     @Column(name="emission_co2")
     private Double emissionCO2;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Motorisation motorisation;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Statut statut;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Categorie categorie;
 
     @OneToMany(mappedBy = "vehiculeService")
