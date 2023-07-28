@@ -47,4 +47,7 @@ public class Utilisateur extends AbstractBaseEntity {
 
     public Utilisateur() {
     }
+
+    public Utilisateur(String nom, String email, String s, String role) {
+    }
 }
