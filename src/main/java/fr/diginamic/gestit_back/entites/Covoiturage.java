@@ -6,6 +6,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,7 +25,7 @@ public class Covoiturage extends AbstractBaseEntity {
     private Adresse adresseArrivee;
 
     @ManyToMany(mappedBy = "covoituragesPassagers")
-    private Set<Utilisateur> passagers;
+    private Set<Utilisateur> passagers = new HashSet<>();
 
     @ManyToOne
     private Utilisateur organisateur;

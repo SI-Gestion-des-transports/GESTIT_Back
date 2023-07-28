@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -32,7 +33,7 @@ public class VehiculeService extends AbstractVehicule {
     private Categorie categorie;
 
     @OneToMany(mappedBy = "vehiculeService")
-    private Set<ReservationVehiculeService> reservationVehiculeServices;
+    private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
     public VehiculeService() {
 
     }

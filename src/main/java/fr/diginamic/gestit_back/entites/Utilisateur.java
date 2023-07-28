@@ -26,22 +26,23 @@ public class Utilisateur extends AbstractBaseEntity {
 
     private String motDePasse;
 
-    private boolean isAdmin;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "collaborateur")
-    private Set<ReservationVehiculeService> reservationVehiculeServices;
-
-    @OneToMany(mappedBy = "organisateur")
-    private Set<Covoiturage> covoituragesOrganises;
+    private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name="covoiturages_collaborateur",
             joinColumns = @JoinColumn(name="collaborateur_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))
-    private Set<Covoiturage> covoituragesPassagers;
+    private Set<Covoiturage> covoituragesPassagers = new HashSet<>();
 
     @OneToMany(mappedBy = "proprietaire")
     private Set<VehiculePerso> vehiculesPerso = new HashSet<>();
+
+    @OneToMany(mappedBy = "organisateur")
+    private Set<Covoiturage> covoituragesOrganises = new HashSet<>();
 
     public Utilisateur() {
     }

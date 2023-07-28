@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,7 +18,7 @@ public class VehiculePerso extends AbstractVehicule {
     private Utilisateur proprietaire;
 
     @OneToMany(mappedBy = "vehiculePerso")
-    private Set<Covoiturage> covoiturages;
+    private Set<Covoiturage> covoiturages = new HashSet<>();
 
     public VehiculePerso() {
     }
