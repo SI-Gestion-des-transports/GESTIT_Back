@@ -3,10 +3,14 @@ package fr.diginamic.gestit_back.controller;
 import fr.diginamic.gestit_back.dto.ReservationVehiculeServiceDto;
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.service.ReservationVehiculeServiceService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Data
@@ -18,16 +22,25 @@ public class ReservationVehiculeServiceController {
     ReservationVehiculeServiceService reservationVehiculeServiceService;
 
     @GetMapping
-    public void listerReservations(){
+    public List<ReservationVehiculeService> listerReservations(){
         for (ReservationVehiculeService r : this.reservationVehiculeServiceService.listeReservationVehiculeService()){
             System.out.println("Réservation " + r.getId() + " : " + r);
         }
+        return this.reservationVehiculeServiceService.listeReservationVehiculeService();
     }
 
+    //@Secured("COLLABORATEUR")
     @PostMapping("/create")
-    public void creerReservationVehiculeService(@RequestBody ReservationVehiculeServiceDto reservationVehiculeServiceDto){
-        this.reservationVehiculeServiceService.creerReservationVehiculeService(reservationVehiculeServiceDto);
+    public void creerReservationVehiculeService(@RequestBody @Valid ReservationVehiculeServiceDto resDto){
+        this.reservationVehiculeServiceService.creerReservationVehiculeService(resDto);
     }
+
+    //@Secured("COLLABORATEUR")
+    @PostMapping("/modify")
+    public void modifierReservationVehiculeService(@RequestBody @Valid ReservationVehiculeServiceDto newResDto){
+        this.reservationVehiculeServiceService.modifierReservationVehiculeService(newResDto);
+    }
+
 
 
 }
