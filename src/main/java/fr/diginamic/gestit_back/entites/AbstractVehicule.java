@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @MappedSuperclass
 public abstract class AbstractVehicule extends AbstractBaseEntity{
+
     private String immatriculation;
 
     private Integer nombreDePlaceDisponibles;
