@@ -1,5 +1,6 @@
 package fr.diginamic.gestit_back.entites;
 
+import fr.diginamic.gestit_back.dto.VehiculePersoDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -21,5 +22,9 @@ public class VehiculePerso extends AbstractVehicule {
     private Set<Covoiturage> covoiturages = new HashSet<>();
 
     public VehiculePerso() {
+    }
+    public VehiculePerso(VehiculePersoDto dto){
+        this.setImmatriculation(dto.getImmatriculation());
+
     }
 }
