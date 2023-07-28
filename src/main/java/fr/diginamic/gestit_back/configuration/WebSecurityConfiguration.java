@@ -27,7 +27,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc, JWTAuthFilter jwtAuthFilter) throws Exception{
         http.authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(mvc.pattern(HttpMethod.POST, "adresse")).permitAll()
+                                .requestMatchers(mvc.pattern(HttpMethod.POST, "")).permitAll()
                                 .anyRequest().permitAll()
                 )
                 .csrf(csrf -> csrf

@@ -26,3 +26,16 @@ GET http://localhost:8080/adresse/find
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
 
+###
+GET http://localhost:8080/marque
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
+Content-Type: application/json
+
+###
+POST http://localhost:8080/marque
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
+Content-Type: application/json
+
+{
+  "nom" : " "
+}
