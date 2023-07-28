@@ -1,0 +1,28 @@
+POST http://localhost:8080/adresse
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
+Content-Type: application/json
+
+{
+  "commune": "Montpellier",
+  "codePostal": 34000,
+  "numero": 40,
+  "voie": "Avenue de Fes"
+}
+
+###
+POST http://localhost:8080/adresse
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
+Content-Type: application/json
+
+{
+  "commune": "Castelnau-le-Lez",
+  "codePostal": 34170,
+  "numero": 155,
+  "voie": "Avenue du Devois"
+}
+
+###
+GET http://localhost:8080/adresse/find
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
+Content-Type: application/json
+

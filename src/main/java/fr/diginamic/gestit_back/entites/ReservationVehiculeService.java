@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ReservationVehiculeService extends AbstractBaseEntity {
 
     @ManyToOne
-    private Collaborateur collaborateur;
+    private Utilisateur collaborateur;
 
     @ManyToOne
     private VehiculeService vehiculeService;

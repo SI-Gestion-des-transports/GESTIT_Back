@@ -15,9 +15,5 @@ public abstract class AbstractVehicule extends AbstractBaseEntity {
     private Integer nombreDePlaceDisponibles;
 
     @ManyToOne
-    private Marque marque;
-
-    @ManyToOne
     private Modele modele;
-
 }

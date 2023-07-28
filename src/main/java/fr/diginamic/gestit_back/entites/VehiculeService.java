@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -16,8 +17,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class VehiculeService extends AbstractVehicule {
 
+    @Column(name="photo_url")
     private String photoURL;
 
+    @Column(name="emission_co2")
     private Double emissionCO2;
 
     @Enumerated
@@ -30,7 +33,7 @@ public class VehiculeService extends AbstractVehicule {
     private Categorie categorie;
 
     @OneToMany(mappedBy = "vehiculeService")
-    private Set<ReservationVehiculeService> reservationVehiculeServices;
+    private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
     public VehiculeService() {
 
     }

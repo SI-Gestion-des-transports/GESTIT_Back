@@ -19,4 +19,9 @@ public class Adresse extends AbstractBaseEntity {
 
     public Adresse() {
     }
+
+    public Adresse(Integer numero, String voie) {
+        this.numero = numero;
+        this.voie = voie;
+    }
 }
