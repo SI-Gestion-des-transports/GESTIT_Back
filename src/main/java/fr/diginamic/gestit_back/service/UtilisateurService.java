@@ -24,5 +24,9 @@ public class UtilisateurService {
         return utilisateurs;
     }
 
+    public Utilisateur trouverParId(Integer id){
+        return this.utilisateurRepository.findById(id).orElseThrow();
+    }
+
 
 }

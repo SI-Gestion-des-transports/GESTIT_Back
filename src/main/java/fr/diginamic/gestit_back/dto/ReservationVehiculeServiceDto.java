@@ -1,14 +1,15 @@
 package fr.diginamic.gestit_back.dto;
 
-import fr.diginamic.gestit_back.entites.Utilisateur;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 public record ReservationVehiculeServiceDto (
-        @NotBlank Integer userId,
-        @NotBlank Integer vehiculeServiceId,
-        @NotBlank LocalDateTime dateHeureDepart,
-        @NotBlank LocalDateTime dateHeureRetour
+        @NotNull Integer userId,
+        @NotNull Integer vehiculeServiceId,
+        @Valid LocalDateTime dateHeureDepart,
+        @Valid LocalDateTime dateHeureRetour,
+        Integer oldResId
         ){
 }
