@@ -2,6 +2,7 @@ package fr.diginamic.gestit_back.dto;
 
 import fr.diginamic.gestit_back.entites.VehiculePerso;
 import fr.diginamic.gestit_back.repository.VehiculePersoRepository;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VehiculePersoDto {
-    private String marque;
+
+    @NotBlank
     private String modele;
-    private String nombreDePlaceDisponibles;
+    @NotBlank
+    private Integer nombreDePlaceDisponibles;
+    @NotBlank
     private String immatriculation;
+    @NotBlank
     private Integer userId;
 }

@@ -23,8 +23,11 @@ public class VehiculePerso extends AbstractVehicule {
 
     public VehiculePerso() {
     }
-    public VehiculePerso(VehiculePersoDto dto){
+    public VehiculePerso(VehiculePersoDto dto,Utilisateur utilisateur,Modele modele){
         this.setImmatriculation(dto.getImmatriculation());
+        this.setProprietaire(utilisateur);
+        this.setModele(modele);
+        this.setNombreDePlaceDisponibles(dto.getNombreDePlaceDisponibles());
 
     }
 }
