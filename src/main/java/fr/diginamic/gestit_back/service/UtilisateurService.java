@@ -1,13 +1,16 @@
 package fr.diginamic.gestit_back.service;
 
+import fr.diginamic.gestit_back.dto.UtilisateurDto;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,5 +27,18 @@ public class UtilisateurService {
         return utilisateurs;
     }
 
+
+
+
+    public void creerUtilisateur (UtilisateurDto utilisateurDto){
+    Utilisateur nouveauUtilisateur = new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse(),utilisateurDto.role());
+
+
+
+
+
+
+
+    }
 
 }
