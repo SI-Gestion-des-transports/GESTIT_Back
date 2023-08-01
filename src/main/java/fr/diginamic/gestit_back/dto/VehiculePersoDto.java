@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VehiculePersoDto {
 
+    private Integer id;
     @NotBlank
     private String modele;
     @NotNull
@@ -21,4 +22,11 @@ public class VehiculePersoDto {
     private String immatriculation;
     @NotNull
     private Integer userId;
+    public VehiculePersoDto(VehiculePerso vehiculePerso){
+        this.id= vehiculePerso.getId();
+        this.modele= vehiculePerso.getModele().getNom();
+        this.userId= vehiculePerso.getProprietaire().getId();
+        this.nombreDePlaceDisponibles = vehiculePerso.getNombreDePlaceDisponibles();
+        this.immatriculation = vehiculePerso.getImmatriculation();
+    }
 }
