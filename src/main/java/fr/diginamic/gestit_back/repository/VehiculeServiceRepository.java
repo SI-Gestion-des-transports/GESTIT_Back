@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface VehiculeServiceRepository extends JpaRepository<VehiculeService, Integer> {
 
-    Optional<VehiculeService> findById(Integer id);
+    public Optional<VehiculeService> findById(Integer id);
+    public VehiculeService findFirstByImmatriculation(String immatriculation);
 }
