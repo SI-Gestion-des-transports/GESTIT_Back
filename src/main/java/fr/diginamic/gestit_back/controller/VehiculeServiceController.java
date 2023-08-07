@@ -5,6 +5,7 @@ import fr.diginamic.gestit_back.entites.VehiculeService;
 import fr.diginamic.gestit_back.service.VehiculeServiceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Secured("ADMINISTRATEUR")
 @RequestMapping("admin/vehiculeservice")
 public class VehiculeServiceController {
     private VehiculeServiceService vehiculeServiceService;

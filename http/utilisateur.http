@@ -1,3 +1,30 @@
 GET http://localhost:8080/utilisateur/findNom
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
+
+###
+POST localhost:8080/utilisateur/create
+Content-Type: application/json
+
+{
+  "nom": "dijialeitest",
+  "email": "dijialei@gmail.com",
+  "motDePasse": "COLLABORATEUR",
+  "roles": ["COLLABORATEUR"]
+}
+
+###
+POST localhost:8080/login
+Content-Type: application/json
+
+{
+  "nom": "dijialei",
+
+  "motDePasse": "admin"
+
+}
+
+###
+GET localhost:8080/admin/vehiculeservice/list
+Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sImlkIjo3LCJ1c2VybmFtZSI6ImRpamlhbGVpIiwiZXhwIjoxNjkxNDU1NzUxfQ.Ncxny1P7ymPhj6XILC7ZX1EWd3c-H7IZjELKDGzZ4Ls

@@ -1,12 +1,12 @@
 POST 127.0.0.1:8080/vehiculeperso/create
 Content-Type: application/json
-X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
+
 
 {
 
   "modele" : "208",
   "nombreDePlaceDisponibles": 5,
-  "immatriculation":  "*23456",
+  "immatriculation":  "test423456",
   "userId": 3
 }
 

@@ -19,6 +19,8 @@ public class JWTConfig {
 
     @Value("${jwt.cookie}")
     private String cookie;
+    @Value("${jwt.name}")
+    private String name;
 
     @Value("${jwt.secret}")
     private String secret;
