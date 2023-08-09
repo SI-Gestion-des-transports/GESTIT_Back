@@ -2,19 +2,25 @@ package fr.diginamic.gestit_back.authentication;
 
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping
 @AllArgsConstructor
 public class LoginController {
     private LoginService loginService;
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity login(@RequestBody Utilisateur utilisateur){
         return loginService.login(utilisateur);
+    }
+    @PostMapping("/signout")
+    public ResponseEntity signout(@RequestHeader HttpHeaders httpHeaders){
+        return loginService.signout(httpHeaders);
+    }
+    @PostMapping("/getidbyjwt")
+    public ResponseEntity getId(@RequestHeader HttpHeaders httpHeaders){
+        return loginService.getId(httpHeaders);
     }
 }

@@ -1,7 +1,6 @@
 package fr.diginamic.gestit_back.dto;
 
 import fr.diginamic.gestit_back.entites.VehiculePerso;
-import fr.diginamic.gestit_back.repository.VehiculePersoRepository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

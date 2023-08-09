@@ -22,7 +22,8 @@ public class JWTUtils {
         Map map= new HashMap<>();
         map.put("username",utilisateur.getNom());
         map.put("password",utilisateur.getMotDePasse());
-        map.put("id",utilisateur.getId());
+        //map.put("email",utilisateur.getEmail());
+        //map.put("id",utilisateur.getId());
         map.put("roles",roles);
         String jetonJWT = Jwts.builder()
                 .setHeaderParam("typ","JWT")
@@ -36,14 +37,13 @@ public class JWTUtils {
     }
 
     public Claims parseJWT(String token){
-        try{
-            JwtParser jwtParser =Jwts.parserBuilder().setSigningKey(jwtConfig.getSecretKey()).build();
-            Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
-            return claimsJws.getBody();
 
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new RuntimeException("Token Error !");
-        }
+                JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(jwtConfig.getSecretKey()).build();
+                Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
+
+                return claimsJws.getBody();
+
+
+
     }
 }

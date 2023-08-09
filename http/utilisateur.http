@@ -13,6 +13,24 @@ Content-Type: application/json
   "roles": ["COLLABORATEUR"]
 }
 
+
+
+###
+GET localhost:8080/admin/vehiculeservice/list
+Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sImlkIjo3LCJ1c2VybmFtZSI6ImRpamlhbGVpIiwiZXhwIjoxNjkxNDU1NzUxfQ.Ncxny1P7ymPhj6XILC7ZX1EWd3c-H7IZjELKDGzZ4Ls
+
+
+###
+
+POST localhost:8080/signout
+Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sInVzZXJuYW1lIjoiZGlqaWFsZWkiLCJleHAiOjE2OTE1OTAzMTN9.73yX5suf9p3m3kUq8lHDsF_oItMJAb3nLEJ_MZh25Ho
+
+{
+
+
+}
 ###
 POST localhost:8080/login
 Content-Type: application/json
@@ -25,6 +43,11 @@ Content-Type: application/json
 }
 
 ###
-GET localhost:8080/admin/vehiculeservice/list
+POST localhost:8080/getidbyjwt
 Content-Type: application/json
-JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sImlkIjo3LCJ1c2VybmFtZSI6ImRpamlhbGVpIiwiZXhwIjoxNjkxNDU1NzUxfQ.Ncxny1P7ymPhj6XILC7ZX1EWd3c-H7IZjELKDGzZ4Ls
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sInVzZXJuYW1lIjoiZGlqaWFsZWkiLCJleHAiOjE2OTE1OTAzMTN9.73yX5suf9p3m3kUq8lHDsF_oItMJAb3nLEJ_MZh25Ho
+
+{
+
+
+}

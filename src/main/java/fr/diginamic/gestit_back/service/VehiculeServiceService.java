@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -28,8 +27,7 @@ public class VehiculeServiceService {
     public List<VehiculeServiceDto> listVehiculeService(Integer start,Integer size){
         Pageable pages = PageRequest.of(start,size);
         Page<VehiculeService> all = vehiculeServiceRepository.findAll(pages);
-        List<VehiculeServiceDto> list = all.getContent().stream().map(VehiculeServiceDto::new).toList();
-        return list;
+        return all.getContent().stream().map(VehiculeServiceDto::new).toList();
     }
     public void createVehiculeService(VehiculeServiceDto dto){
         if (vehiculeServiceRepository.findFirstByImmatriculation(dto.getImmatriculation()) != null) throw new RuntimeException("Immatriculation existait !");

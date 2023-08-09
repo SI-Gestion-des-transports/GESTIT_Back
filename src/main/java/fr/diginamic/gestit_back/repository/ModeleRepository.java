@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ModeleRepository extends JpaRepository<Modele, Integer> {
-    public Modele findModeleByNom(String nom);
+    Modele findModeleByNom(String nom);
 }

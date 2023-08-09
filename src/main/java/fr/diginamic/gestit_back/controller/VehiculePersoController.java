@@ -1,12 +1,8 @@
 package fr.diginamic.gestit_back.controller;
 
 import fr.diginamic.gestit_back.dto.VehiculePersoDto;
-import fr.diginamic.gestit_back.entites.Utilisateur;
-import fr.diginamic.gestit_back.entites.VehiculePerso;
-import fr.diginamic.gestit_back.service.UtilisateurService;
 import fr.diginamic.gestit_back.service.VehiculePersoService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

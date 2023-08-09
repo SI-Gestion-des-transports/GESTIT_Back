@@ -8,7 +8,6 @@ import fr.diginamic.gestit_back.repository.ModeleRepository;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import fr.diginamic.gestit_back.repository.VehiculePersoRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +27,7 @@ public class VehiculePersoService {
     public List<VehiculePersoDto> listVehiculePersoByUser(Integer userId) {
         Utilisateur utilisateur = utilisateurService.trouverParId(userId);
         List<VehiculePerso> list = vehiculePersoRepository.findVehiculePersoByProprietaire(utilisateur);
-        List<VehiculePersoDto> vehiculePersoDtoList = list.stream().map(VehiculePersoDto::new).toList();
-        return vehiculePersoDtoList;
+        return list.stream().map(VehiculePersoDto::new).toList();
     }
 
 
@@ -38,7 +36,7 @@ public class VehiculePersoService {
         if (vehiculePerso == null) {
             Optional<Utilisateur> utilisateur = utilisateurRepository.findById(dto.getUserId());
             Modele modele = modeleRepository.findModeleByNom(dto.getModele());
-            vehiculePersoRepository.save(new VehiculePerso(dto, utilisateur.get(), modele));
+            utilisateur.ifPresent(user->vehiculePersoRepository.save(new VehiculePerso(dto, user, modele)));
         }else throw new RuntimeException("Immatriculation existait !");
     }
 

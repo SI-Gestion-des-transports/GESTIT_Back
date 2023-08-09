@@ -4,7 +4,6 @@ import fr.diginamic.gestit_back.entites.VehiculeService;
 import fr.diginamic.gestit_back.enumerations.Categorie;
 import fr.diginamic.gestit_back.enumerations.Motorisation;
 import fr.diginamic.gestit_back.enumerations.Statut;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;

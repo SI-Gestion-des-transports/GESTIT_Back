@@ -1,8 +1,6 @@
 package fr.diginamic.gestit_back.authentication;
 
 import fr.diginamic.gestit_back.entites.Utilisateur;
-import io.swagger.v3.oas.annotations.callbacks.Callback;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
