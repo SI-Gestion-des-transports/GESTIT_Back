@@ -1,0 +1,12 @@
+Quel est l'intérêt de la classe BaseEntity?
+Adresse.java, l25 : inutile avec @AllArgsCnsturcor + ne faut-il pas super?
+Commune.java, l20 : pourquoi Equals et hashcode alors que lombok le fait?
+Utilisateur.java:
+    -l25 : ne faut-il pas @Value pour activer la validation?
+    -30 : pas compris le rôle de @ElementCollection
+    -l35 : le hahsset ne devrait-il pas être crée dans le constructeur;
+AdresseDto :    
+    -record?
+    -l24 : pourquoi des parenthèse lorsque l'on récupère les attributs du DTO?
+ReservationVechiculeServcieService : demanderai une lecture par le programmeur
+VehiculePersoController : l22, @Validated

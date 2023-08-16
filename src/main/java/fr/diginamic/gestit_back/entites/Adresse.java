@@ -4,7 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class Adresse extends AbstractBaseEntity {
     public Adresse() {
     }
 
+    // Semble inutile avec @AllArgsConstructor
     public Adresse(Integer numero, String voie) {
         this.numero = numero;
         this.voie = voie;

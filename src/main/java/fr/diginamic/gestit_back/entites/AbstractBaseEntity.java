@@ -8,7 +8,7 @@ import lombok.Data;
 
 @MappedSuperclass
 @Data
-public abstract class AbstractBaseEntity {
+public abstract class AbstractBaseEntity { // Quel intérêt?
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

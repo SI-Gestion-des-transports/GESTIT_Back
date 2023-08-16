@@ -3,14 +3,11 @@ package fr.diginamic.gestit_back.entites;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
 public class Commune extends AbstractBaseEntity {
-
 
     private String nom;
 
@@ -21,13 +18,17 @@ public class Commune extends AbstractBaseEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
 
         Commune commune = (Commune) o;
 
-        if (!nom.equals(commune.nom)) return false;
+        if (!nom.equals(commune.nom))
+            return false;
         return codePostal.equals(commune.codePostal);
     }
 

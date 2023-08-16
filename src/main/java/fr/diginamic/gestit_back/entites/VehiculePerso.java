@@ -6,10 +6,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Data
 @AllArgsConstructor
@@ -23,7 +25,8 @@ public class VehiculePerso extends AbstractVehicule {
 
     public VehiculePerso() {
     }
-    public VehiculePerso(VehiculePersoDto dto,Utilisateur utilisateur,Modele modele){
+
+    public VehiculePerso(VehiculePersoDto dto, Utilisateur utilisateur, Modele modele) {
         this.setImmatriculation(dto.getImmatriculation());
         this.setProprietaire(utilisateur);
         this.setModele(modele);

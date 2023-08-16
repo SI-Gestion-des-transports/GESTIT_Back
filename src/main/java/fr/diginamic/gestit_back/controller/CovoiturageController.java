@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,16 @@ public class CovoiturageController {
 
     @GetMapping
     public ResponseEntity<List<Covoiturage>> lister() {
-        List<Covoiturage> covoiturages = this.getCovoiturageService().listerCovoiturages();
+        List<Covoiturage> covoiturages;
+        try {
+            covoiturages = this.getCovoiturageService().listerCovoiturages();
+
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+        if (covoiturages.size() == 0)
+            return ResponseEntity.notFound().build();
         return ResponseEntity.status(HttpStatus.OK).body(covoiturages);
     }
+
 }
