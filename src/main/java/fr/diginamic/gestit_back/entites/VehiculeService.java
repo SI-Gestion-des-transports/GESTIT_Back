@@ -1,20 +1,22 @@
 package fr.diginamic.gestit_back.entites;
 
+import fr.diginamic.gestit_back.dto.VehiculeServiceDto;
 import fr.diginamic.gestit_back.enumerations.Categorie;
 import fr.diginamic.gestit_back.enumerations.Motorisation;
 import fr.diginamic.gestit_back.enumerations.Statut;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
+
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class VehiculeService extends AbstractVehicule {
 
     @Column(name="photo_url")
@@ -34,7 +36,15 @@ public class VehiculeService extends AbstractVehicule {
 
     @OneToMany(mappedBy = "vehiculeService")
     private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
-    public VehiculeService() {
-
+    public VehiculeService(VehiculeServiceDto dto, Modele modele){
+        if (dto.getId()!=null) this.setId(dto.getId());
+        this.categorie=dto.getCategorie();
+        this.emissionCO2= dto.getEmissionCO2();
+        this.statut=dto.getStatut();
+        this.motorisation =dto.getMotorisation();
+        this.photoURL=dto.getPhotoURL();
+        this.setModele(modele);
+        this.setImmatriculation(dto.getImmatriculation());
+        this.setNombreDePlaceDisponibles(dto.getNombreDePlaceDisponibles());
     }
 }

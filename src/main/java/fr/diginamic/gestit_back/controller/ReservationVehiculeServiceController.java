@@ -6,7 +6,6 @@ import fr.diginamic.gestit_back.service.ReservationVehiculeServiceService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

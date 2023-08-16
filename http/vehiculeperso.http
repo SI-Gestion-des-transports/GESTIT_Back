@@ -1,0 +1,35 @@
+POST 127.0.0.1:8080/vehiculeperso/create
+Content-Type: application/json
+
+
+{
+
+  "modele" : "208",
+  "nombreDePlaceDisponibles": 5,
+  "immatriculation":  "test423456",
+  "userId": 3
+}
+
+###
+
+GET 127.0.0.1:8080/vehiculeperso/delete?id=7&userId=3
+Content-Type: application/json
+
+
+###
+
+GET 127.0.0.1:8080/vehiculeperso/list?userId=3
+Content-Type: application/json
+
+###
+POST 127.0.0.1:8080/vehiculeperso/modify
+Content-Type: application/json
+X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
+
+{
+  "id": 10,
+  "modele" : "308",
+  "nombreDePlaceDisponibles": 4,
+  "immatriculation":  "T23456",
+  "userId": 3
+}
