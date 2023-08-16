@@ -24,6 +24,7 @@ public class VehiculePerso extends AbstractVehicule {
     public VehiculePerso() {
     }
     public VehiculePerso(VehiculePersoDto dto,Utilisateur utilisateur,Modele modele){
+        if (dto.getId()!=null) this.setId(dto.getId());
         this.setImmatriculation(dto.getImmatriculation());
         this.setProprietaire(utilisateur);
         this.setModele(modele);

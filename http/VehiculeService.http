@@ -1,0 +1,45 @@
+POST 127.0.0.1:8080/admin/vehiculeservice/create
+Content-Type: application/json
+X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
+
+{
+
+    "modele": "Megane",
+    "nombreDePlaceDisponibles":5 ,
+    "immatriculation": "T123456",
+    "photoURL": "http://www.diginamic.fr/photo-car.jpg",
+    "emissionCO2": 160,
+    "motorisation": "HYBRIDE" ,
+    "statut": "EN_SERVICE",
+    "categorie": "MICRO_URBAINES"
+}
+
+###
+
+GET 127.0.0.1:8080/admin/vehiculeservice/list
+Content-Type: application/json
+X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
+
+
+###
+POST 127.0.0.1:8080/admin/vehiculeservice/modify
+Content-Type: application/json
+X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
+
+{
+  "id": 1,
+  "modele": "Megane",
+  "nombreDePlaceDisponibles":5 ,
+  "immatriculation": "ù123456",
+  "photoURL": "http://www.diginamic.fr/photo-car.jpg",
+  "emissionCO2": 160,
+  "motorisation": "HYBRIDE" ,
+  "statut": "EN_SERVICE",
+  "categorie": "MICRO_URBAINES"
+}
+
+###
+
+GET 127.0.0.1:8080/admin/vehiculeservice/delete?id=2
+Content-Type: application/json
+X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
