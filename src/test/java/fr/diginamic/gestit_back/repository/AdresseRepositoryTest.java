@@ -16,7 +16,8 @@ public class AdresseRepositoryTest {
     @Autowired
     AdresseRepository adresseRepository;
 
-/*    @Test
+/*
+    @Test
     @Sql("adresses.sql")
     void trouverAdresseParId_OK(){
         Adresse adresseExistante = adresseRepository.findById(1).orElseThrow();
@@ -28,6 +29,7 @@ public class AdresseRepositoryTest {
     void trouverAdresseParId_FALSE(){
         Optional<Adresse> adresseOptional = adresseRepository.findById(7);
         assertThat(adresseOptional).isEmpty();
-    }*/
+    }
+*/
 
 }
