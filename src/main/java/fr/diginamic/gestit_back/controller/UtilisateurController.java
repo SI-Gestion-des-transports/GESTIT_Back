@@ -35,13 +35,13 @@ public class UtilisateurController {
     }
 
     @PostMapping("/create")
-    public Utilisateur nouveauUtilisateur (@RequestBody @Valid UtilisateurDto utilisateurDto){
+    public void nouveauUtilisateur (@RequestBody @Valid UtilisateurDto utilisateurDto){
         System.out.println("utilisateurDto : " + utilisateurDto.nom());
         System.out.println("utilisateurDto : " + utilisateurDto.motDePasse());
         System.out.println("utilisateurDto : " + utilisateurDto.email());
         System.out.println("utilisateurDto : " + utilisateurDto.roles());
 
-        return this.utilisateurCollaborateurService.creerUtilisateur(utilisateurDto);
+        this.utilisateurCollaborateurService.creerUtilisateur(utilisateurDto);
     }
 
 }

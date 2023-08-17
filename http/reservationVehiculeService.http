@@ -2,11 +2,15 @@
 GET http://localhost:8080/reservation
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInBhc3N3b3JkIjoie2JjcnlwdH0kMmEkMTAkbjdsZmN0dXhVRXB4NFl1azZOTXhtZUU0UklRWlg4R2p1SEN3Um8wNHV0bmlqaHcvM0IxczYiLCJyb2xlcyI6WyJDT0xMQUJPUkFURVVSIl0sInVzZXJuYW1lIjoiQ09MTEFCT1JBVEVVUiIsImV4cCI6MTY5MzEyOTg5MH0.FPMZW5DGk9INz6KSqyEz3NeH9Scurp0fNSAM-f245V0
+
+
 
 ###
 POST http://localhost:8080/reservation/create
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInBhc3N3b3JkIjoie2JjcnlwdH0kMmEkMTAkbjdsZmN0dXhVRXB4NFl1azZOTXhtZUU0UklRWlg4R2p1SEN3Um8wNHV0bmlqaHcvM0IxczYiLCJyb2xlcyI6WyJDT0xMQUJPUkFURVVSIl0sInVzZXJuYW1lIjoiQ09MTEFCT1JBVEVVUiIsImV4cCI6MTY5MzEyOTg5MH0.FPMZW5DGk9INz6KSqyEz3NeH9Scurp0fNSAM-f245V0
 
 {
   "userId": 4,
@@ -16,24 +20,27 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/reservation/modify?resId=2
+POST http://localhost:8080/reservation/modify?resId=5
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInBhc3N3b3JkIjoie2JjcnlwdH0kMmEkMTAkbjdsZmN0dXhVRXB4NFl1azZOTXhtZUU0UklRWlg4R2p1SEN3Um8wNHV0bmlqaHcvM0IxczYiLCJyb2xlcyI6WyJDT0xMQUJPUkFURVVSIl0sInVzZXJuYW1lIjoiQ09MTEFCT1JBVEVVUiIsImV4cCI6MTY5MzEyOTg5MH0.FPMZW5DGk9INz6KSqyEz3NeH9Scurp0fNSAM-f245V0
 
 {
-  "userId": 2,
+  "userId": 12,
   "vehiculeServiceId":1,
   "dateHeureDepart":"2023-09-01T18:05:00",
   "dateHeureRetour":"2023-09-11T08:50:00"
 }
 
 ###
-POST http://localhost:8080/reservation/delete?resId=2
+POST http://localhost:8080/reservation/delete?resId=5
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInBhc3N3b3JkIjoie2JjcnlwdH0kMmEkMTAkbjdsZmN0dXhVRXB4NFl1azZOTXhtZUU0UklRWlg4R2p1SEN3Um8wNHV0bmlqaHcvM0IxczYiLCJyb2xlcyI6WyJDT0xMQUJPUkFURVVSIl0sInVzZXJuYW1lIjoiQ09MTEFCT1JBVEVVUiIsImV4cCI6MTY5MzEyOTg5MH0.FPMZW5DGk9INz6KSqyEz3NeH9Scurp0fNSAM-f245V0
+
 
 {
-  "userId": 2,
+  "userId": 12,
   "vehiculeServiceId":1,
   "dateHeureDepart":"2023-09-01T18:05:00",
   "dateHeureRetour":"2023-09-11T08:50:00"

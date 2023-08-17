@@ -40,6 +40,7 @@ X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
 
 ###
 
-GET 127.0.0.1:8080/admin/vehiculeservice/delete?id=2
+GET 127.0.0.1:8080/admin/vehiculeservice/delete?id=1
 Content-Type: application/json
 X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sInVzZXJuYW1lIjoiZGlqaWFsZWkiLCJleHAiOjE2OTMxMjk0MjJ9.Spnumw4PSd7HFsroUlX-gAMdTSXoDkI1feHEp6JO-4U
