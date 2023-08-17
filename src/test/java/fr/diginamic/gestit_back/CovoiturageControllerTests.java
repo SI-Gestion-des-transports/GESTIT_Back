@@ -53,6 +53,55 @@ public class CovoiturageControllerTests {
     @MockBean
     private CovoiturageService covoiturageService;
 
+    public Covoiturage createCovoiturageForTest() {
+
+        Commune commune = new Commune("Paris", 75000);
+        Adresse adresseDepart = new Adresse(26, "rue des Alouettes", commune);
+        Adresse adresseArrivee = new Adresse(32, "Bvd des Aubépines", commune);
+
+        Utilisateur organisateur = new Utilisateur();
+        organisateur.setEmail("JeanMichelDelacroix@gmail.com");
+        organisateur.setMotDePasse("1234");
+        organisateur.setNom("Delacroix");
+        Set<Role> roleOrganisateur = new HashSet<>();
+        roleOrganisateur.add(Role.COLLABORATEUR);
+        organisateur.setRoles(roleOrganisateur);
+
+        Utilisateur passager = new Utilisateur();
+        passager.setEmail("RonaldMerziner@gmail.com");
+        passager.setMotDePasse("4321");
+        passager.setNom("Merziner");
+        Set<Role> rolePassager = new HashSet<>();
+        rolePassager.add(Role.COLLABORATEUR);
+        passager.setRoles(rolePassager);
+
+        VehiculePerso vehiculeOrganisateur = new VehiculePerso();
+        vehiculeOrganisateur.setImmatriculation("789-hu-78");
+        Modele modele = new Modele();
+        Marque marque = new Marque();
+        marque.setNom("Fiat");
+        modele.setNom("mini500");
+        modele.setMarque(marque);
+        vehiculeOrganisateur.setModele(modele);
+        vehiculeOrganisateur.setNombreDePlaceDisponibles(4);
+        vehiculeOrganisateur.setProprietaire(organisateur);
+
+        Set<Utilisateur> passagersABord = new HashSet<>();
+        passagersABord.add(passager);
+
+        Covoiturage covoiturage = new Covoiturage();
+        covoiturage.setAdresseArrivee(adresseArrivee);
+        covoiturage.setAdresseDepart(adresseDepart);
+        covoiturage.setDistanceKm(15);
+        covoiturage.setDureeTrajet(30);
+        covoiturage.setNombrePlacesRestantes(4);
+        covoiturage.setOrganisateur(organisateur);
+        covoiturage.setPassagers(passagersABord);
+        covoiturage.setVehiculePerso(vehiculeOrganisateur);
+
+        return covoiturage;
+    }
+
     @Test
     public void testAddShouldReturn400BadRequest() throws Exception {
         /*
@@ -121,53 +170,20 @@ public class CovoiturageControllerTests {
         Mockito.verify(covoiturageService, times(1)).get(covoiturageImpossibleId);
     }
 
-    public Covoiturage createCovoiturageForTest() {
+    @Test
+    public void testGetShouldReturn200OK() throws Exception {
+        Covoiturage covoiturage = this.createCovoiturageForTest();
+        covoiturage.setId(65000);
+        String requestURI = END_POINT_PATH + "/" + covoiturage.getId();
 
-        Commune commune = new Commune("Paris", 75000);
-        Adresse adresseDepart = new Adresse(26, "rue des Alouettes", commune);
-        Adresse adresseArrivee = new Adresse(32, "Bvd des Aubépines", commune);
+        Mockito.when(covoiturageService
+                .get(covoiturage.getId())).thenReturn(covoiturage);
 
-        Utilisateur organisateur = new Utilisateur();
-        organisateur.setEmail("JeanMichelDelacroix@gmail.com");
-        organisateur.setMotDePasse("1234");
-        organisateur.setNom("Delacroix");
-        Set<Role> roleOrganisateur = new HashSet<>();
-        roleOrganisateur.add(Role.COLLABORATEUR);
-        organisateur.setRoles(roleOrganisateur);
-
-        Utilisateur passager = new Utilisateur();
-        passager.setEmail("RonaldMerziner@gmail.com");
-        passager.setMotDePasse("4321");
-        passager.setNom("Merziner");
-        Set<Role> rolePassager = new HashSet<>();
-        rolePassager.add(Role.COLLABORATEUR);
-        passager.setRoles(rolePassager);
-
-        VehiculePerso vehiculeOrganisateur = new VehiculePerso();
-        vehiculeOrganisateur.setImmatriculation("789-hu-78");
-        Modele modele = new Modele();
-        Marque marque = new Marque();
-        marque.setNom("Fiat");
-        modele.setNom("mini500");
-        modele.setMarque(marque);
-        vehiculeOrganisateur.setModele(modele);
-        vehiculeOrganisateur.setNombreDePlaceDisponibles(4);
-        vehiculeOrganisateur.setProprietaire(organisateur);
-
-        Set<Utilisateur> passagersABord = new HashSet<>();
-        passagersABord.add(passager);
-
-        Covoiturage covoiturage = new Covoiturage();
-        covoiturage.setAdresseArrivee(adresseArrivee);
-        covoiturage.setAdresseDepart(adresseDepart);
-        covoiturage.setDistanceKm(15);
-        covoiturage.setDureeTrajet(30);
-        covoiturage.setNombrePlacesRestantes(4);
-        covoiturage.setOrganisateur(organisateur);
-        covoiturage.setPassagers(passagersABord);
-        covoiturage.setVehiculePerso(vehiculeOrganisateur);
-
-        return covoiturage;
+        mockMvc.perform(MockMvcRequestBuilders.get(requestURI))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.dureeTrajet").value(covoiturage.getDureeTrajet()))
+                .andDo(print());
     }
 
 }
