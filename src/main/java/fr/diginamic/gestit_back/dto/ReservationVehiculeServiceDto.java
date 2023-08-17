@@ -9,7 +9,6 @@ public record ReservationVehiculeServiceDto (
         @NotNull Integer userId,
         @NotNull Integer vehiculeServiceId,
         @Valid LocalDateTime dateHeureDepart,
-        @Valid LocalDateTime dateHeureRetour,
-        Integer oldResId
+        @Valid LocalDateTime dateHeureRetour
         ){
 }

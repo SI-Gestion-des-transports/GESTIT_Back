@@ -4,6 +4,7 @@ import fr.diginamic.gestit_back.dto.VehiculePersoDto;
 import fr.diginamic.gestit_back.service.VehiculePersoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("vehiculeperso")
-
+@Secured("COLLABORATEUR")
 @AllArgsConstructor
 public class VehiculePersoController {
     private VehiculePersoService vehiculePersoService;

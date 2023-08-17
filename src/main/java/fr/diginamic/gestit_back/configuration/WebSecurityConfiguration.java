@@ -37,7 +37,7 @@ public class WebSecurityConfiguration {
                                 //.requestMatchers(HttpMethod.POST,"/utilisateur/create").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/login").anonymous()
                                 //.requestMatchers(mvc.pattern(HttpMethod.POST, "")).permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()//.authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable
                         //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())

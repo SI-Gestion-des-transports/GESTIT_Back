@@ -1,14 +1,17 @@
 package fr.diginamic.gestit_back.service;
 
+import fr.diginamic.gestit_back.dto.MessageDto;
 import fr.diginamic.gestit_back.dto.UtilisateurDto;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
+import fr.diginamic.gestit_back.utils.NotFoundOrValidException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,20 +31,20 @@ public class UtilisateurService {
     }
 
     public Utilisateur trouverParId(Integer id){
-        return this.utilisateurRepository.findById(id).orElseThrow();
+        return this.utilisateurRepository.findById(id).orElseThrow(()-> new NotFoundOrValidException(new MessageDto("Cet utilisateur n'existe pas")));
     }
 
 
-
+    public void creerUtilisateurOld (UtilisateurDto utilisateurDto) {
+        Utilisateur nouveauUtilisateur = new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse(), utilisateurDto.roles());
+    }
 
     public void creerUtilisateur (UtilisateurDto utilisateurDto){
-    Utilisateur nouveauUtilisateur = new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse(),utilisateurDto.role());
-
-
-
-
-
-
+        if (utilisateurRepository.findByEmail(utilisateurDto.email()).isPresent()){
+            throw new RuntimeException("le mail a été utilisé par un autre utilisateur");
+        } else {
+            this.utilisateurRepository.save(new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse(), utilisateurDto.roles()));
+        }
 
     }
 

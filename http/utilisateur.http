@@ -4,28 +4,33 @@ Content-Type: application/json
 
 ###
 POST localhost:8080/utilisateur/create
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
 
 {
-  "nom": "dijialeitest",
-  "email": "dijialei@gmail.com",
-  "motDePasse": "COLLABORATEUR",
+  "nom": "nom4",
+  "email": "nom4@nom.com",
+  "motDePasse": "1234",
   "roles": ["COLLABORATEUR"]
 }
 
 
 
-###
+### TOKEN ADMINISTRATEUR
 GET localhost:8080/admin/vehiculeservice/list
 Content-Type: application/json
-JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sImlkIjo3LCJ1c2VybmFtZSI6ImRpamlhbGVpIiwiZXhwIjoxNjkxNDU1NzUxfQ.Ncxny1P7ymPhj6XILC7ZX1EWd3c-H7IZjELKDGzZ4Ls
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sInVzZXJuYW1lIjoiZGlqaWFsZWkiLCJleHAiOjE2OTMxMjk0MjJ9.Spnumw4PSd7HFsroUlX-gAMdTSXoDkI1feHEp6JO-4U
 
+
+### TOKEN COLLABORATEUR
+GET localhost:8080/admin/vehiculeservice/list
+Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInBhc3N3b3JkIjoie2JjcnlwdH0kMmEkMTAkbjdsZmN0dXhVRXB4NFl1azZOTXhtZUU0UklRWlg4R2p1SEN3Um8wNHV0bmlqaHcvM0IxczYiLCJyb2xlcyI6WyJDT0xMQUJPUkFURVVSIl0sInVzZXJuYW1lIjoiQ09MTEFCT1JBVEVVUiIsImV4cCI6MTY5MzEyOTg5MH0.FPMZW5DGk9INz6KSqyEz3NeH9Scurp0fNSAM-f245V0
 
 ###
-
 POST localhost:8080/signout
 Content-Type: application/json
-JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sInVzZXJuYW1lIjoiZGlqaWFsZWkiLCJleHAiOjE2OTE1OTAzMTN9.73yX5suf9p3m3kUq8lHDsF_oItMJAb3nLEJ_MZh25Ho
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sInVzZXJuYW1lIjoiZGlqaWFsZWkiLCJleHAiOjE2OTMxMjk0MjJ9.Spnumw4PSd7HFsroUlX-gAMdTSXoDkI1feHEp6JO-4U
 
 {
 
