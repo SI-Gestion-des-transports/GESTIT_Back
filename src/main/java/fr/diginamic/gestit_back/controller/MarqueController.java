@@ -18,15 +18,23 @@ public class MarqueController {
 
     private MarqueService marqueService;
 
-    @PostMapping
+    @PostMapping("/create")
     public void creerMarque(@Valid @RequestBody MarqueDto marqueDto){
-        this.marqueService.creerMarque(marqueDto.nom());
+        if (marqueService.verifyMarque(marqueDto.nom())) throw new RuntimeException("la marque existe déjà");
+        else this.marqueService.creerMarque(marqueDto.nom());
     }
-
-    @GetMapping
+    @GetMapping("/list")
     public void listerMarque(){
         for(Marque m : this.marqueService.listerMarques()){
             System.out.println(m.toString());
         }
+    }
+    @PostMapping("/delete")
+    public void deleteMarque(@Valid @RequestBody MarqueDto marqueDto){
+        marqueService.deleteMarqueByNom(marqueDto.nom());
+    }
+    @PostMapping("/update")
+    public void updateMarque(@Valid @RequestBody MarqueDto marqueDto){
+        marqueService.updateMarque(marqueDto);
     }
 }

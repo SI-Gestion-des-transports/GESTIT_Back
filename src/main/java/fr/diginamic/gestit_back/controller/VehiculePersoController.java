@@ -1,8 +1,10 @@
 package fr.diginamic.gestit_back.controller;
 
 import fr.diginamic.gestit_back.dto.VehiculePersoDto;
+import fr.diginamic.gestit_back.entites.Commune;
 import fr.diginamic.gestit_back.service.VehiculePersoService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
@@ -47,6 +49,12 @@ public class VehiculePersoController {
         vehiculePersoService.modifyVehiculePerso(dto);
         return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUser(dto.getUserId()));
     }
-
+    @CrossOrigin
+    @PostMapping("/test")
+    public ResponseEntity test(@RequestHeader HttpHeaders httpHeaders ,@RequestBody String username){
+        System.out.println(httpHeaders.get("username").get(0));
+        System.out.println(username);
+        return ResponseEntity.status(200).body(new Commune("d",222));
+    }
 
 }
