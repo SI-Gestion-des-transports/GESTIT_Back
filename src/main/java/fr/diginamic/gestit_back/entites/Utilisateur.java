@@ -29,7 +29,7 @@ public class Utilisateur extends AbstractBaseEntity {
 
     @ElementCollection(fetch = FetchType.EAGER)
     //@Enumerated(EnumType.STRING)
-    private List<String > roles;
+    private List<String> roles;
 
     @OneToMany(mappedBy = "collaborateur")
     private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
@@ -53,10 +53,13 @@ public class Utilisateur extends AbstractBaseEntity {
         this.roles =(ArrayList<String>) body.get("roles");
     }
 
-    public Utilisateur(String nom, String email, String s, String role) {
+    public Utilisateur(String nom, String email, String motDePasse, List<String> roles) {
+        this.nom = nom;
+        this.email = email;
+        this.motDePasse = motDePasse;
+        this.roles = roles;
     }
 
     public Utilisateur() {
-
     }
 }

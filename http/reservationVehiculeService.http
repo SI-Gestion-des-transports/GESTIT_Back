@@ -3,7 +3,6 @@ GET http://localhost:8080/reservation
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
 
-
 ###
 POST http://localhost:8080/reservation/create
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
@@ -17,14 +16,25 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/reservation/modify
+POST http://localhost:8080/reservation/modify?resId=2
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
 
 {
-  "userId": 4,
+  "userId": 2,
   "vehiculeServiceId":1,
   "dateHeureDepart":"2023-09-01T18:05:00",
-  "dateHeureRetour":"2023-09-11T08:50:00",
-  "oldResId": 3
+  "dateHeureRetour":"2023-09-11T08:50:00"
+}
+
+###
+POST http://localhost:8080/reservation/delete?resId=2
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "vehiculeServiceId":1,
+  "dateHeureDepart":"2023-09-01T18:05:00",
+  "dateHeureRetour":"2023-09-11T08:50:00"
 }

@@ -36,10 +36,14 @@ public class ReservationVehiculeServiceController {
 
     //@Secured("COLLABORATEUR")
     @PostMapping("/modify")
-    public void modifierReservationVehiculeService(@RequestBody @Valid ReservationVehiculeServiceDto newResDto){
-        this.reservationVehiculeServiceService.modifierReservationVehiculeService(newResDto);
+    public void modifierReservationVehiculeService(@RequestBody @Valid ReservationVehiculeServiceDto newResDto, @RequestParam Integer resId){
+        this.reservationVehiculeServiceService.modifierReservationVehiculeService(newResDto, resId);
     }
 
+    @PostMapping("/delete")
+    public void supprimerReservationVehiculeService(@RequestBody @Valid ReservationVehiculeServiceDto resDto,@RequestParam Integer resId){
+        this.reservationVehiculeServiceService.supprimerReservationVehiculeService(resId, resDto);
+    }
 
 
 }

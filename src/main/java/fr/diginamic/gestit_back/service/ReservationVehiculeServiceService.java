@@ -8,6 +8,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Data
@@ -26,13 +27,19 @@ public class ReservationVehiculeServiceService {
         reservationVehiculeServiceRepository.save(new ReservationVehiculeService(this.utilisateurService.trouverParId(res.userId()),this.vehiculeServiceService.trouverParId(res.vehiculeServiceId()), res.dateHeureDepart(), res.dateHeureRetour()));
     }
 
-    public void modifierReservationVehiculeService(ReservationVehiculeServiceDto newRes){
-        ReservationVehiculeService reservationVSaModifier = reservationVehiculeServiceRepository.findById(newRes.oldResId()).orElseThrow();
+
+    public void modifierReservationVehiculeService(ReservationVehiculeServiceDto newRes, Integer oldResId){
+        ReservationVehiculeService reservationVSaModifier = reservationVehiculeServiceRepository.findById(oldResId).orElseThrow();
         reservationVSaModifier.setCollaborateur(this.utilisateurService.trouverParId(newRes.userId()));
         reservationVSaModifier.setVehiculeService(this.vehiculeServiceService.trouverParId(newRes.vehiculeServiceId()));
         reservationVSaModifier.setDateHeureDepart(newRes.dateHeureDepart());
         reservationVSaModifier.setDateHeureRetour(newRes.dateHeureRetour());
         reservationVehiculeServiceRepository.save(reservationVSaModifier);
+    }
+
+    public void supprimerReservationVehiculeService(Integer resId, ReservationVehiculeServiceDto resDto){
+        ReservationVehiculeService reservationVSaSupprimer = reservationVehiculeServiceRepository.findById(resId).orElseThrow();
+        reservationVehiculeServiceRepository.deleteReservationVehiculeServiceById(reservationVSaSupprimer.getId());
     }
 
 }

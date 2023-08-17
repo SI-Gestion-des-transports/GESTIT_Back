@@ -9,6 +9,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,10 +35,21 @@ public class UtilisateurService {
 
 
 
-    public void creerUtilisateur (UtilisateurDto utilisateurDto){
-    Utilisateur nouveauUtilisateur = new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse(),utilisateurDto.role());
+    public void creerUtilisateurOld (UtilisateurDto utilisateurDto) {
+        //Utilisateur nouveauUtilisateur = new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse());
 
+    }
 
+    public Utilisateur creerUtilisateur (UtilisateurDto utilisateurDto){
+/* Utilisateur nouveauUtilisateur = new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse(),utilisateurDto.role());
+
+String emailNouveauUtilisateur = utilisateurDto.email();*/
+        if (utilisateurRepository.findByEmail(utilisateurDto.email()).isPresent()){
+            throw new RuntimeException("le mail a été utilisé par un autre utilisateur");
+        } else {
+//nouveauUtilisateur.setEmail(emailNouveauUtilisateur);
+            return this.utilisateurRepository.save(new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse(), utilisateurDto.roles()));
+        }
 
 
 

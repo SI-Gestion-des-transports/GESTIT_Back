@@ -4,12 +4,13 @@ Content-Type: application/json
 
 ###
 POST localhost:8080/utilisateur/create
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
 
 {
-  "nom": "dijialeitest",
-  "email": "dijialei@gmail.com",
-  "motDePasse": "COLLABORATEUR",
+  "nom": "nom4",
+  "email": "nom4@nom.com",
+  "motDePasse": "1234",
   "roles": ["COLLABORATEUR"]
 }
 
