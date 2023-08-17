@@ -3,6 +3,8 @@ package fr.diginamic.gestit_back.entites;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +18,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class Covoiturage extends AbstractBaseEntity {
 
+    @NotNull(message = "nombreDePlacesrestantes must not be null")
     private Integer nombrePlacesRestantes;
+
     private Integer dureeTrajet;
     private Integer distanceKm;
 
@@ -36,6 +40,11 @@ public class Covoiturage extends AbstractBaseEntity {
     private VehiculePerso vehiculePerso;
 
     public Covoiturage() {
+
+    }
+
+    public Covoiturage(Integer nombreDePlacesRestantes) {
+        this.nombrePlacesRestantes = nombreDePlacesRestantes;
 
     }
 }

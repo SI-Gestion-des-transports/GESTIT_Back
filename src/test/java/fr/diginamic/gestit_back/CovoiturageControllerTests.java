@@ -44,7 +44,7 @@ public class CovoiturageControllerTests {
 
     @Test
     public void testAddShouldReturn400BadRequest() throws Exception {
-        Covoiturage newCovoiturage = new Covoiturage();
+        Covoiturage newCovoiturage = new Covoiturage(null);
 
         String requestBody = objectMapper.writeValueAsString(newCovoiturage);
 
