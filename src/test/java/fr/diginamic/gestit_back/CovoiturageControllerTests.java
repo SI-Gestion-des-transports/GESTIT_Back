@@ -31,11 +31,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(CovoiturageController.class)
 public class CovoiturageControllerTests {
+
+    // Définition du Endpoint
     private static final String END_POINT_PATH = "/covoiturages";
 
+    // Le MockMvc permet d'executer les requêtes de confirmer la réponse retournée
+    // par l'API
     @Autowired
     private MockMvc mockMvc;
 
+    // Permet de Sérialiser un objet Java en Json et désérialiser une chaine JSOn en
+    // objet Java
     @Autowired
     private ObjectMapper objectMapper;
 
