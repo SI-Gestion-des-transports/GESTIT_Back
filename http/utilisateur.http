@@ -8,8 +8,8 @@ X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
 Content-Type: application/json
 
 {
-  "nom": "nom5",
-  "email": "nom5@nom.com",
+  "nom": "nom7",
+  "email": "nom7@nom.com",
   "motDePasse": "1234",
   "roles": ["COLLABORATEUR"]
 }
@@ -24,6 +24,10 @@ Content-Type: application/json
   "motDePasse": "1236",
   "roles": ["COLLABORATEUR"]
 }
+###
+GET http://localhost:8080/utilisateur/delete?idUser=7
+X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
+Content-Type: application/json
 
 
 

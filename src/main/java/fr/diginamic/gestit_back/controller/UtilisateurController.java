@@ -45,9 +45,13 @@ public class UtilisateurController {
     }
 
     @PostMapping("/modify")
-    public Utilisateur modifieUtilisateur (@RequestBody @Valid UtilisateurDto nouveauUtilisateurDto, @RequestParam Integer idUser){
+    public Utilisateur utilisateurModifie (@RequestBody @Valid UtilisateurDto nouveauUtilisateurDto, @RequestParam Integer idUser){
         return this.utilisateurCollaborateurService.modifierUtilisateur(nouveauUtilisateurDto,idUser );
     }
 
+    @GetMapping("/delete")
+    public void utilisateurSupprime(@RequestParam Integer idUser){
+        this.utilisateurCollaborateurService.supprimerUtilisateur(idUser);
+    }
 
 }
