@@ -6,7 +6,7 @@ import fr.diginamic.gestit_back.service.ReservationVehiculeServiceService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.access.annotation.Secured;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,25 +22,23 @@ public class ReservationVehiculeServiceController {
     ReservationVehiculeServiceService reservationVehiculeServiceService;
 
     @GetMapping
-    public List<ReservationVehiculeService> listerReservations(){
-        for (ReservationVehiculeService r : this.reservationVehiculeServiceService.listeReservationVehiculeService()){
+    public List<ReservationVehiculeService> listerReservations() {
+        for (ReservationVehiculeService r : this.reservationVehiculeServiceService.listeReservationVehiculeService()) {
             System.out.println("Réservation " + r.getId() + " : " + r);
         }
         return this.reservationVehiculeServiceService.listeReservationVehiculeService();
     }
 
-    //@Secured("COLLABORATEUR")
+    // @Secured("COLLABORATEUR")
     @PostMapping("/create")
-    public void creerReservationVehiculeService(@RequestBody @Valid ReservationVehiculeServiceDto resDto){
+    public void creerReservationVehiculeService(@RequestBody @Valid ReservationVehiculeServiceDto resDto) {
         this.reservationVehiculeServiceService.creerReservationVehiculeService(resDto);
     }
 
-    //@Secured("COLLABORATEUR")
+    // @Secured("COLLABORATEUR")
     @PostMapping("/modify")
-    public void modifierReservationVehiculeService(@RequestBody @Valid ReservationVehiculeServiceDto newResDto){
+    public void modifierReservationVehiculeService(@RequestBody @Valid ReservationVehiculeServiceDto newResDto) {
         this.reservationVehiculeServiceService.modifierReservationVehiculeService(newResDto);
     }
-
-
 
 }
