@@ -67,6 +67,18 @@ public class CovoiturageController {
         return ResponseEntity.ok(list2Dto(listCovoiturages));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Integer id,
+            @RequestBody @Valid Covoiturage covoiturage) {
+        try {
+            covoiturage.setId(id);
+            Covoiturage updatedCovoiturage = covoiturageService.update(covoiturage);
+            return ResponseEntity.ok(entity2Dto(updatedCovoiturage));
+        } catch (CovoiturageNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
     /*
      * @GetMapping("/{id}")
      * public ResponseEntity<?> get(@PathVariable("id") Long id) {

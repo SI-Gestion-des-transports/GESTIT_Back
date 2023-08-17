@@ -218,7 +218,21 @@ public class CovoiturageControllerTests {
                 .andExpect(jsonPath("$[0].id").value(covoiturage1.getId()))
                 .andExpect(jsonPath("$[1].id").value(covoiturage2.getId()))
                 .andDo(print());
+    }
 
+    @Test
+    public void testUpdateShouldReturn404NotFound() throws Exception {
+        Covoiturage covoiturage = this.createCovoiturageForTest();
+        covoiturage.setId(2005);
+        String requestURI = END_POINT_PATH + "/" + covoiturage.getId();
+
+        Mockito.when(covoiturageService.update(covoiturage)).thenThrow(CovoiturageNotFoundException.class);
+
+        String requestBody = objectMapper.writeValueAsString(covoiturage);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(requestURI).contentType("application/json").content(requestBody))
+                .andExpect(status().isNotFound())
+                .andDo(print());
     }
 
 }
