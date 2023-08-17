@@ -2,6 +2,7 @@ package fr.diginamic.gestit_back.controller;
 
 import fr.diginamic.gestit_back.dto.CovoiturageDto;
 import fr.diginamic.gestit_back.entites.Covoiturage;
+import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -45,6 +46,18 @@ public class CovoiturageController {
         return ResponseEntity.created(uri).body(covoiturageDto);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable("id") Integer id) {
+        try {
+            Covoiturage covoiturage = covoiturageService.get(id);
+            return ResponseEntity.ok(entity2Dto(covoiturage));
+
+        } catch (CovoiturageNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     /*
      * @GetMapping("/{id}")
      * public ResponseEntity<?> get(@PathVariable("id") Long id) {
@@ -71,8 +84,8 @@ public class CovoiturageController {
         return modelMapper.map(entity, CovoiturageDto.class);
     }
 
-    private List<CovoiturageDto> list2Dto(List<Covoiturage> listUsers) {
-        return listUsers.stream().map(
+    private List<CovoiturageDto> list2Dto(List<Covoiturage> listCovoiturages) {
+        return listCovoiturages.stream().map(
                 entity -> entity2Dto(entity))
                 .collect(Collectors.toList());
     }

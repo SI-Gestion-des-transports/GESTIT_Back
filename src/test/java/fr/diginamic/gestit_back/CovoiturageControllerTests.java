@@ -25,6 +25,7 @@ import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
 import fr.diginamic.gestit_back.enumerations.Role;
+import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -105,6 +106,19 @@ public class CovoiturageControllerTests {
          * se faire apres l'appel de perform()
          */
         Mockito.verify(covoiturageService, times(1)).add(newCovoiturage);
+    }
+
+    @Test
+    public void testGetShouldReturn404NotFound() throws Exception {
+        Integer covoiturageImpossibleId = 65534;
+        String requestURI = END_POINT_PATH + "/" + covoiturageImpossibleId;
+
+        Mockito.when(covoiturageService.get(covoiturageImpossibleId)).thenThrow(CovoiturageNotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(requestURI))
+                .andExpect(status().isNotFound())
+                .andDo(print());
+        Mockito.verify(covoiturageService, times(1)).get(covoiturageImpossibleId);
     }
 
     public Covoiturage createCovoiturageForTest() {
