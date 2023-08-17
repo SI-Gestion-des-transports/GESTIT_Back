@@ -58,6 +58,15 @@ public class CovoiturageController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<?> list() {
+        List<Covoiturage> listCovoiturages = covoiturageService.list();
+        if (listCovoiturages.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(list2Dto(listCovoiturages));
+    }
+
     /*
      * @GetMapping("/{id}")
      * public ResponseEntity<?> get(@PathVariable("id") Long id) {

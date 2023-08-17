@@ -3,7 +3,9 @@ package fr.diginamic.gestit_back;
 /*Ces méthodes statiques contiennent un ensemble de méthodes statiques permettant d'accéder aux assertions de différents éléments de réponse (status(), header(), content(), cookie(),...)*/
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.mockito.Mockito.times;
@@ -184,6 +186,39 @@ public class CovoiturageControllerTests {
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.dureeTrajet").value(covoiturage.getDureeTrajet()))
                 .andDo(print());
+    }
+
+    @Test
+    public void testListShouldReturn204NoContent() throws Exception {
+        /*
+         * On demande au Mock de renvoyer une arrayList vide pour générer
+         * une erreur 204 noContent
+         */
+        Mockito.when(covoiturageService.list()).thenReturn(new ArrayList<>());
+
+        mockMvc.perform(MockMvcRequestBuilders.get(END_POINT_PATH))
+                .andExpect(status().isNoContent())
+                .andDo(print());
+    }
+
+    @Test
+    public void testListShouldReturn200OK() throws Exception {
+        Covoiturage covoiturage1 = this.createCovoiturageForTest();
+        covoiturage1.setId(255);
+        Covoiturage covoiturage2 = this.createCovoiturageForTest();
+        covoiturage2.setId(256);
+
+        List<Covoiturage> listCovoiturages = List.of(covoiturage1, covoiturage2);
+
+        Mockito.when(covoiturageService.list()).thenReturn(listCovoiturages);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(END_POINT_PATH))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$[0].id").value(covoiturage1.getId()))
+                .andExpect(jsonPath("$[1].id").value(covoiturage2.getId()))
+                .andDo(print());
+
     }
 
 }
