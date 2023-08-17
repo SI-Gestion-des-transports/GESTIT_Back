@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.diginamic.gestit_back.controller.CovoiturageController;
-import fr.diginamic.gestit_back.dto.UtilisateurDto;
 import fr.diginamic.gestit_back.entites.Adresse;
 import fr.diginamic.gestit_back.entites.Commune;
 import fr.diginamic.gestit_back.entites.Covoiturage;
@@ -48,30 +48,33 @@ public class CovoiturageControllerTests {
     @Autowired
     private ObjectMapper objectMapper;
 
+    /* Ajout d'une doublure (Mock) au contexte de l'application */
     @MockBean
     private CovoiturageService covoiturageService;
 
     @Test
     public void testAddShouldReturn400BadRequest() throws Exception {
+        /*
+         * Création d'un covoiturage avec une valeur null sur un attribut possedant une
+         * contrainte @NotNull, pour forcer un 400 BadRequest
+         */
         Covoiturage newCovoiturage = new Covoiturage(null);
 
         String requestBody = objectMapper.writeValueAsString(newCovoiturage);
 
         /*
-         * La méthode perform() du MockMvc de lancer un appel de l'api avec un requête
+         * La méthode perform() du MockMvc de lancer un appel de l'api avec une requête
          * HTTP.
-         * Nota : Attention aux méthodes à affecter au requestBuilder ( status(),
-         * print(),content()....) sont des méthodes statiques. L'import doit donc
-         * comporter le mot-clé static
+         * Nota : Attention aux méthodes à affecter au requestBuilder ( status()),
+         * print(),content()....) sont des méthodes statiques.
+         * L'import doit donc comporter le mot-clé static
          */
-
         mockMvc.perform(MockMvcRequestBuilders
-                .post(END_POINT_PATH) // Spécifie la méthode HTTP
-                .contentType("application/json") // Spécifie le type du contenu de la requête
-                .content(requestBody)) // Place une chaine JSON dans le corps de la requête
-                .andExpect(status().isBadRequest()) // Execute une assertion: n
+                .post(END_POINT_PATH) /* Spécifie la méthode HTTP */
+                .contentType("application/json") /* Spécifie le type du contenu de la requête */
+                .content(requestBody)) /* Place une chaine JSON dans le corps de la requête */
+                .andExpect(status().isBadRequest()) /* Execute l'assertion */
                 .andDo(print());
-
     }
 
     @Test
@@ -96,6 +99,12 @@ public class CovoiturageControllerTests {
                 .content(requestBody))
                 .andExpect(status().isCreated())
                 .andDo(print());
+
+        /*
+         * On s'assure que la méthode add() a été appelée une fois. Ceci doit toujours
+         * se faire apres l'appel de perform()
+         */
+        Mockito.verify(covoiturageService, times(1)).add(newCovoiturage);
     }
 
     public Covoiturage createCovoiturageForTest() {
