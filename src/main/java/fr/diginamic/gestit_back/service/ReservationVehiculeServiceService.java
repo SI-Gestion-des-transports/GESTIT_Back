@@ -8,7 +8,6 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Data
@@ -19,16 +18,20 @@ public class ReservationVehiculeServiceService {
     private UtilisateurService utilisateurService;
     private VehiculeServiceService vehiculeServiceService;
 
-    public List<ReservationVehiculeService> listeReservationVehiculeService(){
+    public List<ReservationVehiculeService> listeReservationVehiculeService() {
         return this.reservationVehiculeServiceRepository.findAll();
     }
 
-    public void creerReservationVehiculeService(ReservationVehiculeServiceDto res){
-        reservationVehiculeServiceRepository.save(new ReservationVehiculeService(this.utilisateurService.trouverParId(res.userId()),this.vehiculeServiceService.trouverParId(res.vehiculeServiceId()), res.dateHeureDepart(), res.dateHeureRetour()));
+    public void creerReservationVehiculeService(ReservationVehiculeServiceDto res) {
+        reservationVehiculeServiceRepository
+                .save(new ReservationVehiculeService(this.utilisateurService.trouverParId(res.userId()),
+                        this.vehiculeServiceService.trouverParId(res.vehiculeServiceId()), res.dateHeureDepart(),
+                        res.dateHeureRetour()));
     }
 
-    public void modifierReservationVehiculeService(ReservationVehiculeServiceDto newRes){
-        ReservationVehiculeService reservationVSaModifier = reservationVehiculeServiceRepository.findById(newRes.oldResId()).orElseThrow();
+    public void modifierReservationVehiculeService(ReservationVehiculeServiceDto newRes) {
+        ReservationVehiculeService reservationVSaModifier = reservationVehiculeServiceRepository
+                .findById(newRes.oldResId()).orElseThrow();
         reservationVSaModifier.setCollaborateur(this.utilisateurService.trouverParId(newRes.userId()));
         reservationVSaModifier.setVehiculeService(this.vehiculeServiceService.trouverParId(newRes.vehiculeServiceId()));
         reservationVSaModifier.setDateHeureDepart(newRes.dateHeureDepart());

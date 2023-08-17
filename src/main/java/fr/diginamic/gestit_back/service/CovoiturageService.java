@@ -3,7 +3,7 @@ package fr.diginamic.gestit_back.service;
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.repository.CovoiturageRepository;
-import jakarta.persistence.EntityNotFoundException;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

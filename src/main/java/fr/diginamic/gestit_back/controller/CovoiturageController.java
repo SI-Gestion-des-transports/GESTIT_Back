@@ -4,11 +4,8 @@ import fr.diginamic.gestit_back.dto.CovoiturageDto;
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +19,6 @@ import org.modelmapper.ModelMapper;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -79,27 +75,18 @@ public class CovoiturageController {
             return ResponseEntity.notFound().build();
         }
     }
-    /*
-     * @GetMapping("/{id}")
-     * public ResponseEntity<?> get(@PathVariable("id") Long id) {
-     * // ...
-     * }
-     * 
-     * @GetMapping
-     * public ResponseEntity<?> list() {
-     * // ...
-     * }
-     * 
-     * @PutMapping("/{id}")
-     * public ResponseEntity<?> update(...) {
-     * // ...
-     * }
-     * 
-     * @DeleteMapping("/{id}")
-     * public ResponseEntity<?> delete(...) {
-     * // ...
-     * }
-     */
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+        try {
+            covoiturageService.delete(id);
+            return ResponseEntity.noContent().build();
+
+        } catch (CovoiturageNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     private CovoiturageDto entity2Dto(Covoiturage entity) {
         return modelMapper.map(entity, CovoiturageDto.class);

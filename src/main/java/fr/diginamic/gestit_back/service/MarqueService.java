@@ -7,7 +7,6 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Data
@@ -16,12 +15,11 @@ public class MarqueService {
 
     private MarqueRepository marqueRepository;
 
-    public List<Marque> listerMarques(){
+    public List<Marque> listerMarques() {
         return this.marqueRepository.findAll();
     }
 
-
-    public Marque creerMarque(String nom){
+    public Marque creerMarque(String nom) {
         return this.marqueRepository.save(new Marque(nom, null));
     }
 }

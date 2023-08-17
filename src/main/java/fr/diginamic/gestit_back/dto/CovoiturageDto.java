@@ -3,11 +3,6 @@ package fr.diginamic.gestit_back.dto;
 import java.util.HashSet;
 import java.util.Set;
 
-import fr.diginamic.gestit_back.entites.Adresse;
-import fr.diginamic.gestit_back.entites.Utilisateur;
-import fr.diginamic.gestit_back.entites.VehiculePerso;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data

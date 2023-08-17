@@ -235,4 +235,64 @@ public class CovoiturageControllerTests {
                 .andDo(print());
     }
 
+    @Test
+    public void testUpdateShouldReturn400BadRequest() throws Exception {
+        Covoiturage covoiturage = this.createCovoiturageForTest();
+        covoiturage.setId(2005);
+        /* On place une valeur null sur l'attribut contraint pour générer une erreur */
+        covoiturage.setNombrePlacesRestantes(null);
+        String requestURI = END_POINT_PATH + "/" + covoiturage.getId();
+
+        String requestBody = objectMapper.writeValueAsString(covoiturage);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(requestURI).contentType("application/json").content(requestBody))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    public void testUpdateShouldReturn200OK() throws Exception {
+        Covoiturage covoiturage = this.createCovoiturageForTest();
+        covoiturage.setId(2005);
+
+        String requestURI = END_POINT_PATH + "/" + covoiturage.getId();
+
+        Mockito.when(covoiturageService.update(covoiturage)).thenReturn(covoiturage);
+
+        String requestBody = objectMapper.writeValueAsString(covoiturage);
+
+        mockMvc.perform(MockMvcRequestBuilders.put(requestURI).contentType("application/json").content(requestBody))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(covoiturage.getId()))
+                .andDo(print());
+    }
+
+    @Test
+    public void testDeleteShouldReturn404NotFound() throws Exception {
+        Covoiturage covoiturage = this.createCovoiturageForTest();
+        covoiturage.setId(2005);
+        String requestURI = END_POINT_PATH + "/" + covoiturage.getId();
+
+        Mockito.doThrow(CovoiturageNotFoundException.class)
+                .when(covoiturageService).delete(covoiturage.getId());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(requestURI))
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    public void testDeleteShouldReturn200OK() throws Exception {
+        Covoiturage covoiturage = this.createCovoiturageForTest();
+        covoiturage.setId(2005);
+        
+        String requestURI = END_POINT_PATH + "/" + covoiturage.getId();
+
+        Mockito.doNothing().when(covoiturageService).delete(covoiturage.getId());
+        
+        mockMvc.perform(MockMvcRequestBuilders.delete(requestURI))
+                .andExpect(status().isNoContent())
+                .andDo(print());
+    }
+
 }
