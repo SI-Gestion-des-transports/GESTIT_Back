@@ -30,7 +30,7 @@ public class VehiculeServiceService {
         return all.getContent().stream().map(VehiculeServiceDto::new).toList();
     }
     public void createVehiculeService(VehiculeServiceDto dto){
-        if (vehiculeServiceRepository.findFirstByImmatriculation(dto.getImmatriculation()) != null) throw new RuntimeException("Immatriculation existait !");
+        //if (vehiculeServiceRepository.findFirstByImmatriculation(dto.getImmatriculation()) != null) throw new RuntimeException("Immatriculation existait !");
         Modele modele = modeleRepository.findModeleByNom(dto.getModele());
         vehiculeServiceRepository.save(new VehiculeService(dto,modele));
     }
@@ -39,7 +39,8 @@ public class VehiculeServiceService {
         vehiculeServiceRepository.deleteById(id);
     }
     public void modifyVehiclueService(VehiculeServiceDto dto){
-        createVehiculeService(dto);
+        Modele modele = modeleRepository.findModeleByNom(dto.getModele());
+        vehiculeServiceRepository.save(new VehiculeService(dto,modele));
     }
 
 }

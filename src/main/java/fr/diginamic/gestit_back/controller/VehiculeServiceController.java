@@ -1,6 +1,7 @@
 package fr.diginamic.gestit_back.controller;
 
 import fr.diginamic.gestit_back.dto.VehiculeServiceDto;
+import fr.diginamic.gestit_back.enumerations.Statut;
 import fr.diginamic.gestit_back.service.ReservationVehiculeServiceService;
 import fr.diginamic.gestit_back.service.UtilisateurService;
 import fr.diginamic.gestit_back.service.VehiculeServiceService;
@@ -50,7 +51,7 @@ public class VehiculeServiceController {
 
     @PostMapping("/modify")
     public ResponseEntity<List<VehiculeServiceDto>> modifyVehiculeService(@Validated @RequestBody VehiculeServiceDto dto) {
-
+        if (dto.getStatut() != Statut.EN_SERVICE) reservationVehiculeServiceService.adminDeleteAllReservationsByVehiculeServiceId(dto.getId());
         vehiculeServiceService.modifyVehiclueService(dto);
         return ResponseEntity.status(200).body(vehiculeServiceService.listVehiculeService(0, 5));
     }

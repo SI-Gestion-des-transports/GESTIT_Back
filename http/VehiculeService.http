@@ -24,18 +24,19 @@ JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7
 
 ###
 POST 127.0.0.1:8080/admin/vehiculeservice/modify
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
-X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sInVzZXJuYW1lIjoiZGlqaWFsZWkiLCJleHAiOjE2OTMxMjk0MjJ9.Spnumw4PSd7HFsroUlX-gAMdTSXoDkI1feHEp6JO-4U
 
 {
-  "id": 1,
+  "id": 2,
   "modele": "Megane",
   "nombreDePlaceDisponibles":5 ,
-  "immatriculation": "ù123456",
+  "immatriculation": "G123456",
   "photoURL": "http://www.diginamic.fr/photo-car.jpg",
   "emissionCO2": 160,
   "motorisation": "HYBRIDE" ,
-  "statut": "EN_SERVICE",
+  "statut": "HORS_SERVICE",
   "categorie": "MICRO_URBAINES"
 }
 
