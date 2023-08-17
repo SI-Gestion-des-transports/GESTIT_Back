@@ -18,30 +18,22 @@ import java.util.Optional;
 public class UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
 
-    public List<Utilisateur> listerUtilisateurParNom (String nom){
+    public List<Utilisateur> listerUtilisateurParNom(String nom) {
         List<Utilisateur> utilisateurs = new ArrayList<>();
-            if (this.utilisateurRepository.findByNom(nom).isPresent()){
-                    Utilisateur utilisateur = utilisateurRepository.findByNom(nom).get();
-                    utilisateurs.add(utilisateur);
-                }
+        if (this.utilisateurRepository.findByNom(nom).isPresent()) {
+            Utilisateur utilisateur = utilisateurRepository.findByNom(nom).get();
+            utilisateurs.add(utilisateur);
+        }
         return utilisateurs;
     }
 
-    public Utilisateur trouverParId(Integer id){
+    public Utilisateur trouverParId(Integer id) {
         return this.utilisateurRepository.findById(id).orElseThrow();
     }
 
-
-
-
-    public void creerUtilisateur (UtilisateurDto utilisateurDto){
-    Utilisateur nouveauUtilisateur = new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse(),utilisateurDto.role());
-
-
-
-
-
-
+    public void creerUtilisateur(UtilisateurDto utilisateurDto) {
+        Utilisateur nouveauUtilisateur = new Utilisateur(utilisateurDto.getNom(), utilisateurDto.getEmail(),
+                utilisateurDto.getMotDePasse(), utilisateurDto.getRole());
 
     }
 

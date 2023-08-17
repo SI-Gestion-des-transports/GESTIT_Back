@@ -1,9 +1,14 @@
 package fr.diginamic.gestit_back.dto;
 
-public record UtilisateurDto(
-        String nom,
-        String motDePasse,
-        String email,
-        String role
-) {
+import java.util.HashSet;
+import java.util.Set;
+
+import lombok.Data;
+
+@Data
+public class UtilisateurDto {
+        private String nom;
+        private String motDePasse;
+        private String email;
+        private String role;
 }

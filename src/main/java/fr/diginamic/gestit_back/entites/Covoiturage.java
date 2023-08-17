@@ -47,4 +47,5 @@ public class Covoiturage extends AbstractBaseEntity {
         this.nombrePlacesRestantes = nombreDePlacesRestantes;
 
     }
+
 }
