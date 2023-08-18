@@ -1,6 +1,7 @@
 package fr.diginamic.gestit_back.entites;
 
 
+import fr.diginamic.gestit_back.enumerations.Statut;
 import io.jsonwebtoken.Claims;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
