@@ -13,7 +13,6 @@ import java.util.*;
 @Component
 @Data
 @AllArgsConstructor
-
 public class JWTUtils {
     private JWTConfig jwtConfig;
 
@@ -40,10 +39,6 @@ public class JWTUtils {
 
                 JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(jwtConfig.getSecretKey()).build();
                 Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
-
                 return claimsJws.getBody();
-
-
-
     }
 }

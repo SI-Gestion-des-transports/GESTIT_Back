@@ -22,7 +22,7 @@ public class CommuneService {
         return this.communeRepository.save(commune);
     }
 
-
+    @Transactional
     public Commune verifierExistenceCommune(String commune, Integer codePostal){
         Optional <Commune> optionalCommune = this.communeRepository.findCommuneByNomAndCodePostal(commune, codePostal);
         return optionalCommune.orElse(null);

@@ -11,6 +11,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -38,7 +40,8 @@ public class VehiculeServiceController {
     public ResponseEntity<List<VehiculeServiceDto>> deleteVehiculeService(@RequestParam Integer id) {
 
         // Suppression des reservations liées au véhicule de service supprimé
-        reservationVehiculeServiceService.adminDeleteAllReservationsByVehiculeServiceId(id);
+        LocalDateTime date = LocalDateTime.now();
+        reservationVehiculeServiceService.adminDeleteAllReservationsByVehiculeServiceId(id, date);
 
         vehiculeServiceService.deleteVehiculeService(id);
         return ResponseEntity.status(200).body(vehiculeServiceService.listVehiculeService(0, 5));
