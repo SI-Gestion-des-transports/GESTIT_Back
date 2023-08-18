@@ -35,6 +35,7 @@ public class VehiculeServiceService {
         vehiculeServiceRepository.save(new VehiculeService(dto,modele));
     }
     public void deleteVehiculeService(Integer id){
+        // = changer le statut en hors service ?
         vehiculeServiceRepository.deleteById(id);
     }
     public void modifyVehiclueService(VehiculeServiceDto dto){

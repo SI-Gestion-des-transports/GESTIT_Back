@@ -13,6 +13,8 @@ import lombok.Data;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,18 +26,15 @@ public class ReservationVehiculeServiceService {
     private ReservationVehiculeServiceRepository reservationVehiculeServiceRepository;
     private UtilisateurService utilisateurService;
     private VehiculeServiceService vehiculeServiceService;
-    private JWTUtils jwtUtils;
 
     @Transactional
-    public List<ReservationVehiculeService> listeReservationVehiculeService(String JWToken){
-        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(JWToken).getSubject());
+    public List<ReservationVehiculeService> listeReservationVehiculeService(Integer utilisateurConnecteId){
         return this.reservationVehiculeServiceRepository.findReservationVehiculeServiceByCollaborateur(
                 this.utilisateurService.trouverParId(utilisateurConnecteId));
     }
 
     @Transactional
-    public void creerReservationVehiculeService(String JWToken, ReservationVehiculeServiceDto res){
-        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(JWToken).getSubject());
+    public void creerReservationVehiculeService(Integer utilisateurConnecteId, ReservationVehiculeServiceDto res){
         reservationVehiculeServiceRepository.save(new ReservationVehiculeService(
                 this.utilisateurService.trouverParId(utilisateurConnecteId),
                 this.vehiculeServiceService.trouverParId(res.vehiculeServiceId()),
@@ -46,8 +45,7 @@ public class ReservationVehiculeServiceService {
     }
 
     @Transactional
-    public void modifierReservationVehiculeService(String JWToken, ReservationVehiculeServiceDto newRes, Integer oldResId){
-        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(JWToken).getSubject());
+    public void modifierReservationVehiculeService(Integer utilisateurConnecteId, ReservationVehiculeServiceDto newRes, Integer oldResId){
         ReservationVehiculeService reservationVSaModifier = reservationVehiculeServiceRepository.findById(oldResId).orElseThrow();
         if (newRes.userId().equals(utilisateurConnecteId)){
         reservationVSaModifier.setCollaborateur(this.utilisateurService.trouverParId(utilisateurConnecteId));
@@ -61,15 +59,17 @@ public class ReservationVehiculeServiceService {
     }
 
     @Transactional
-    public void supprimerReservationVehiculeService(String JWToken, Integer resId){
-        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(JWToken).getSubject());
-            reservationVehiculeServiceRepository.deleteReservationVehiculeServiceByCollaborateur_IdAndAndId(utilisateurConnecteId, resId);
+    public void supprimerReservationVehiculeService(Integer utilisateurConnecteId, Integer resId){
+
+        reservationVehiculeServiceRepository.deleteReservationVehiculeServiceByCollaborateur_IdAndAndId(utilisateurConnecteId, resId);
     }
 
     @Transactional
     @Secured("ADMINISTRATEUR")
-    public void adminDeleteAllReservationsByVehiculeServiceId(Integer vehiculeServiceId){
-        List<ReservationVehiculeService> reservationsToDelete = reservationVehiculeServiceRepository.findAllByVehiculeServiceId(vehiculeServiceId);
+    public void adminDeleteAllReservationsByVehiculeServiceId(Integer vehiculeServiceId, LocalDateTime date){
+        System.out.println("Lister réservation à faire");
+        //List<ReservationVehiculeService> reservationsToDelete = reservationVehiculeServiceRepository.findAllByVehiculeServiceId(vehiculeServiceId);
+        List<ReservationVehiculeService> reservationsToDelete = reservationVehiculeServiceRepository.findAllByVehiculeServiceIdAndAndDateHeureDepart(vehiculeServiceId, date);
         List<String> emailsOfUsers = reservationsToDelete.stream()
                 .map(ReservationVehiculeService::getCollaborateur)
                 .map(Utilisateur::getEmail)
@@ -77,7 +77,12 @@ public class ReservationVehiculeServiceService {
                 .toList();
         // Utiliser la liste de mail pour prévenir les utilisateurs
 
+        System.out.println("Lister réservation Ok");
+        //reservationVehiculeServiceRepository.deleteAllByVehiculeServiceId(vehiculeServiceId);
+        System.out.println("Supprimer réservations à faire");
+        //reservationVehiculeServiceRepository.deleteReservationVehiculeServiceByIdAndAndDateHeureDepartIsAfterAndDateHeureRetourIsBefore(vehiculeServiceId, date, date);
         reservationVehiculeServiceRepository.deleteAllByVehiculeServiceId(vehiculeServiceId);
+        System.out.println("Supprimer réservations Ok");
     }
 
 }

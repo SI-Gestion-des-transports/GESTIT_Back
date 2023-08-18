@@ -3,9 +3,9 @@ package fr.diginamic.gestit_back.controller;
 import fr.diginamic.gestit_back.dto.ReservationVehiculeServiceDto;
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.service.ReservationVehiculeServiceService;
+import fr.diginamic.gestit_back.utils.JWTUtils;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -15,28 +15,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Data
-@AllArgsConstructor
+//@Data
+//@AllArgsConstructor
 @Validated
 @Secured("COLLABORATEUR")
 @RequestMapping("reservation")
 public class ReservationVehiculeServiceController {
 
-    ReservationVehiculeServiceService reservationVehiculeServiceService;
+    private ReservationVehiculeServiceService reservationVehiculeServiceService;
 
+    private JWTUtils jwtUtils;
     @GetMapping
     public ResponseEntity<List<ReservationVehiculeService>> listerReservations(@RequestHeader HttpHeaders httpHeaders){
-        return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(httpHeaders.get("JWT-TOKEN").get(0)));
-    }
 
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
+    }
 
     @PostMapping("/create")
     public ResponseEntity<List<ReservationVehiculeService>>  creerReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto resDto){
-        String JWToken = httpHeaders.get("JWT-TOKEN").get(0);
-        this.reservationVehiculeServiceService.creerReservationVehiculeService(JWToken, resDto);
-        return ResponseEntity.status(200).body(reservationVehiculeServiceService.listeReservationVehiculeService(JWToken));
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        this.reservationVehiculeServiceService.creerReservationVehiculeService(utilisateurConnecteId, resDto);
+        return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }
 
     @PostMapping("/modify")
@@ -44,21 +46,27 @@ public class ReservationVehiculeServiceController {
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto newResDto,
             @RequestParam Integer resId){
-        String JWToken = httpHeaders.get("JWT-TOKEN").get(0);
-        this.reservationVehiculeServiceService.modifierReservationVehiculeService(JWToken, newResDto, resId);
-        return ResponseEntity.status(200).body(reservationVehiculeServiceService.listeReservationVehiculeService(JWToken));
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        this.reservationVehiculeServiceService.modifierReservationVehiculeService(utilisateurConnecteId, newResDto, resId);
+        return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }
 
-    @Secured({"COLLABORATEUR", "ADMINISTRATEUR"})
     @PostMapping("/delete")
     public ResponseEntity<List<ReservationVehiculeService>> supprimerReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             //@RequestBody @Valid ReservationVehiculeServiceDto resDto,
             @RequestParam Integer resId){
-        String JWToken = httpHeaders.get("JWT-TOKEN").get(0);
-        this.reservationVehiculeServiceService.supprimerReservationVehiculeService(JWToken, resId);
-        return ResponseEntity.status(200).body(reservationVehiculeServiceService.listeReservationVehiculeService(JWToken));
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        this.reservationVehiculeServiceService.supprimerReservationVehiculeService(utilisateurConnecteId, resId);
+        return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }
 
+    @Autowired
+    public ReservationVehiculeServiceController(
+            ReservationVehiculeServiceService reservationVehiculeServiceService,
+            JWTUtils jwtUtils) {
+        this.reservationVehiculeServiceService = reservationVehiculeServiceService;
+        this.jwtUtils = jwtUtils;
+    }
 
 }
