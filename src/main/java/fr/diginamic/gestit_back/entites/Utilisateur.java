@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +27,8 @@ public class Utilisateur extends AbstractBaseEntity {
     private String email;
 
     private String motDePasse;
+
+    private LocalDate dateNonValide;
 
     @ElementCollection(fetch = FetchType.EAGER)
     //@Enumerated(EnumType.STRING)
@@ -58,6 +61,14 @@ public class Utilisateur extends AbstractBaseEntity {
         this.email = email;
         this.motDePasse = motDePasse;
         this.roles = roles;
+    }
+
+    public Utilisateur(String nom, String email, String motDePasse, List<String> roles, LocalDate dateNonValide) {
+        this.nom = nom;
+        this.email = email;
+        this.motDePasse = motDePasse;
+        this.roles = roles;
+        this.dateNonValide = dateNonValide;
     }
 
     public Utilisateur() {

@@ -1,5 +1,46 @@
 GET http://localhost:8080/utilisateur/findNom
-X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
+X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
+Content-Type: application/json
+
+###
+POST localhost:8080/utilisateur/create
+X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
+Content-Type: application/json
+
+{
+  "nom": "nom7",
+  "email": "nom7@nom.com",
+  "motDePasse": "1234",
+  "roles": ["COLLABORATEUR"]
+}
+###
+POST localhost:8080/utilisateur/modify?idUser=5
+X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
+Content-Type: application/json
+
+{
+  "nom": "nom6",
+  "email":"nom5@nom.com" ,
+  "motDePasse": "1236",
+  "roles": ["COLLABORATEUR"],
+  "dateNonValide": "2023-01-01"
+}
+###
+GET http://localhost:8080/utilisateur/disable?idUser=5
+X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
+Content-Type: application/json
+
+
+
+###
+GET localhost:8080/admin/vehiculeservice/list
+Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRnT09YQnQwUE45SjZ5djFaTjMyU25PRzFSUEJuMXEweWl4b2hTT2dRVlBDZUYxbEdOaEZFYSIsInJvbGVzIjpbIkFETUlOSVNUUkFURVVSIl0sImlkIjo3LCJ1c2VybmFtZSI6ImRpamlhbGVpIiwiZXhwIjoxNjkxNDU1NzUxfQ.Ncxny1P7ymPhj6XILC7ZX1EWd3c-H7IZjELKDGzZ4Ls
+
+
+###
+
+POST localhost:8080/signout
 Content-Type: application/json
 
 ###
