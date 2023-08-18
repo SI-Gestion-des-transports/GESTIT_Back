@@ -11,8 +11,7 @@ Content-Type: application/json
   "nom": "nom7",
   "email": "nom7@nom.com",
   "motDePasse": "1234",
-  "roles": ["COLLABORATEUR"],
-  "dateNonValide": "2023-01-01"
+  "roles": ["COLLABORATEUR"]
 }
 ###
 POST localhost:8080/utilisateur/modify?idUser=5
