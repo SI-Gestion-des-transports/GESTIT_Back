@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +24,7 @@ public class Covoiturage extends AbstractBaseEntity {
 
     private Integer dureeTrajet;
     private Integer distanceKm;
+    private LocalDate dateDepart;
 
     @ManyToOne
     private Adresse adresseDepart;
