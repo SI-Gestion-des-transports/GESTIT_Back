@@ -48,10 +48,10 @@ POST localhost:8080/utilisateur/create
 Content-Type: application/json
 
 {
-  "nom": "COLLABORATEUR",
-  "email": "dijialei@gmail.com",
-  "motDePasse": "COLLABORATEUR",
-  "roles": ["COLLABORATEUR"]
+  "nom": "CollAdmin",
+  "email": "dijialeiCollAdmin@gmail.com",
+  "motDePasse": "CollAdmin",
+  "roles": ["COLLABORATEUR","ADMINISTRATEUR"]
 }
 
 
@@ -76,9 +76,9 @@ POST localhost:8080/login
 Content-Type: application/json
 
 {
-  "nom": "COLLABORATEUR",
+  "nom": "CollAdmin",
 
-  "motDePasse": "COLLABORATEUR"
+  "motDePasse": "CollAdmin"
 
 }
 

@@ -52,6 +52,8 @@ public class Utilisateur extends AbstractBaseEntity {
         //this.setId((Integer) body.get("id")) ;
         this.nom = (String) body.get("username");
         this.motDePasse = (String) body.get("password");
+        this.email = (String) body.get("email");
+        //this.setId(Integer.valueOf(body.getSubject()));
         this.roles =(ArrayList<String>) body.get("roles");
     }
 
