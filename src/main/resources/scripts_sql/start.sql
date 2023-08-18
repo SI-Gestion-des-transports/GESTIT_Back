@@ -79,4 +79,5 @@ insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatricula
 insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (3, 5, '11-ZZZ-11', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://m.media-amazon.com/images/I/71E32iPE92L._AC_SL1500_.jpg');
 insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (1, 1, '2023-07-30 14:00:00', '2023-08-01 16:00:00');
 insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (1, 1, '2023-07-31 18:00:00', '2023-08-04 13:30:00');
-insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (12, 1, '2023-06-31 19:00:00', '2023-08-04 13:30:00');
+insert into covoiturage (distance_km, duree_trajet, nombre_places_restantes, date_depart, adresse_arrivee_id, adresse_depart_id, organisateur_id, vehicule_perso_id) values (150, 3, 2, '2023-08-01', 1, 3, 5, 1);
+insert into covoiturage (distance_km, duree_trajet, nombre_places_restantes, date_depart, adresse_arrivee_id, adresse_depart_id, organisateur_id, vehicule_perso_id) values (150, 3, 2, '2019-08-01', 1, 3, 5, 1)

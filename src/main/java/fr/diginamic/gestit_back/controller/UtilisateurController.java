@@ -49,9 +49,9 @@ public class UtilisateurController {
         return this.utilisateurCollaborateurService.modifierUtilisateur(nouveauUtilisateurDto,idUser );
     }
 
-    @GetMapping("/delete")
-    public void utilisateurSupprime(@RequestParam Integer idUser){
-        this.utilisateurCollaborateurService.supprimerUtilisateur(idUser);
+    @GetMapping("/disable")
+    public void utilisateurDesactive(@RequestParam Integer idUser){
+        this.utilisateurCollaborateurService.desactiverUtilisateur(idUser);
     }
 
 }
