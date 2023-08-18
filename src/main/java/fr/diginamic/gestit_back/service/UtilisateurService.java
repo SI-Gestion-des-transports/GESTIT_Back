@@ -65,13 +65,19 @@ public class UtilisateurService {
     public void desactiverUtilisateur(Integer idUtilisateur) {
             // Récupérer l'utilisateur à désactiver
             Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findById(idUtilisateur);
-
+            // Si utulisateur est présent, prendre la date à partir de laquelle l'utilisateur n'est plus active.
             if (utilisateurOptional.isPresent()) {
                 Utilisateur utilisateur = utilisateurOptional.get();
                 LocalDate dateNonValide = utilisateur.getDateNonValide();
+                // Si la dateNonValide (la date à partir de laquelle l'utilisateur n'est plus active) est présente, cherche les covoiturages organisés par cet utilisateur
                 if (dateNonValide != null){
-
+                    /*
+                    @OneToMany(mappedBy = "organisateur")
+                        private Set<Covoiturage> covoituragesOrganises = new HashSet<>();
+                         => l'entity Utilisateur n'a pas accès sur les données de covoiturages, la fonction : "utilisateur.getCovoituragesOrganises()" ne marche pas; il faut passer par la classe Covoiturage (covoiturageRepository.findCovoituragesByOrganisateur(utilisateur) )
+                        */
                     Set<Covoiturage> covoiturageOrganise = covoiturageRepository.findCovoituragesByOrganisateur(utilisateur);
+                    // Si la date de covoiturage est après la dateNonValide, supprime le covoiturage
                     for(Covoiturage c:covoiturageOrganise) {
                         if (c.getDateDepart().isAfter(dateNonValide)) {
                             covoiturageRepository.delete(c);
