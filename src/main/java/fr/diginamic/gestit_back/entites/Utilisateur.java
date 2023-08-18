@@ -23,7 +23,6 @@ public class Utilisateur extends AbstractBaseEntity {
 
     private String nom;
 
-    @Email
     private String email;
 
     private String motDePasse;
