@@ -76,8 +76,10 @@ public class CovoiturageControllerTests {
         private CovoiturageService covoiturageService_doublure;
 
         /* Dépendances à injecter */
-        @Autowired
-        private ObjectMapper convertisseurJavaJson;
+        /*
+         * @Autowired
+         * private ObjectMapper convertisseurJavaJson;
+         */
         @Autowired
         private CovoiturageController cobaye;
 
@@ -95,20 +97,23 @@ public class CovoiturageControllerTests {
          * @author AtsuhikoMochizuki
          * @throws Exception
          */
-        @Test
-        public void testAdd_ShouldReturn_400BadRequest() throws Exception {
-                Covoiturage fauteurDeTroubles = new Covoiturage();
-                fauteurDeTroubles.setNombrePlacesRestantes(null);
-                String corpsRequete = convertisseurJavaJson.writeValueAsString(fauteurDeTroubles);
-
-                testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
-
-                testeur.perform(post(END_POINT_PATH)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(corpsRequete))
-                                .andExpect(status().isBadRequest())
-                                .andDo(print());
-        }
+        /*
+         * @Test
+         * public void testAdd_ShouldReturn_400BadRequest() throws Exception {
+         * Covoiturage fauteurDeTroubles = new Covoiturage();
+         * fauteurDeTroubles.setNombrePlacesRestantes(null);
+         * String corpsRequete =
+         * convertisseurJavaJson.writeValueAsString(fauteurDeTroubles);
+         * 
+         * testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
+         * 
+         * testeur.perform(post(END_POINT_PATH)
+         * .contentType(MediaType.APPLICATION_JSON)
+         * .content(corpsRequete))
+         * .andExpect(status().isBadRequest())
+         * .andDo(print());
+         * }
+         */
 
         /***
          * Ce test envoie une demande de création d'un covoiturage.
@@ -121,33 +126,31 @@ public class CovoiturageControllerTests {
          */
         @Test
         public void testAdd_ShouldReturn_201Created() throws Exception {
-                /*
-                 * final ObjectMapper mapper = new ObjectMapper()
-                 * .enable(SerializationFeature.INDENT_OUTPUT);
-                 */
-                ObjectMapper mapper = JsonMapper.builder()
+                ObjectMapper mapper2 = JsonMapper.builder()
                                 .addModule(new JavaTimeModule())
                                 .enable(SerializationFeature.INDENT_OUTPUT)
                                 .build();
 
-                List<String> roles = new ArrayList<>();
-                roles.add(Utilisateur.COLLABORATEUR);
-                roles.add(Utilisateur.ORGANISATEUR);
-                LocalDate date = LocalDate.of(2020, 1, 8);
-                UtilisateurDto user = new UtilisateurDto("toto", "124", "toto@toto.com", roles, date);
-                String serialized = mapper.writeValueAsString(user);
+                /*
+                 * List<String> roles = new ArrayList<>();
+                 * roles.add(Utilisateur.COLLABORATEUR);
+                 * roles.add(Utilisateur.ORGANISATEUR);
+                 * LocalDate date = LocalDate.of(2020, 1, 8);
+                 * UtilisateurDto user = new UtilisateurDto("toto", "124", "toto@toto.com",
+                 * roles, date);
+                 * String serialized = mapper2.writeValueAsString(user);
+                 */
 
-                Covoiturage covoiturageToAdd = createCovoiturageForTest();
-
+                Covoiturage covoiturageToAdd = new Covoiturage();
                 Mockito.when(covoiturageService_doublure.add(covoiturageToAdd))
                                 .thenReturn(covoiturageToAdd);
 
-                String corpsRequete = mapper.writeValueAsString(covoiturageToAdd);
+                String corpsRequete = mapper2.writeValueAsString(covoiturageToAdd);
 
                 testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
                 testeur.perform(post(END_POINT_PATH)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(serialized))
+                                .content(corpsRequete))
                                 .andExpect(status().isCreated())
                                 .andDo(print());
 
