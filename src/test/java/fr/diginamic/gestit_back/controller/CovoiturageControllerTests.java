@@ -18,25 +18,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.diginamic.gestit_back.configuration.JWTConfig;
-import fr.diginamic.gestit_back.controller.CovoiturageController;
-import fr.diginamic.gestit_back.entites.Adresse;
-import fr.diginamic.gestit_back.entites.Commune;
 import fr.diginamic.gestit_back.entites.Covoiturage;
-import fr.diginamic.gestit_back.entites.Marque;
-import fr.diginamic.gestit_back.entites.Modele;
-import fr.diginamic.gestit_back.entites.Utilisateur;
-import fr.diginamic.gestit_back.entites.VehiculePerso;
-import fr.diginamic.gestit_back.enumerations.Role;
-import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
 import fr.diginamic.gestit_back.utils.JWTUtils;
 import fr.diginamic.gestit_back.utils.RedisUtils;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
  * Classe de tests unitaires dédiée au contrôleur REST CovoiturageController
@@ -57,24 +48,23 @@ public class CovoiturageControllerTests {
 
         private static final String END_POINT_PATH = "/covoiturages";
 
-        private MockMvc mockMvc;
+        /* Doublures */
         @MockBean
         private JWTUtils jwtUtils;
-
         @MockBean
         private JWTConfig jwtConfig;
-
         @MockBean
         private RedisUtils redisUtils;
-
-        @Autowired
-        private CovoiturageController covoiturageController;
-
         @MockBean
-        private CovoiturageService covoiturageService;
+        private CovoiturageService covoiturageService_doublure;
 
+        /* Dépendances à injecter */
         @Autowired
-        private ObjectMapper objectMapper;
+        private ObjectMapper convertisseurJavaJson;
+        @Autowired
+        private CovoiturageController cobaye;
+
+        private MockMvc testeur;
 
         /***
          * Ce test envoie une demande de création d'un covoiturage avec un de ses
@@ -90,26 +80,15 @@ public class CovoiturageControllerTests {
          */
         @Test
         public void testAddShouldReturn400BadRequest() throws Exception {
-                /*
-                 * Création d'un covoiturage avec une valeur null sur un attribut possedant une
-                 * contrainte @NotNull, pour forcer un 400 BadRequest
-                 */
-                Covoiturage newCovoiturage = new Covoiturage();
-                newCovoiturage.setNombrePlacesRestantes(null);
+                Covoiturage fauteurDeTroubles = new Covoiturage();
+                fauteurDeTroubles.setNombrePlacesRestantes(null);
+                String corpsRequete = convertisseurJavaJson.writeValueAsString(fauteurDeTroubles);
 
-                String requestBody = objectMapper.writeValueAsString(newCovoiturage);
+                testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
 
-                /*
-                 * La méthode perform() du MockMvc de lancer un appel de l'api avec une requête
-                 * HTTP.
-                 * Nota : Attention aux méthodes à affecter au requestBuilder ( status()),
-                 * print(),content()....) sont des méthodes statiques.
-                 * L'import doit donc comporter le mot-clé static
-                 */
-                mockMvc = MockMvcBuilders.standaloneSetup(covoiturageController).build();
-                mockMvc.perform(post(END_POINT_PATH)
+                testeur.perform(post(END_POINT_PATH)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestBody))
+                                .content(corpsRequete))
                                 .andExpect(status().isBadRequest())
                                 .andDo(print());
         }
