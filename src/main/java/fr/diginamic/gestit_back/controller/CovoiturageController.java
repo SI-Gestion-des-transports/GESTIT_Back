@@ -37,7 +37,6 @@ public class CovoiturageController {
         this.modelMapper = mapper;
     }
 
-
     @PostMapping
     public ResponseEntity<?> add(@RequestBody @Valid Covoiturage covoiturage) {
         Covoiturage persistedCovoiturage = covoiturageService.add(covoiturage);
@@ -60,6 +59,12 @@ public class CovoiturageController {
         }
     }
 
+    /**
+     * Liste tous les covoiturages enregistrés dans le système
+     * 
+     * @author AtsuhikoMochizuki
+     * @return Une liste de tous les covoiturages enregistrés dans le système
+     */
     @GetMapping
     public ResponseEntity<?> list() {
         List<Covoiturage> listCovoiturages = covoiturageService.list();
@@ -71,7 +76,7 @@ public class CovoiturageController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
-                                    @RequestBody @Valid Covoiturage covoiturage) {
+            @RequestBody @Valid Covoiturage covoiturage) {
         try {
             covoiturage.setId(id);
             Covoiturage updatedCovoiturage = covoiturageService.update(covoiturage);
@@ -100,7 +105,7 @@ public class CovoiturageController {
 
     private List<CovoiturageDto> list2Dto(List<Covoiturage> listCovoiturages) {
         return listCovoiturages.stream().map(
-                        entity -> entity2Dto(entity))
+                entity -> entity2Dto(entity))
                 .collect(Collectors.toList());
     }
 }
