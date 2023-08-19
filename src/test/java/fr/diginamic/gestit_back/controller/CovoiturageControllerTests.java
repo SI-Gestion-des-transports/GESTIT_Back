@@ -53,55 +53,64 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  * 
  */
 @WebMvcTest(CovoiturageController.class)
-public class CovoiturageControllerTest {
+public class CovoiturageControllerTests {
 
-    private static final String END_POINT_PATH = "/covoiturages";
+        private static final String END_POINT_PATH = "/covoiturages";
 
-    private MockMvc testeur;
+        private MockMvc mockMvc;
+        @MockBean
+        private JWTUtils jwtUtils;
 
-    @MockBean
-    private JWTUtils jwtUtils;
+        @MockBean
+        private JWTConfig jwtConfig;
 
-    @MockBean
-    private JWTConfig jwtConfig;
+        @MockBean
+        private RedisUtils redisUtils;
 
-    @MockBean
-    private RedisUtils redisUtils;
+        @Autowired
+        private CovoiturageController covoiturageController;
 
-    @Autowired
-    private ObjectMapper convertisseurJavaJson;
+        @MockBean
+        private CovoiturageService covoiturageService;
 
-    @MockBean
-    private CovoiturageService doublureCovoiturageService;
+        @Autowired
+        private ObjectMapper objectMapper;
 
-    @MockBean
-    private CovoiturageController cobaye;
+        /***
+         * Ce test envoie une demande de création d'un covoiturage avec un de ses
+         * paramètres placés volontairement à null, alors que celui-ci possède la
+         * contrainte NotNull.
+         * L'objectif est de déclencher une erreur lors du traitement de la requête,
+         * est de vérifier que le serveur renvoie bien un code 400 BadRequest.
+         * Le service normalement appelé ici par le contrôlé est simulé par une
+         * doublure Mokito.
+         * 
+         * @author AtsuhikoMochizuki
+         * @throws Exception
+         */
+        @Test
+        public void testAddShouldReturn400BadRequest() throws Exception {
+                /*
+                 * Création d'un covoiturage avec une valeur null sur un attribut possedant une
+                 * contrainte @NotNull, pour forcer un 400 BadRequest
+                 */
+                Covoiturage newCovoiturage = new Covoiturage();
+                newCovoiturage.setNombrePlacesRestantes(null);
 
-    /***
-     * Ce test envoie une demande de création d'un covoiturage avec un de ses
-     * paramètres placés volontairement à null, alors que celui-ci possède la
-     * contrainte NotNull.
-     * L'objectif est de déclencher une erreur lors du traitement de la requête,
-     * est de vérifier que le serveur renvoie bien un code 400 BadRequest.
-     * Le service normalement appelé ici par le contrôlé est simulé par une
-     * doublure Mokito.
-     * 
-     * @author AtsuhikoMochizuki
-     * @throws Exception
-     */
-    @Test
-    public void test_create_retourAttendu_erreur400BadRequest() throws Exception {
+                String requestBody = objectMapper.writeValueAsString(newCovoiturage);
 
-        Covoiturage covoiturageFauteurDeTroubles = new Covoiturage();
-        covoiturageFauteurDeTroubles.setNombrePlacesRestantes(null);
-        String corpsRequete = convertisseurJavaJson.writeValueAsString(covoiturageFauteurDeTroubles);
-
-        testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
-
-        testeur.perform(post(END_POINT_PATH)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(corpsRequete))
-                .andExpect(status().isBadRequest())
-                .andDo(print());
-    }
+                /*
+                 * La méthode perform() du MockMvc de lancer un appel de l'api avec une requête
+                 * HTTP.
+                 * Nota : Attention aux méthodes à affecter au requestBuilder ( status()),
+                 * print(),content()....) sont des méthodes statiques.
+                 * L'import doit donc comporter le mot-clé static
+                 */
+                mockMvc = MockMvcBuilders.standaloneSetup(covoiturageController).build();
+                mockMvc.perform(post(END_POINT_PATH)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(requestBody))
+                                .andExpect(status().isBadRequest())
+                                .andDo(print());
+        }
 }

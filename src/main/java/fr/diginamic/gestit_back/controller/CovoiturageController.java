@@ -7,6 +7,9 @@ import fr.diginamic.gestit_back.service.CovoiturageService;
 import jakarta.validation.Valid;
 
 import lombok.Data;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +33,7 @@ import java.util.stream.Collectors;
 public class CovoiturageController {
     private CovoiturageService covoiturageService;
 
+    @Autowired
     private ModelMapper modelMapper;
 
     protected CovoiturageController(CovoiturageService covoiturageService, ModelMapper mapper) {
