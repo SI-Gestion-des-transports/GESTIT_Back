@@ -1,6 +1,5 @@
 package fr.diginamic.gestit_back.entites;
 
-
 import io.jsonwebtoken.Claims;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -21,6 +20,9 @@ import java.util.Set;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Utilisateur extends AbstractBaseEntity {
 
+    public static final String COLLABORATEUR = "COLLABORATEUR";
+    public static final String ORGANISATEUR = "ORGANISATEUR";
+
     private String nom;
 
     private String email;
@@ -30,16 +32,14 @@ public class Utilisateur extends AbstractBaseEntity {
     private LocalDate dateNonValide;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    //@Enumerated(EnumType.STRING)
+    // @Enumerated(EnumType.STRING)
     private List<String> roles;
 
     @OneToMany(mappedBy = "collaborateur")
     private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "covoiturages_collaborateur",
-            joinColumns = @JoinColumn(name = "collaborateur_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))
+    @JoinTable(name = "covoiturages_collaborateur", joinColumns = @JoinColumn(name = "collaborateur_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))
     private Set<Covoiturage> covoituragesPassagers = new HashSet<>();
 
     @OneToMany(mappedBy = "proprietaire")
@@ -49,10 +49,10 @@ public class Utilisateur extends AbstractBaseEntity {
     private Set<Covoiturage> covoituragesOrganises = new HashSet<>();
 
     public Utilisateur(Claims body) {
-        //this.setId((Integer) body.get("id")) ;
+        // this.setId((Integer) body.get("id")) ;
         this.nom = (String) body.get("username");
         this.motDePasse = (String) body.get("password");
-        this.roles =(ArrayList<String>) body.get("roles");
+        this.roles = (ArrayList<String>) body.get("roles");
     }
 
     public Utilisateur(String nom, String email, String motDePasse, List<String> roles) {
