@@ -307,6 +307,37 @@ public class CovoiturageControllerTest {
 				.andDo(print());
 	}
 
+	/***
+	 * Ce test envoi une requête pour la modification de l'id
+	 * d'un covoiturage existant.
+	 * L'objectif est de vérifier ici le retour du contrôleur en status
+	 * 200 (OK).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois.
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
+	@Test
+	public void testUpdateShouldReturn200OK() throws Exception {
+		this.covoiturageExample.setId(2005);
+
+		String requestURI = String.format("%s/%d", END_POINT_PATH, this.covoiturageExample.getId());
+
+		Mockito.when(this.doublureCovoiturageService.update(this.covoiturageExample))
+				.thenReturn(this.covoiturageExample);
+
+		String requestBody = this.convertisseurJavaJson.writeValueAsString(this.covoiturageExample);
+
+		testeur.perform(MockMvcRequestBuilders.put(requestURI)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(this.covoiturageExample.getId()))
+				.andDo(print());
+		Mockito.verify(this.doublureCovoiturageService, times(1)).update(this.covoiturageExample);
+	}
+
 	public static Covoiturage createCovoiturageForTest() {
 		Covoiturage covoiturage = new Covoiturage();
 		Commune commune = new Commune("Paris", 75000);
