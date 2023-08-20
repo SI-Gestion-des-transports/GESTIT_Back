@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.catalina.core.ApplicationContext;
@@ -51,6 +52,7 @@ import fr.diginamic.gestit_back.entites.VehiculePerso;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.repository.CovoiturageRepository;
 import fr.diginamic.gestit_back.service.CovoiturageService;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Date;
 
@@ -87,19 +89,46 @@ public class CovoiturageServiceTests {
     }
 
     /***
+     * Ce test lance appelle le service d'enregistrement d'un covoiturage
+     * possédant l'attribut nombreDePlacesRestantes positionné à null.
+     * Ce dernier étant contraint par une annotation @NotNull, le système
+     * doit lancer une IllegalArgumentException, l'objectif du test étant de
+     * capturer l'exception pour valider ce comportement attendu.
+     * L'accès à la base de données au travers le repository normalement requis
+     * est simulé ici par une doublure Mokito.
+     * On vérifie également que le repository n'a été appelé qu'une seule fois.
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    public void testAddShouldThrowException() {
+        this.exampleCovoiturage.setNombrePlacesRestantes(null);
+
+        when(doublureCovoiturageRepository.save(this.exampleCovoiturage))
+                .thenThrow(IllegalArgumentException.class);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            covoiturageService.add(this.exampleCovoiturage);
+        });
+
+        Mockito.verify(doublureCovoiturageRepository, times(1)).save(this.exampleCovoiturage);
+    }
+
+    /***
      * Ce test valide le retour de la méthode save() du service
      * CovoiturageService.
      * L'objectif est ici de valider le retour de la méthode, normalement
      * identique à l'entité censée avoir été persistée.
      * L'accès à la base de données au travers le repository normalement requis
      * est simulé ici par une doublure Mokito.
-     * On vérifie également que le service n'a été appelé qu'une seule fois.
+     * On vérifie également que le repository n'a été appelé qu'une seule fois.
      * 
      * @author AtsuhikoMochizuki
      * @throws Exception
      */
     @Test
-    public void testSaveShouldReturnCovoiturage() throws Exception {
+    public void testAddShouldReturnCovoiturage() throws Exception {
 
         this.exampleCovoiturage.setId(78977);
         this.exampleCovoiturage.setDistanceKm(456);
@@ -118,30 +147,27 @@ public class CovoiturageServiceTests {
     }
 
     /***
-     * Ce test lance appelle le service d'enregistrement d'un covoiturage
-     * possédant l'attribut nombreDePlacesRestantes positionné à null.
-     * Ce dernier étant contraint par une annotation @NotNull, le système
-     * doit lancer une IllegalArgumentException, l'objectif du test étant de
-     * capturer l'exception pour valider ce comportement attendu.
-     * L'accès à la base de données au travers le repository normalement requis
-     * est simulé ici par une doublure Mokito.
-     * On vérifie également que le service n'a été appelé qu'une seule fois.
+     * Ce test appelle la lecture en base de données d'un covoiturage à partir
+     * d'un id inexistant.
+     * L'objectif est ici de valider la lancement d'une
+     * CovoiturageNotFoundException par le service.
+     * Le repository normalement requis est simulé ici par une doublure Mokito.
+     * On vérifie également que le repository n'a été appelé qu'une seule fois
      * 
      * @author AtsuhikoMochizuki
      * @throws Exception
      */
     @Test
-    public void testSaveShouldThrowException() {
-        this.exampleCovoiturage.setNombrePlacesRestantes(null);
+    public void testGetShouldGenerateCovoiturageNotFoundException() {
+        Integer notAvailableId = 7874;
+        when(doublureCovoiturageRepository.findById(notAvailableId))
+                .thenReturn(null);
 
-        when(doublureCovoiturageRepository.save(this.exampleCovoiturage))
-                .thenThrow(IllegalArgumentException.class);
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            covoiturageService.add(this.exampleCovoiturage);
+        CovoiturageNotFoundException thrown = assertThrows(CovoiturageNotFoundException.class, () -> {
+            covoiturageService.get(notAvailableId);
         });
 
-        Mockito.verify(doublureCovoiturageRepository, times(1)).save(this.exampleCovoiturage);
+        Mockito.verify(doublureCovoiturageRepository, times(1)).getReferenceById(notAvailableId);
 
     }
 

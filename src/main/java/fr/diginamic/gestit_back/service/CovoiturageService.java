@@ -3,7 +3,7 @@ package fr.diginamic.gestit_back.service;
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.repository.CovoiturageRepository;
-
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -25,19 +25,20 @@ public class CovoiturageService {
         return covoiturageRepository.save(covoiturage);
     }
 
-    public Covoiturage update(Covoiturage covoiturage) throws CovoiturageNotFoundException {
-        if (!covoiturageRepository.existsById(covoiturage.getId())) {
-            throw new CovoiturageNotFoundException();
-        }
+    public Covoiturage update(Covoiturage covoiturage) throws EntityNotFoundException {
+        /*
+         * if (!covoiturageRepository.existsById(covoiturage.getId())) {
+         * throw new CovoiturageNotFoundException();
+         * }
+         */
         return covoiturageRepository.save(covoiturage);
     }
 
     public Covoiturage get(Integer id) throws CovoiturageNotFoundException {
         Optional<Covoiturage> result = covoiturageRepository.findById(id);
-        if (result.isPresent()) {
-            return result.get();
-        }
-        throw new CovoiturageNotFoundException();
+        if (result.isEmpty())
+            throw new CovoiturageNotFoundException();
+        return result.get();
     }
 
     public List<Covoiturage> list() {

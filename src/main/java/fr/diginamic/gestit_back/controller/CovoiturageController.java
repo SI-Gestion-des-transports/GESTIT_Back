@@ -4,6 +4,7 @@ import fr.diginamic.gestit_back.dto.CovoiturageDto;
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 import lombok.Data;
@@ -81,7 +82,7 @@ public class CovoiturageController {
             covoiturage.setId(id);
             Covoiturage updatedCovoiturage = covoiturageService.update(covoiturage);
             return ResponseEntity.ok(entity2Dto(updatedCovoiturage));
-        } catch (CovoiturageNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
