@@ -1,7 +1,5 @@
 package fr.diginamic.gestit_back.service;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
@@ -12,39 +10,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.catalina.core.ApplicationContext;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.assertThrows;
 
-import fr.diginamic.gestit_back.controller.CovoiturageController;
-import fr.diginamic.gestit_back.controller.CovoiturageControllerTest;
 import fr.diginamic.gestit_back.entites.Adresse;
 import fr.diginamic.gestit_back.entites.Commune;
 import fr.diginamic.gestit_back.entites.Covoiturage;
@@ -54,12 +32,6 @@ import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.repository.CovoiturageRepository;
-import fr.diginamic.gestit_back.service.CovoiturageService;
-import jakarta.persistence.EntityNotFoundException;
-
-import java.util.Date;
-
-import org.junit.runner.RunWith;
 
 /***
  * Cette classe propose une batterie de tests
@@ -111,7 +83,7 @@ public class CovoiturageServiceTests {
         when(doublureCovoiturageRepository.save(this.exampleCovoiturage))
                 .thenThrow(IllegalArgumentException.class);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             covoiturageService.add(this.exampleCovoiturage);
         });
 
@@ -163,11 +135,10 @@ public class CovoiturageServiceTests {
     @Test
     public void testGetShouldGenerateCovoiturageNotFoundException() {
         Integer notAvailableId = 7874;
-        Optional<Covoiturage> empty = Optional.empty();
         when(doublureCovoiturageRepository.findById(notAvailableId))
                 .thenReturn(Optional.empty());
 
-        CovoiturageNotFoundException thrown = assertThrows(CovoiturageNotFoundException.class, () -> {
+        assertThrows(CovoiturageNotFoundException.class, () -> {
             covoiturageService.get(notAvailableId);
         });
 
@@ -251,7 +222,7 @@ public class CovoiturageServiceTests {
         when(doublureCovoiturageRepository.existsById(notAvailableId))
                 .thenReturn(false);
 
-        CovoiturageNotFoundException thrown = assertThrows(CovoiturageNotFoundException.class, () -> {
+        assertThrows(CovoiturageNotFoundException.class, () -> {
             covoiturageService.update(this.exampleCovoiturage);
         });
 
@@ -282,7 +253,7 @@ public class CovoiturageServiceTests {
         when(doublureCovoiturageRepository.save(this.exampleCovoiturage))
                 .thenThrow(IllegalArgumentException.class);
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             covoiturageService.update(this.exampleCovoiturage);
         });
 
@@ -333,7 +304,7 @@ public class CovoiturageServiceTests {
         when(doublureCovoiturageRepository.existsById(notAvailableId))
                 .thenReturn(false);
 
-        CovoiturageNotFoundException thrown = assertThrows(CovoiturageNotFoundException.class, () -> {
+        assertThrows(CovoiturageNotFoundException.class, () -> {
             covoiturageService.delete(this.exampleCovoiturage.getId());
         });
 

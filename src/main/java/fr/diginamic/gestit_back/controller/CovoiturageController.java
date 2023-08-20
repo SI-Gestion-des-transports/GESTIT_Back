@@ -4,7 +4,6 @@ import fr.diginamic.gestit_back.dto.CovoiturageDto;
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 import lombok.Data;
