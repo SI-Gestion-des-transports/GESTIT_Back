@@ -29,6 +29,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -170,6 +171,37 @@ public class CovoiturageServiceTests {
 
         Mockito.verify(doublureCovoiturageRepository, times(1)).findById(notAvailableId);
 
+    }
+
+    /***
+     * Ce test appelle une demande d'une lecture en base de données d'un
+     * covoiturage existant.
+     * L'objectif est de vérifier l'entité retournée.
+     * Le repository normalement requis est simulé ici par une doublure Mokito.
+     * On vérifie également que le repository n'a été appelé qu'une seule fois
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    public void testGetShouldReturnCovoiturage() throws Exception {
+        Integer availableId = 45;
+        Covoiturage returnCovoiturage = this.exampleCovoiturage;
+        returnCovoiturage.setId(availableId);
+        returnCovoiturage.setNombrePlacesRestantes(4);
+        returnCovoiturage.setDistanceKm(300);
+
+        Optional<Covoiturage> returnedOptional = Optional.of(returnCovoiturage);
+
+        when(doublureCovoiturageRepository.findById(availableId))
+                .thenReturn(returnedOptional);
+
+        Covoiturage readed = covoiturageService.get(availableId);
+        assertThat(readed.getNombrePlacesRestantes()).isSameAs(returnCovoiturage.getNombrePlacesRestantes());
+        assertThat(readed.getId()).isSameAs(this.exampleCovoiturage.getId());
+        assertThat(readed.getDistanceKm()).isSameAs(this.exampleCovoiturage.getDistanceKm());
+
+        Mockito.verify(doublureCovoiturageRepository, times(1)).findById(availableId);
     }
 
     public static Covoiturage createCovoiturageForTest() {
