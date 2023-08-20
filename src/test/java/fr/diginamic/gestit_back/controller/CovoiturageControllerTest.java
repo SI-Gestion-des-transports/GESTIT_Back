@@ -282,6 +282,31 @@ public class CovoiturageControllerTest {
 		Mockito.verify(this.doublureCovoiturageService, times(1)).update(this.covoiturageExample);
 	}
 
+	/***
+	 * Ce test crée une demande de modification du nombre de places restantes
+	 * d'un covoiturage inexistant, à la valeur null;
+	 * L'attribut étant contraint (@NotNull), une erreur doit être
+	 * ainsi générée.
+	 * L'objectif est de vérifier ici le retour du contrôleur en status
+	 * 400 (BadRequest).
+	 *
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
+	@Test
+	public void testUpdateShouldReturn400BadRequest() throws Exception {
+		this.covoiturageExample.setId(2005);
+		this.covoiturageExample.setNombrePlacesRestantes(null);
+
+		String requestURI = String.format("%s/%d", END_POINT_PATH, this.covoiturageExample.getId());
+		String requestBody = this.convertisseurJavaJson.writeValueAsString(this.covoiturageExample);
+		testeur.perform(put(requestURI)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody))
+				.andExpect(status().isBadRequest())
+				.andDo(print());
+	}
+
 	public static Covoiturage createCovoiturageForTest() {
 		Covoiturage covoiturage = new Covoiturage();
 		Commune commune = new Commune("Paris", 75000);
