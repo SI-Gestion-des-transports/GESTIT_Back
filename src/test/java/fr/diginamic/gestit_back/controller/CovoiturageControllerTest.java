@@ -67,7 +67,6 @@ public class CovoiturageControllerTest {
         private static final String END_POINT_PATH = "/covoiturages";
 
         private MockMvc testeur;
-
         private ObjectMapper convertisseurJavaJson;
         private Covoiturage covoiturageExample;
 
@@ -85,11 +84,12 @@ public class CovoiturageControllerTest {
 
         @BeforeEach
         public void init() {
-                convertisseurJavaJson = JsonMapper.builder()
+                this.convertisseurJavaJson = JsonMapper.builder()
                                 .addModule(new JavaTimeModule())
                                 .enable(SerializationFeature.INDENT_OUTPUT)
                                 .build();
-                covoiturageExample = createCovoiturageForTest();
+                this.covoiturageExample = createCovoiturageForTest();
+                this.testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
 
         }
 
@@ -111,7 +111,6 @@ public class CovoiturageControllerTest {
                 this.covoiturageExample.setNombrePlacesRestantes(null);
                 String corpsRequete = this.convertisseurJavaJson.writeValueAsString(this.covoiturageExample);
 
-                this.testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
                 testeur.perform(post(END_POINT_PATH)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(corpsRequete))
