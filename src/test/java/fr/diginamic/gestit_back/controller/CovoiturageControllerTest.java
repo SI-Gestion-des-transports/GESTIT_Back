@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.print.attribute.standard.Media;
+
 import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
@@ -249,6 +251,35 @@ public class CovoiturageControllerTest {
 				.andExpect(jsonPath("$[1].id").value(covoiturage2.getId()))
 				.andDo(print());
 		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
+	}
+
+	/***
+	 * Ce test crée une demande de modifiaction de l'id d'un
+	 * covoiturage inexistant.
+	 * L'objectif est de vérifier ici le retour du contrôleur en status
+	 * 404 (NotFound).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
+	@Test
+	public void testUpdateShouldReturn404NotFound() throws Exception {
+		Integer notAvailableId = 64000;
+		this.covoiturageExample.setId(notAvailableId);
+		String requestURI = String.format("%s/%d", END_POINT_PATH, this.covoiturageExample.getId());
+
+		Mockito.when(this.doublureCovoiturageService.update(this.covoiturageExample))
+				.thenThrow(CovoiturageNotFoundException.class);
+
+		String requestBody = this.convertisseurJavaJson.writeValueAsString(this.covoiturageExample);
+
+		testeur.perform(put(requestURI).contentType(MediaType.APPLICATION_JSON).content(requestBody))
+				.andExpect(status().isNotFound())
+				.andDo(print());
+
+		Mockito.verify(this.doublureCovoiturageService, times(1)).update(this.covoiturageExample);
 	}
 
 	public static Covoiturage createCovoiturageForTest() {
