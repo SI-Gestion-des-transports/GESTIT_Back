@@ -51,4 +51,3 @@ public class Covoiturage extends AbstractBaseEntity {
     }
 
 }
-

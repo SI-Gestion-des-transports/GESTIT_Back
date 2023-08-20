@@ -107,6 +107,36 @@ public class CovoiturageControllerTest {
                 .andDo(print());
     }
 
+    /***
+     * Ce test envoie une demande de création d'un covoiturage.
+     * L'objectif est de vérification le retour du contrôleur en status
+     * 201 (created).
+     * Le service normalement requis est simulé ici par une doublure Mokito.
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    public void testAdd_ShouldReturn_201Created() throws Exception {
+        this.convertisseurJavaJson = JsonMapper.builder()
+                .addModule(new JavaTimeModule())
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .build();
+
+        Covoiturage covoiturageToAdd = createCovoiturageForTest();
+        Mockito.when(doublureCovoiturageService.add(covoiturageToAdd))
+                .thenReturn(covoiturageToAdd);
+
+        String corpsRequete = convertisseurJavaJson.writeValueAsString(covoiturageToAdd);
+
+        testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
+        testeur.perform(post(END_POINT_PATH)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(corpsRequete))
+                .andExpect(status().isCreated())
+                .andDo(print());
+    }
+
     public Covoiturage createCovoiturageForTest() {
         Covoiturage covoiturage = new Covoiturage();
         Commune commune = new Commune("Paris", 75000);
