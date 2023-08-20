@@ -160,14 +160,15 @@ public class CovoiturageServiceTests {
     @Test
     public void testGetShouldGenerateCovoiturageNotFoundException() {
         Integer notAvailableId = 7874;
+        Optional<Covoiturage> empty = Optional.empty();
         when(doublureCovoiturageRepository.findById(notAvailableId))
-                .thenReturn(null);
+                .thenReturn(Optional.empty());
 
         CovoiturageNotFoundException thrown = assertThrows(CovoiturageNotFoundException.class, () -> {
             covoiturageService.get(notAvailableId);
         });
 
-        Mockito.verify(doublureCovoiturageRepository, times(1)).getReferenceById(notAvailableId);
+        Mockito.verify(doublureCovoiturageRepository, times(1)).findById(notAvailableId);
 
     }
 
