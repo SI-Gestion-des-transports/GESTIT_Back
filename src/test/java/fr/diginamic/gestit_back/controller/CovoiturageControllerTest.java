@@ -125,6 +125,7 @@ public class CovoiturageControllerTest {
 	 * L'objectif est de vérification le retour du contrôleur en status
 	 * 201 (created).
 	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois
 	 * 
 	 * @author AtsuhikoMochizuki
 	 * @throws Exception
@@ -142,8 +143,20 @@ public class CovoiturageControllerTest {
 				.content(corpsRequete))
 				.andExpect(status().isCreated())
 				.andDo(print());
+		Mockito.verify(doublureCovoiturageService, times(1)).add(this.covoiturageExample);
 	}
 
+	/***
+	 * Ce test envoie une demande d'une lecture en base de données d'un
+	 * covoiturage dont l'ID est inexistant.
+	 * L'objectif est de vérifier le retour du contrôleur en status
+	 * 404 (NotFound).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetShouldReturn404NotFound() throws Exception {
 		Integer impossibleId = 65534;
@@ -158,6 +171,17 @@ public class CovoiturageControllerTest {
 		Mockito.verify(doublureCovoiturageService, times(1)).get(impossibleId);
 	}
 
+	/***
+	 * Ce test envoie une demande d'une lecture en base de données d'un
+	 * covoiturage existant.
+	 * L'objectif est de vérifier le retour du contrôleur en status
+	 * 200 (OK).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetShouldReturn200OK() throws Exception {
 		this.covoiturageExample.setId(65000);
@@ -171,6 +195,30 @@ public class CovoiturageControllerTest {
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.dureeTrajet").value(this.covoiturageExample.getDureeTrajet()))
 				.andDo(print());
+		Mockito.verify(this.doublureCovoiturageService, times(1)).get(this.covoiturageExample.getId());
+	}
+
+	/***
+	 * Ce test envoie une demande d'une lecture en base de données de
+	 * la liste des covoiturages enregistrés. La doublure renvoie une
+	 * liste vide.
+	 * L'objectif est de vérifier ici le retour du contrôleur en status
+	 * 204 (NoContent).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
+	@Test
+	public void testListShouldReturn204NoContent() throws Exception {
+
+		Mockito.when(this.doublureCovoiturageService.list()).thenReturn(new ArrayList<>());
+
+		testeur.perform(get(END_POINT_PATH))
+				.andExpect(status().isNoContent())
+				.andDo(print());
+		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
 	}
 
 	public static Covoiturage createCovoiturageForTest() {
