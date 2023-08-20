@@ -152,10 +152,25 @@ public class CovoiturageControllerTest {
 		Mockito.when(this.doublureCovoiturageService.get(impossibleId))
 				.thenThrow(CovoiturageNotFoundException.class);
 
-		testeur.perform(MockMvcRequestBuilders.get(requestURI))
+		testeur.perform(get(requestURI))
 				.andExpect(status().isNotFound())
 				.andDo(print());
 		Mockito.verify(doublureCovoiturageService, times(1)).get(impossibleId);
+	}
+
+	@Test
+	public void testGetShouldReturn200OK() throws Exception {
+		this.covoiturageExample.setId(65000);
+		String requestURI = String.format("%s/%d", END_POINT_PATH, this.covoiturageExample.getId());
+
+		Mockito.when(this.doublureCovoiturageService
+				.get(this.covoiturageExample.getId())).thenReturn(this.covoiturageExample);
+
+		testeur.perform(get(requestURI))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.dureeTrajet").value(this.covoiturageExample.getDureeTrajet()))
+				.andDo(print());
 	}
 
 	public static Covoiturage createCovoiturageForTest() {
