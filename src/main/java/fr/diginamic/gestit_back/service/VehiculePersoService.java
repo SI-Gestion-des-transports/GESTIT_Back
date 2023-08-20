@@ -4,6 +4,7 @@ import fr.diginamic.gestit_back.dto.VehiculePersoDto;
 import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
+import fr.diginamic.gestit_back.enumerations.Statut;
 import fr.diginamic.gestit_back.repository.ModeleRepository;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import fr.diginamic.gestit_back.repository.VehiculePersoRepository;
@@ -24,7 +25,7 @@ public class VehiculePersoService {
     private UtilisateurService utilisateurService;
 
 
-    public List<VehiculePersoDto> listVehiculePersoByUser(Integer userId) {
+    public List<VehiculePersoDto> listVehiculePersoByUserId(Integer userId) {
         Utilisateur utilisateur = utilisateurService.trouverParId(userId);
         List<VehiculePerso> list = vehiculePersoRepository.findVehiculePersoByProprietaire(utilisateur);
         return list.stream().map(VehiculePersoDto::new).toList();
@@ -32,16 +33,17 @@ public class VehiculePersoService {
 
 
     public void createVehiculePerso(VehiculePersoDto dto) {
-        VehiculePerso vehiculePerso = vehiculePersoRepository.findVehiculePersoByImmatriculation(dto.getImmatriculation());
-        if (vehiculePerso == null) {
+        //VehiculePerso vehiculePerso = vehiculePersoRepository.findVehiculePersoByImmatriculation(dto.getImmatriculation());
+       // if (vehiculePerso == null) {
             Optional<Utilisateur> utilisateur = utilisateurRepository.findById(dto.getUserId());
             Modele modele = modeleRepository.findModeleByNom(dto.getModele());
             utilisateur.ifPresent(user->vehiculePersoRepository.save(new VehiculePerso(dto, user, modele)));
-        }else throw new RuntimeException("Immatriculation existait !");
+       // }else throw new RuntimeException("Immatriculation existait !");
     }
 
     public void deleteVehiculePerso(Integer id) {
-        vehiculePersoRepository.deleteById(id);
+
+        vehiculePersoRepository.findById(id).get().setStatut(Statut.SUPPRIMER);
     }
     public void modifyVehiculePerso(VehiculePersoDto dto){
         createVehiculePerso(dto);

@@ -36,6 +36,7 @@ public class VehiculeServiceController {
         return ResponseEntity.status(200).body(vehiculeServiceService.listVehiculeService(0, 5));
     }
 
+
     @Secured("ADMINISTRATEUR")
     @GetMapping("/delete")
     public ResponseEntity<List<VehiculeServiceDto>> deleteVehiculeService(@RequestParam Integer id) {
@@ -51,7 +52,7 @@ public class VehiculeServiceController {
 
     @PostMapping("/modify")
     public ResponseEntity<List<VehiculeServiceDto>> modifyVehiculeService(@Validated @RequestBody VehiculeServiceDto dto) {
-        if (dto.getStatut() != Statut.EN_SERVICE) reservationVehiculeServiceService.adminDeleteAllReservationsByVehiculeServiceId(dto.getId());
+        if (dto.getStatut() != Statut.EN_SERVICE) reservationVehiculeServiceService.adminDeleteAllReservationsByVehiculeServiceId(dto.getId(),LocalDateTime.now());
         vehiculeServiceService.modifyVehiclueService(dto);
         return ResponseEntity.status(200).body(vehiculeServiceService.listVehiculeService(0, 5));
     }
