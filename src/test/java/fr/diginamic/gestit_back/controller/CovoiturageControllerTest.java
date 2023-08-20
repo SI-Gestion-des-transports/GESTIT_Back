@@ -221,6 +221,36 @@ public class CovoiturageControllerTest {
 		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
 	}
 
+	/***
+	 * Ce test crée une liste de deux covoiturages à renvoyer en réponse.
+	 * L'objectif est de vérifier ici le retour du contrôleur en status
+	 * 200 (OK).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
+	@Test
+	public void testListShouldReturn200OK() throws Exception {
+		Covoiturage covoiturage1 = createCovoiturageForTest();
+		covoiturage1.setId(255);
+		Covoiturage covoiturage2 = createCovoiturageForTest();
+		covoiturage2.setId(256);
+
+		List<Covoiturage> listCovoiturages = List.of(covoiturage1, covoiturage2);
+
+		Mockito.when(this.doublureCovoiturageService.list()).thenReturn(listCovoiturages);
+
+		testeur.perform(get(END_POINT_PATH))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[0].id").value(covoiturage1.getId()))
+				.andExpect(jsonPath("$[1].id").value(covoiturage2.getId()))
+				.andDo(print());
+		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
+	}
+
 	public static Covoiturage createCovoiturageForTest() {
 		Covoiturage covoiturage = new Covoiturage();
 		Commune commune = new Commune("Paris", 75000);
