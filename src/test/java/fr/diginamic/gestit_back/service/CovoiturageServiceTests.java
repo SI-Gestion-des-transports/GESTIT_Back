@@ -229,6 +229,32 @@ public class CovoiturageServiceTests {
         Mockito.verify(this.doublureCovoiturageRepository, times(1)).findAll();
     }
 
+    /***
+     * Ce test crée une demande de modifiaction de l'id d'un
+     * covoiturage inexistant.
+     * L'objectif est de vérifier ici le retour du contrôleur en status
+     * 404 (NotFound).
+     * Le service normalement requis est simulé ici par une doublure Mokito.
+     * On vérifie également que le service n'a été appelé qu'une seule fois
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    public void testUpdateShouldThrowCovoiturageNotFoundException() throws Exception {
+        Integer notAvailableId = 4878;
+        this.exampleCovoiturage.setId(notAvailableId);
+
+        when(doublureCovoiturageRepository.existsById(notAvailableId))
+                .thenReturn(false);
+
+        CovoiturageNotFoundException thrown = assertThrows(CovoiturageNotFoundException.class, () -> {
+            covoiturageService.update(this.exampleCovoiturage);
+        });
+
+        Mockito.verify(doublureCovoiturageRepository, times(1)).existsById(notAvailableId);
+    }
+
     public static Covoiturage createCovoiturageForTest() {
         Covoiturage covoiturage = new Covoiturage();
         Commune commune = new Commune("Paris", 75000);

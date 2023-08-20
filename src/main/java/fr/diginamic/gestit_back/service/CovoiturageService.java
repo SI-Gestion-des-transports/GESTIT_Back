@@ -25,12 +25,11 @@ public class CovoiturageService {
         return covoiturageRepository.save(covoiturage);
     }
 
-    public Covoiturage update(Covoiturage covoiturage) throws EntityNotFoundException {
-        /*
-         * if (!covoiturageRepository.existsById(covoiturage.getId())) {
-         * throw new CovoiturageNotFoundException();
-         * }
-         */
+    public Covoiturage update(Covoiturage covoiturage) throws CovoiturageNotFoundException {
+        if (!covoiturageRepository.existsById(covoiturage.getId())) {
+            throw new CovoiturageNotFoundException();
+        }
+
         return covoiturageRepository.save(covoiturage);
     }
 

@@ -82,7 +82,7 @@ public class CovoiturageController {
             covoiturage.setId(id);
             Covoiturage updatedCovoiturage = covoiturageService.update(covoiturage);
             return ResponseEntity.ok(entity2Dto(updatedCovoiturage));
-        } catch (EntityNotFoundException e) {
+        } catch (CovoiturageNotFoundException e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
