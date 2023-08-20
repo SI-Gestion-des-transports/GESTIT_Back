@@ -24,6 +24,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -140,6 +142,20 @@ public class CovoiturageControllerTest {
 				.content(corpsRequete))
 				.andExpect(status().isCreated())
 				.andDo(print());
+	}
+
+	@Test
+	public void testGetShouldReturn404NotFound() throws Exception {
+		Integer impossibleId = 65534;
+		String requestURI = String.format("%s/%d", END_POINT_PATH, impossibleId);
+
+		Mockito.when(this.doublureCovoiturageService.get(impossibleId))
+				.thenThrow(CovoiturageNotFoundException.class);
+
+		testeur.perform(MockMvcRequestBuilders.get(requestURI))
+				.andExpect(status().isNotFound())
+				.andDo(print());
+		Mockito.verify(doublureCovoiturageService, times(1)).get(impossibleId);
 	}
 
 	public static Covoiturage createCovoiturageForTest() {
