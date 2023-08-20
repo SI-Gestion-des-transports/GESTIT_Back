@@ -170,7 +170,6 @@ public class CovoiturageServiceTests {
         });
 
         Mockito.verify(doublureCovoiturageRepository, times(1)).findById(notAvailableId);
-
     }
 
     /***
@@ -202,6 +201,32 @@ public class CovoiturageServiceTests {
         assertThat(readed.getDistanceKm()).isSameAs(this.exampleCovoiturage.getDistanceKm());
 
         Mockito.verify(doublureCovoiturageRepository, times(1)).findById(availableId);
+    }
+
+    /***
+     * Ce test envoie une demande d'une lecture en base de données de
+     * la liste des covoiturages enregistrés. La doublure renvoit une
+     * liste possédant un covoiturage.
+     * L'objectif est de vérifier la conformité de la liste attendue.
+     * Le repository normalement requis est simulé ici par une doublure Mokito.
+     * On vérifie également que le repository n'a été appelé qu'une seule fois
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    public void testListShouldReturnList() throws Exception {
+        List<Covoiturage> liste = new ArrayList<>();
+        liste.add(this.exampleCovoiturage);
+
+        Mockito.when(doublureCovoiturageRepository.findAll()).thenReturn(liste);
+
+        List<Covoiturage> returnedList = covoiturageService.list();
+        assertThat(returnedList).isNotEmpty();
+        assertThat(returnedList).isNotNull();
+        assertThat(returnedList.get(0)).isSameAs(liste.get(0));
+
+        Mockito.verify(this.doublureCovoiturageRepository, times(1)).findAll();
     }
 
     public static Covoiturage createCovoiturageForTest() {
