@@ -1,32 +1,27 @@
 package fr.diginamic.gestit_back.controller;
 
-/*Ces méthodes statiques contiennent un ensemble de méthodes statiques permettant d'accéder aux assertions de différents éléments de réponse (status(), header(), content(), cookie(),...)*/
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.print.attribute.standard.Media;
-
-import static org.mockito.Mockito.times;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.Mockito;
+import static org.mockito.Mockito.times;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -34,7 +29,6 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import fr.diginamic.gestit_back.configuration.JWTConfig;
-import fr.diginamic.gestit_back.controller.CovoiturageController;
 import fr.diginamic.gestit_back.entites.Adresse;
 import fr.diginamic.gestit_back.entites.Commune;
 import fr.diginamic.gestit_back.entites.Covoiturage;
@@ -42,14 +36,10 @@ import fr.diginamic.gestit_back.entites.Marque;
 import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
-import fr.diginamic.gestit_back.enumerations.Role;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
 import fr.diginamic.gestit_back.utils.JWTUtils;
 import fr.diginamic.gestit_back.utils.RedisUtils;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
  * Classe de tests unitaires dédiée au contrôleur REST CovoiturageController
@@ -336,6 +326,58 @@ public class CovoiturageControllerTest {
 				.andExpect(jsonPath("$.id").value(this.covoiturageExample.getId()))
 				.andDo(print());
 		Mockito.verify(this.doublureCovoiturageService, times(1)).update(this.covoiturageExample);
+	}
+
+	/***
+	 * Ce test envoie une requête pour la suppression en base d'un covoiturage
+	 * inexistant.
+	 * L'objectif est de vérifier ici le retour du contrôleur en status
+	 * 404 (NotFound).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois.
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
+	@Test
+	public void testDeleteShouldReturn404NotFound() throws Exception {
+		this.covoiturageExample.setId(2005);
+
+		String requestURI = String.format("%s/%d", END_POINT_PATH, this.covoiturageExample.getId());
+
+		Mockito.doThrow(CovoiturageNotFoundException.class)
+				.when(this.doublureCovoiturageService).delete(this.covoiturageExample.getId());
+
+		testeur.perform(delete(requestURI))
+				.andExpect(status().isNotFound())
+				.andDo(print());
+
+		Mockito.verify(this.doublureCovoiturageService, times(1)).delete(this.covoiturageExample.getId());
+	}
+
+	/***
+	 * Ce test envoie une requête pour la suppression en base d'un covoiturage
+	 * existant.
+	 * L'objectif est de vérifier ici le retour du contrôleur en status
+	 * 200 (OK).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois.
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
+	@Test
+	public void testDeleteShouldReturn200OK() throws Exception {
+		this.covoiturageExample.setId(2005);
+
+		String requestURI = String.format("%s/%d", END_POINT_PATH, this.covoiturageExample.getId());
+
+		Mockito.doNothing().when(this.doublureCovoiturageService).delete(this.covoiturageExample.getId());
+
+		testeur.perform(delete(requestURI))
+				.andExpect(status().isNoContent())
+				.andDo(print());
+		Mockito.verify(this.doublureCovoiturageService, times(1)).delete(this.covoiturageExample.getId());
 	}
 
 	public static Covoiturage createCovoiturageForTest() {
