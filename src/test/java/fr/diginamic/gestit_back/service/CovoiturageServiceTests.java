@@ -72,24 +72,11 @@ import org.junit.runner.RunWith;
 @ExtendWith(MockitoExtension.class)
 public class CovoiturageServiceTests {
 
-    /*
-     * @InjectMocks
-     * CovoiturageService covoiturageService;
-     */
+    @Mock
+    CovoiturageRepository doublureCovoiturageRepository;
 
-    /*
-     * @Mock
-     * CovoiturageRepository doublureCovoiturageRepository;
-     */
-
-    @Autowired
-    private CovoiturageController covoiturageController;
-
-    @Autowired
-    private CovoiturageService covoiturageService;
-
-    @Autowired
-    private CovoiturageRepository covoiturageRepository;
+    @InjectMocks
+    CovoiturageService covoiturageService;
 
     private Covoiturage exampleCovoiturage;
 
@@ -113,36 +100,49 @@ public class CovoiturageServiceTests {
      */
     @Test
     public void testSaveShouldReturnCovoiturage() throws Exception {
-        /*
-         * this.exampleCovoiturage.setId(78977);
-         * this.exampleCovoiturage.setDistanceKm(456);
-         * this.exampleCovoiturage.setNombrePlacesRestantes(5);
-         * 
-         * when(doublureCovoiturageRepository.save(this.exampleCovoiturage)).thenReturn(
-         * this.exampleCovoiturage);
-         * 
-         * Covoiturage created = covoiturageService.add(this.exampleCovoiturage);
-         * assertThat(created.getId()).isSameAs(this.exampleCovoiturage.getId());
-         * assertThat(created.getDistanceKm()).isSameAs(this.exampleCovoiturage.
-         * getDistanceKm());
-         * assertThat(created.getNombrePlacesRestantes()).isSameAs(this.
-         * exampleCovoiturage.getNombrePlacesRestantes());
-         */
+
+        this.exampleCovoiturage.setId(78977);
+        this.exampleCovoiturage.setDistanceKm(456);
+        this.exampleCovoiturage.setNombrePlacesRestantes(5);
+
+        when(doublureCovoiturageRepository.save(this.exampleCovoiturage)).thenReturn(this.exampleCovoiturage);
+
+        Covoiturage created = covoiturageService.add(this.exampleCovoiturage);
+
+        assertThat(created.getId()).isSameAs(this.exampleCovoiturage.getId());
+        assertThat(created.getDistanceKm()).isSameAs(this.exampleCovoiturage.getDistanceKm());
+        assertThat(created.getNombrePlacesRestantes()).isSameAs(this.exampleCovoiturage.getNombrePlacesRestantes());
+
+        Mockito.verify(doublureCovoiturageRepository, times(1)).save(this.exampleCovoiturage);
+
     }
 
+    /***
+     * Ce test lance appelle le service d'enregistrement d'un covoiturage
+     * possédant l'attribut nombreDePlacesRestantes positionné à null.
+     * Ce dernier étant contraint par une annotation @NotNull, le système
+     * doit lancer une IllegalArgumentException, l'objectif du test étant de
+     * capturer l'exception pour valider ce comportement attendu.
+     * L'accès à la base de données au travers le repository normalement requis
+     * est simulé ici par une doublure Mokito.
+     * On vérifie également que le service n'a été appelé qu'une seule fois.
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
     @Test
-    public void testSaveShouldThrowException() throws Exception {
-        assertThat(covoiturageController).isNotNull();
-        assertThat(covoiturageRepository).isNotNull();
-        assertThat(covoiturageService).isNotNull();
+    public void testSaveShouldThrowException() {
+        this.exampleCovoiturage.setNombrePlacesRestantes(null);
 
-        when(doublureCovoiturageRepository.save(this.exampleCovoiturage)).thenThrow(
-         * Exception.class);
-         * 
-         * Exception thrown = assertThrows(Exception.class, () -> {
-         * covoiturageService.add(this.exampleCovoiturage);
-         * });
-         */
+        when(doublureCovoiturageRepository.save(this.exampleCovoiturage))
+                .thenThrow(IllegalArgumentException.class);
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            covoiturageService.add(this.exampleCovoiturage);
+        });
+
+        Mockito.verify(doublureCovoiturageRepository, times(1)).save(this.exampleCovoiturage);
+
     }
 
     public static Covoiturage createCovoiturageForTest() {
