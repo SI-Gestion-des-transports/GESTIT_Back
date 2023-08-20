@@ -7,15 +7,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import fr.diginamic.gestit_back.controller.CovoiturageController;
+import fr.diginamic.gestit_back.repository.CovoiturageRepository;
 
 @SpringBootTest
 public class GestitBackApplicationTests {
 	@Autowired
 	private CovoiturageController covoiturageController;
 
+	@Autowired
+	private CovoiturageRepository covoiturageRepository;
+
 	@Test
 	public void contextLoads() throws Exception {
 		assertThat(covoiturageController).isNotNull();
+		assertThat(covoiturageRepository).isNotNull();
 	}
 
 }

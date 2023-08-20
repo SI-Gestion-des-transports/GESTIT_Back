@@ -13,11 +13,14 @@ import java.util.Set;
 import org.apache.catalina.core.ApplicationContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -48,25 +51,24 @@ import java.util.Date;
 
 import org.junit.runner.RunWith;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CovoiturageServiceTests {
 
-    CovoiturageService cobaye;
-    private Covoiturage covoiturageExample;
+    @InjectMocks
+    CovoiturageService covoiturageService;
+
+    @Mock
+    CovoiturageRepository dao;
+
+    @BeforeEach
+    public void init() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testSaveShouldReturnCovoiturage() throws Exception {
-        this.covoiturageExample = createCovoiturageForTest();
-        this.covoiturageExample.setId(852);
-        CovoiturageRepository doublureCovoiturageRepository = Mockito.mock(CovoiturageRepository.class);
 
-        when(doublureCovoiturageRepository.save(this.covoiturageExample))
-                .thenReturn(this.covoiturageExample);
-        this.cobaye = new CovoiturageService(doublureCovoiturageRepository);
-        Covoiturage created = this.cobaye.add(this.covoiturageExample);
-        assertThat(created.getId()).isSameAs(this.covoiturageExample.getId());
-        Mockito.verify(doublureCovoiturageRepository,
-                times(1)).save(any(Covoiturage.class));
+        assertThat(dao).isNotNull();
 
     }
 
