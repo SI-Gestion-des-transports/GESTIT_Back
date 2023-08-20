@@ -60,15 +60,22 @@ public class CovoiturageServiceTests {
     @Mock
     CovoiturageRepository dao;
 
+    private Covoiturage exampleCovoiturage;
+
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
+        exampleCovoiturage = createCovoiturageForTest();
     }
 
     @Test
     public void testSaveShouldReturnCovoiturage() throws Exception {
 
         assertThat(dao).isNotNull();
+        this.exampleCovoiturage.setId(78977);
+        when(dao.save(this.exampleCovoiturage)).thenReturn(exampleCovoiturage);
+        Covoiturage created = covoiturageService.add(this.exampleCovoiturage);
+        assertThat(created.getId()).isSameAs(this.exampleCovoiturage.getId());
 
     }
 
