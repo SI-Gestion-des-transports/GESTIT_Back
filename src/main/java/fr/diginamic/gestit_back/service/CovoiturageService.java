@@ -46,10 +46,10 @@ public class CovoiturageService {
     }
 
     public void delete(Integer id) throws CovoiturageNotFoundException {
-        if (covoiturageRepository.existsById(id)) {
-            covoiturageRepository.deleteById(id);
+        if (!covoiturageRepository.existsById(id)) {
+            throw new CovoiturageNotFoundException();
         }
-        throw new CovoiturageNotFoundException();
+        covoiturageRepository.deleteById(id);
     }
 
 }

@@ -1,6 +1,7 @@
 package fr.diginamic.gestit_back.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
@@ -337,6 +338,34 @@ public class CovoiturageServiceTests {
         });
 
         Mockito.verify(doublureCovoiturageRepository, times(1)).existsById(notAvailableId);
+    }
+
+    /***
+     * Ce test envoie une requête pour la suppression en base d'un covoiturage
+     * existant.
+     * L'objectif est de vérifier le déroulement correct du processus.
+     * 
+     * Le repository normalement requis est simulé ici par une doublure Mokito.
+     * On vérifie également que les méthodes repository n'ont été appelées
+     * qu'une seule fois.
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    public void testDelete() throws Exception {
+
+        Integer availableId = 8547;
+        this.exampleCovoiturage.setId(availableId);
+
+        when(doublureCovoiturageRepository.existsById(availableId))
+                .thenReturn(true);
+        Mockito.doNothing().when(this.doublureCovoiturageRepository).deleteById(this.exampleCovoiturage.getId());
+
+        covoiturageService.delete(this.exampleCovoiturage.getId());
+
+        Mockito.verify(doublureCovoiturageRepository, times(1)).existsById(availableId);
+        Mockito.verify(doublureCovoiturageRepository, times(1)).deleteById(this.exampleCovoiturage.getId());
     }
 
     public static Covoiturage createCovoiturageForTest() {
