@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import static org.assertj.core.api.Assertions.*;
 
+import fr.diginamic.gestit_back.controller.CovoiturageController;
 import fr.diginamic.gestit_back.controller.CovoiturageControllerTest;
 import fr.diginamic.gestit_back.entites.Adresse;
 import fr.diginamic.gestit_back.entites.Commune;
@@ -46,14 +48,10 @@ import java.util.Date;
 
 import org.junit.runner.RunWith;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class CovoiturageServiceTests {
 
     CovoiturageService cobaye;
-
-    @Autowired
-    ApplicationContext context;
-
     private Covoiturage covoiturageExample;
 
     @Test
