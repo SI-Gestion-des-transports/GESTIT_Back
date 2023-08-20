@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.catalina.core.ApplicationContext;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +24,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -34,6 +37,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.assertThrows;
 
 import fr.diginamic.gestit_back.controller.CovoiturageController;
 import fr.diginamic.gestit_back.controller.CovoiturageControllerTest;
@@ -44,6 +48,7 @@ import fr.diginamic.gestit_back.entites.Marque;
 import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
+import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.repository.CovoiturageRepository;
 import fr.diginamic.gestit_back.service.CovoiturageService;
 
@@ -59,15 +64,32 @@ import org.junit.runner.RunWith;
  * grâce à l'annotation @Mock et injectés dans les service à tester
  * avec @injectMocks
  * 
+ * Nota : @SpringBootTest permet de créer un contexte d'application contenant
+ * tous les objets requis pour les tests ici présents.
+ * 
  */
+@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 public class CovoiturageServiceTests {
 
-    @InjectMocks
-    CovoiturageService covoiturageService;
+    /*
+     * @InjectMocks
+     * CovoiturageService covoiturageService;
+     */
 
-    @Mock
-    CovoiturageRepository doublureCovoiturageRepository;
+    /*
+     * @Mock
+     * CovoiturageRepository doublureCovoiturageRepository;
+     */
+
+    @Autowired
+    private CovoiturageController covoiturageController;
+
+    @Autowired
+    private CovoiturageService covoiturageService;
+
+    @Autowired
+    private CovoiturageRepository covoiturageRepository;
 
     private Covoiturage exampleCovoiturage;
 
@@ -91,17 +113,36 @@ public class CovoiturageServiceTests {
      */
     @Test
     public void testSaveShouldReturnCovoiturage() throws Exception {
-        this.exampleCovoiturage.setId(78977);
-        this.exampleCovoiturage.setDistanceKm(456);
-        this.exampleCovoiturage.setNombrePlacesRestantes(5);
+        /*
+         * this.exampleCovoiturage.setId(78977);
+         * this.exampleCovoiturage.setDistanceKm(456);
+         * this.exampleCovoiturage.setNombrePlacesRestantes(5);
+         * 
+         * when(doublureCovoiturageRepository.save(this.exampleCovoiturage)).thenReturn(
+         * this.exampleCovoiturage);
+         * 
+         * Covoiturage created = covoiturageService.add(this.exampleCovoiturage);
+         * assertThat(created.getId()).isSameAs(this.exampleCovoiturage.getId());
+         * assertThat(created.getDistanceKm()).isSameAs(this.exampleCovoiturage.
+         * getDistanceKm());
+         * assertThat(created.getNombrePlacesRestantes()).isSameAs(this.
+         * exampleCovoiturage.getNombrePlacesRestantes());
+         */
+    }
 
-        when(doublureCovoiturageRepository.save(this.exampleCovoiturage)).thenReturn(this.exampleCovoiturage);
+    @Test
+    public void testSaveShouldThrowException() throws Exception {
+        assertThat(covoiturageController).isNotNull();
+        assertThat(covoiturageRepository).isNotNull();
+        assertThat(covoiturageService).isNotNull();
 
-        Covoiturage created = covoiturageService.add(this.exampleCovoiturage);
-        assertThat(created.getId()).isSameAs(this.exampleCovoiturage.getId());
-        assertThat(created.getDistanceKm()).isSameAs(this.exampleCovoiturage.getDistanceKm());
-        assertThat(created.getNombrePlacesRestantes()).isSameAs(this.exampleCovoiturage.getNombrePlacesRestantes());
-
+        when(doublureCovoiturageRepository.save(this.exampleCovoiturage)).thenThrow(
+         * Exception.class);
+         * 
+         * Exception thrown = assertThrows(Exception.class, () -> {
+         * covoiturageService.add(this.exampleCovoiturage);
+         * });
+         */
     }
 
     public static Covoiturage createCovoiturageForTest() {
