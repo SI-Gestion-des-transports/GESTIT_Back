@@ -314,6 +314,31 @@ public class CovoiturageServiceTests {
         Mockito.verify(doublureCovoiturageRepository, times(1)).save(this.exampleCovoiturage);
     }
 
+    /***
+     * Ce test appelle la suppression en base d'un covoiturage inexistant.
+     * L'objectif est de vérifier la génération d'une
+     * CovoiturageNotFoundException attendue.
+     * Le repository normalement requis est simulé ici par une doublure Mokito.
+     * On vérifie également que le repository n'a été appelé qu'une seule fois.
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    public void testDeleteShouldThrowCovoiturageNotFoundException() {
+        Integer notAvailableId = 4878;
+        this.exampleCovoiturage.setId(notAvailableId);
+
+        when(doublureCovoiturageRepository.existsById(notAvailableId))
+                .thenReturn(false);
+
+        CovoiturageNotFoundException thrown = assertThrows(CovoiturageNotFoundException.class, () -> {
+            covoiturageService.delete(this.exampleCovoiturage.getId());
+        });
+
+        Mockito.verify(doublureCovoiturageRepository, times(1)).existsById(notAvailableId);
+    }
+
     public static Covoiturage createCovoiturageForTest() {
         Covoiturage covoiturage = new Covoiturage();
         Commune commune = new Commune("Paris", 75000);
