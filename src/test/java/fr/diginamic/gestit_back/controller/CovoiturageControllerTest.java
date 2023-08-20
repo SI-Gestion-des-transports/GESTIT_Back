@@ -63,6 +63,8 @@ public class CovoiturageControllerTest {
 
     private MockMvc testeur;
     private ObjectMapper convertisseurJavaJson;
+    @Autowired
+    private CovoiturageController cobaye;
 
     @MockBean
     private JWTUtils jwtUtils;
@@ -72,9 +74,6 @@ public class CovoiturageControllerTest {
     private RedisUtils redisUtils;
     @MockBean
     private CovoiturageService doublureCovoiturageService;
-
-    @Autowired
-    private CovoiturageController cobaye;
 
     /***
      * Ce test envoie une demande de création d'un covoiturage avec un de ses
@@ -119,7 +118,7 @@ public class CovoiturageControllerTest {
         Set<Covoiturage> conducteurCovoituragesOrganises = new HashSet<>();
         Set<Covoiturage> conducteurCovoituragesPassagers = new HashSet<>();
         List<String> roleConducteur = new ArrayList<>();
-        roleConducteur.add("ORGANISATEUR");
+        roleConducteur.add("COLLABORATEUR");
         conducteur.setEmail("RonaldMerziner@gmail.com");
         conducteur.setMotDePasse("4321");
         conducteur.setNom("Merziner");
