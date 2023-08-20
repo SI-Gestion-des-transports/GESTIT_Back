@@ -31,6 +31,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -283,6 +284,31 @@ public class CovoiturageServiceTests {
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
             covoiturageService.update(this.exampleCovoiturage);
         });
+
+        Mockito.verify(doublureCovoiturageRepository, times(1)).existsById(availableId);
+        Mockito.verify(doublureCovoiturageRepository, times(1)).save(this.exampleCovoiturage);
+    }
+
+    /***
+     * Ce test lance un appel pour modifier un covoiturage existant.
+     * L'objectif est de vérifier que l'entité retournée soit conforme.
+     * Le repository normalement requis est simulé ici par une doublure Mokito.
+     * On vérifie également que les méthodes du repository n'ont été appelés
+     * qu'une seule fois.
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    public void testUpdateShouldReturnCovoiturage() throws CovoiturageNotFoundException {
+        Integer availableId = 753;
+        this.exampleCovoiturage.setId(availableId);
+
+        when(this.doublureCovoiturageRepository.existsById(availableId)).thenReturn(true);
+        when(this.doublureCovoiturageRepository.save(this.exampleCovoiturage)).thenReturn(this.exampleCovoiturage);
+
+        Covoiturage returned = covoiturageService.update(this.exampleCovoiturage);
+        assertThat(returned.getId()).isSameAs(this.exampleCovoiturage.getId());
 
         Mockito.verify(doublureCovoiturageRepository, times(1)).existsById(availableId);
         Mockito.verify(doublureCovoiturageRepository, times(1)).save(this.exampleCovoiturage);
