@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.Mockito;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -65,7 +67,10 @@ public class CovoiturageControllerTest {
         private static final String END_POINT_PATH = "/covoiturages";
 
         private MockMvc testeur;
-        public static ObjectMapper convertisseurJavaJson;
+
+        private ObjectMapper convertisseurJavaJson;
+        private Covoiturage covoiturageExample;
+
         @Autowired
         private CovoiturageController cobaye;
 
@@ -78,12 +83,13 @@ public class CovoiturageControllerTest {
         @MockBean
         private CovoiturageService doublureCovoiturageService;
 
-        @BeforeAll
-        public static void init() {
+        @BeforeEach
+        public void init() {
                 convertisseurJavaJson = JsonMapper.builder()
                                 .addModule(new JavaTimeModule())
                                 .enable(SerializationFeature.INDENT_OUTPUT)
                                 .build();
+                covoiturageExample = createCovoiturageForTest();
 
         }
 
@@ -102,12 +108,10 @@ public class CovoiturageControllerTest {
         @Test
         public void test_create_retourAttendu_erreur400BadRequest() throws Exception {
 
-                Covoiturage covoiturageFauteurDeTroubles = createCovoiturageForTest();
-                covoiturageFauteurDeTroubles.setNombrePlacesRestantes(null);
-                String corpsRequete = convertisseurJavaJson.writeValueAsString(covoiturageFauteurDeTroubles);
+                this.covoiturageExample.setNombrePlacesRestantes(null);
+                String corpsRequete = this.convertisseurJavaJson.writeValueAsString(this.covoiturageExample);
 
-                testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
-
+                this.testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
                 testeur.perform(post(END_POINT_PATH)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(corpsRequete))
@@ -145,7 +149,7 @@ public class CovoiturageControllerTest {
                                 .andDo(print());
         }
 
-        public Covoiturage createCovoiturageForTest() {
+        public static Covoiturage createCovoiturageForTest() {
                 Covoiturage covoiturage = new Covoiturage();
                 Commune commune = new Commune("Paris", 75000);
                 Adresse adresseDepart = new Adresse(26, "rue des Alouettes", commune);
