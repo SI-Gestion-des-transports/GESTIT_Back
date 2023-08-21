@@ -297,7 +297,7 @@ public class CovoiturageServiceTests {
      * @throws Exception
      */
     @Test
-    public void testDeleteShouldThrowCovoiturageNotFoundException() {
+    public void testDeleteShouldSuppressCovoiturage() {
         Integer notAvailableId = 4878;
         this.exampleCovoiturage.setId(notAvailableId);
 

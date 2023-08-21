@@ -1,6 +1,7 @@
 package fr.diginamic.gestit_back.repository;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -15,7 +16,6 @@ import java.util.Set;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,7 +31,6 @@ import fr.diginamic.gestit_back.entites.Marque;
 import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
-
 import jakarta.validation.ConstraintViolationException;
 
 @RunWith(SpringRunner.class)
@@ -77,7 +76,6 @@ public class CovoiturageRepositoryTests {
      * @throws Exception
      */
     @Test
-
     public void testGetNotAvailableIdShouldReturnEmptyOptional() {
         Integer notAvailableId = 58777;
         Optional<Covoiturage> read = covoiturageRepository.findById(notAvailableId);
@@ -118,6 +116,27 @@ public class CovoiturageRepositoryTests {
         List<Covoiturage> returnedList = covoiturageRepository.findAll();
         assertThat(returnedList).isNotEmpty();
         assertThat(returnedList.size()).isEqualTo(2);
+    }
+
+    /***
+     * à remplir
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    /*
+     * Insertion d'un covoiturage possédant les attributs suivants:
+     * id = 51, nombre de places restantes = 2, distance = 456 km
+     */
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @Sql("covoiturages.sql")
+    public void testDeleteShouldSuppressCovoiturage() throws Exception {
+        Optional<Covoiturage> read = covoiturageRepository.findById(51);
+        assertThat(read.get().getId()).isEqualTo(51);
+        covoiturageRepository.deleteById(51);
+        Optional<Covoiturage> attemptToRead = covoiturageRepository.findById(51);
+        assertThat(attemptToRead.isEmpty());
     }
 
     public static Covoiturage createCovoiturageForTest() {
