@@ -42,6 +42,7 @@ public class VehiculeServiceController {
         // Suppression des reservations liées au véhicule de service supprimé
         LocalDateTime date = LocalDateTime.now();
         reservationVehiculeServiceService.adminDeleteAllReservationsByVehiculeServiceId(id, date);
+        //
 
         vehiculeServiceService.deleteVehiculeService(id);
         return ResponseEntity.status(200).body(vehiculeServiceService.listVehiculeService(0, 5));

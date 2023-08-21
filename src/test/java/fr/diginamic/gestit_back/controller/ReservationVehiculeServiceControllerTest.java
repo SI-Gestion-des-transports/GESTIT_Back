@@ -66,20 +66,19 @@ public class ReservationVehiculeServiceControllerTest {
                 .andExpect(status().isOk());
         }
 
-    /*
+/*
     @Test
     public void test_ListerReservations_MissingJwtToken() throws Exception {
         mockMvc.perform(get("/reservation")
                         .header("X-XSRF-TOKEN", "4f2ed8de-4381-4e78-9eca-0d4168abb148")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());  // assuming your controller/service returns 401 when JWT is missing or invalid
+                .andExpect(status().isUnauthorized());
     }
-    */
+*/
 
-    /*
-    @Test
+/*    @Test
     public void test_ListerReservations_InvalidJwtToken() throws Exception {
-        Integer expectedUserId = 12;
+        Integer expectedUserId = 1;
         String invalidJwtToken = "invalid.jwt.token";
 
         Claims mockClaims = Mockito.mock(Claims.class);
@@ -95,8 +94,7 @@ public class ReservationVehiculeServiceControllerTest {
                 .header("X-XSRF-TOKEN", "4f2ed8de-4381-4e78-9eca-0d4168abb148")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
-    }
-    */
+    }*/
 
 }
 
