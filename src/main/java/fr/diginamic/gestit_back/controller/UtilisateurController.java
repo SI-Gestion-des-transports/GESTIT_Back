@@ -4,9 +4,11 @@ import fr.diginamic.gestit_back.dto.UtilisateurDto;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import fr.diginamic.gestit_back.service.UtilisateurService;
+import fr.diginamic.gestit_back.utils.JWTUtils;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +24,7 @@ public class UtilisateurController {
     private UtilisateurService utilisateurCollaborateurService;
     private PasswordEncoder passwordEncoder;
     private UtilisateurRepository utilisateurRepository;
+    private JWTUtils jwtUtils;
 
     @GetMapping("/findNom")
     public List<Utilisateur> findNom (){
@@ -37,17 +40,13 @@ public class UtilisateurController {
 
     @PostMapping("/create")
     public Utilisateur nouveauUtilisateur (@RequestBody @Valid UtilisateurDto utilisateurDto){
-        System.out.println("utilisateurDto : " + utilisateurDto.nom());
-        System.out.println("utilisateurDto : " + utilisateurDto.motDePasse());
-        System.out.println("utilisateurDto : " + utilisateurDto.email());
-        System.out.println("utilisateurDto : " + utilisateurDto.roles());
-
         return this.utilisateurCollaborateurService.creerUtilisateur(utilisateurDto);
     }
 
     @PostMapping("/modify")
-    public Utilisateur utilisateurModifie (@RequestBody @Valid UtilisateurDto nouveauUtilisateurDto, @RequestParam Integer idUser){
-        return this.utilisateurCollaborateurService.modifierUtilisateur(nouveauUtilisateurDto,idUser );
+    public void utilisateurModifie (@RequestBody @Valid UtilisateurDto nouveauUtilisateurDto, @RequestParam Integer idUser){
+        this.utilisateurCollaborateurService.modifierUtilisateur(nouveauUtilisateurDto,idUser);
+
     }
 
     @GetMapping("/disable")
