@@ -36,10 +36,11 @@ public class Utilisateur extends AbstractBaseEntity {
     @OneToMany(mappedBy = "collaborateur")
     private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "covoiturages_collaborateur",
+    @ManyToMany(mappedBy = "passagers" )
+   /* @JoinTable(name = "covoiturages_collaborateur",
             joinColumns = @JoinColumn(name = "collaborateur_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))*/
+
     private Set<Covoiturage> covoituragesPassagers = new HashSet<>();
 
     @OneToMany(mappedBy = "proprietaire")
@@ -52,6 +53,8 @@ public class Utilisateur extends AbstractBaseEntity {
         //this.setId((Integer) body.get("id")) ;
         this.nom = (String) body.get("username");
         this.motDePasse = (String) body.get("password");
+        this.email = (String) body.get("email");
+        //this.setId(Integer.valueOf(body.getSubject()));
         this.roles =(ArrayList<String>) body.get("roles");
     }
 

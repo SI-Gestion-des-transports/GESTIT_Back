@@ -30,8 +30,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResponseEntity login(Utilisateur utilisateur) {
+        System.out.println(utilisateur.getEmail());
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(utilisateur.getNom(), utilisateur.getMotDePasse());
+                new UsernamePasswordAuthenticationToken(utilisateur.getEmail(), utilisateur.getMotDePasse());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         if (Objects.isNull(authentication))
             return ResponseEntity.status(401).body("Username or password error !");
@@ -39,7 +40,7 @@ public class LoginServiceImpl implements LoginService {
             LoginUser loginUser = (LoginUser) authentication.getPrincipal();
             utilisateur = loginUser.getUtilisateur();
             String JWTtoken = jwtUtils.buildJWT(utilisateur);
-            redisUtils.createRedisCache(utilisateur.getNom(), JWTtoken);
+            redisUtils.createRedisCache(utilisateur.getEmail(), JWTtoken);
             Map<String,String> map = new HashMap<>();
             map.put(jwtConfig.getName(),JWTtoken);
             map.put("userId", String.valueOf(loginUser.getUtilisateur().getId()));

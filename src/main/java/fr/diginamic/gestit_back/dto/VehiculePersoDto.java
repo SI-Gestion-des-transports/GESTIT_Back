@@ -1,6 +1,7 @@
 package fr.diginamic.gestit_back.dto;
 
 import fr.diginamic.gestit_back.entites.VehiculePerso;
+import fr.diginamic.gestit_back.enumerations.Statut;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class VehiculePersoDto {
     private String immatriculation;
     @NotNull
     private Integer userId;
+
     public VehiculePersoDto(VehiculePerso vehiculePerso){
         this.id= vehiculePerso.getId();
         this.modele= vehiculePerso.getModele().getNom();
