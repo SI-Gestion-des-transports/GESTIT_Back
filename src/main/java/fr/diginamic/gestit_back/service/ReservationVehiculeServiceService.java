@@ -4,6 +4,7 @@ import fr.diginamic.gestit_back.dto.MessageDto;
 import fr.diginamic.gestit_back.dto.ReservationVehiculeServiceDto;
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.entites.Utilisateur;
+import fr.diginamic.gestit_back.entites.VehiculeService;
 import fr.diginamic.gestit_back.repository.ReservationVehiculeServiceRepository;
 import fr.diginamic.gestit_back.utils.JWTUtils;
 import fr.diginamic.gestit_back.utils.NotFoundOrValidException;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,26 +37,33 @@ public class ReservationVehiculeServiceService {
 
     @Transactional
     public void creerReservationVehiculeService(Integer utilisateurConnecteId, ReservationVehiculeServiceDto res){
-        reservationVehiculeServiceRepository.save(new ReservationVehiculeService(
-                this.utilisateurService.trouverParId(utilisateurConnecteId),
-                this.vehiculeServiceService.trouverParId(res.vehiculeServiceId()),
-                res.dateHeureDepart(),
-                res.dateHeureRetour()
-                )
-        );
+
+        Optional<Utilisateur> connectedUser = utilisateurService.rechercheParId(utilisateurConnecteId);
+
+        if (overlappingReservations(res).isPresent() || connectedUser.isEmpty()) {
+            throw new NotFoundOrValidException(new MessageDto("La réservation est impossible !"));
+        } else {
+            reservationVehiculeServiceRepository.save(new ReservationVehiculeService(
+                    connectedUser.orElseThrow(),
+                    this.vehiculeServiceService.trouverParId(res.vehiculeServiceId()),
+                    res.dateHeureDepart(),
+                    res.dateHeureRetour()
+                    )
+            );
+        }
     }
 
     @Transactional
     public void modifierReservationVehiculeService(Integer utilisateurConnecteId, ReservationVehiculeServiceDto newRes, Integer oldResId){
         ReservationVehiculeService reservationVSaModifier = reservationVehiculeServiceRepository.findById(oldResId).orElseThrow();
-        if (newRes.userId().equals(utilisateurConnecteId)){
+        if (newRes.userId().equals(utilisateurConnecteId) && overlappingReservations(newRes).isEmpty()){
         reservationVSaModifier.setCollaborateur(this.utilisateurService.trouverParId(utilisateurConnecteId));
         reservationVSaModifier.setVehiculeService(this.vehiculeServiceService.trouverParId(newRes.vehiculeServiceId()));
         reservationVSaModifier.setDateHeureDepart(newRes.dateHeureDepart());
         reservationVSaModifier.setDateHeureRetour(newRes.dateHeureRetour());
         reservationVehiculeServiceRepository.save(reservationVSaModifier);
         } else {
-            throw new NotFoundOrValidException(new MessageDto("Les utilisateurs ne correspondent pas"));
+            throw new NotFoundOrValidException(new MessageDto("La modification n'est pas possible !"));
         }
     }
 
@@ -80,9 +89,17 @@ public class ReservationVehiculeServiceService {
         System.out.println("Lister réservation Ok");
         //reservationVehiculeServiceRepository.deleteAllByVehiculeServiceId(vehiculeServiceId);
         System.out.println("Supprimer réservations à faire");
-        //reservationVehiculeServiceRepository.deleteReservationVehiculeServiceByIdAndAndDateHeureDepartIsAfterAndDateHeureRetourIsBefore(vehiculeServiceId, date, date);
-        reservationVehiculeServiceRepository.deleteAllByVehiculeServiceId(vehiculeServiceId);
+        reservationVehiculeServiceRepository.deleteReservationVehiculeServiceByIdAndAndDateHeureDepartIsAfterAndDateHeureRetourIsBefore(vehiculeServiceId, date, date);
+        //reservationVehiculeServiceRepository.deleteAllByVehiculeServiceId(vehiculeServiceId);
         System.out.println("Supprimer réservations Ok");
+    }
+
+    public Optional<List<ReservationVehiculeService>> overlappingReservations(ReservationVehiculeServiceDto res){
+        return reservationVehiculeServiceRepository.findOverlappingReservations(
+                res.vehiculeServiceId(),
+                res.dateHeureDepart(),
+                res.dateHeureRetour()
+        );
     }
 
 }

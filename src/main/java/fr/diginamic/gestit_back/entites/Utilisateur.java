@@ -36,7 +36,7 @@ public class Utilisateur extends AbstractBaseEntity {
     @OneToMany(mappedBy = "collaborateur")
     private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "covoiturages_collaborateur",
             joinColumns = @JoinColumn(name = "collaborateur_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))

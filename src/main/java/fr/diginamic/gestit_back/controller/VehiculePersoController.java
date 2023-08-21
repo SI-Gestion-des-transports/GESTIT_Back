@@ -29,6 +29,8 @@ public class VehiculePersoController {
             @RequestParam Integer id,
             @RequestParam Integer userId
     ){
+        // Suppression des covoiturages
+
         vehiculePersoService.deleteVehiculePerso(id);
         return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUser(userId));
     }

@@ -5,6 +5,7 @@ import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.repository.CovoiturageRepository;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
+import fr.diginamic.gestit_back.utils.NotFoundOrValidException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,10 @@ public class UtilisateurService {
         return this.utilisateurRepository.findById(id).orElseThrow();
     }
 
+    public Optional<Utilisateur> rechercheParId(Integer id){
+        return this.utilisateurRepository.findById(id);
+    }
+
 
 
     public Utilisateur creerUtilisateur (UtilisateurDto utilisateurDto){
@@ -66,6 +71,8 @@ public class UtilisateurService {
             // Récupérer l'utilisateur à désactiver
             Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findById(idUtilisateur);
             // Si utulisateur est présent, prendre la date à partir de laquelle l'utilisateur n'est plus active.
+
+
             if (utilisateurOptional.isPresent()) {
                 Utilisateur utilisateur = utilisateurOptional.get();
                 LocalDate dateNonValide = utilisateur.getDateNonValide();
