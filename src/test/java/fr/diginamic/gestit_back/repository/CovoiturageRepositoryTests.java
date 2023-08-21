@@ -2,6 +2,8 @@ package fr.diginamic.gestit_back.repository;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,11 +15,11 @@ import java.util.Set;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
-
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.*;
 
@@ -79,6 +81,27 @@ public class CovoiturageRepositoryTests {
         Integer notAvailableId = 58777;
         Optional<Covoiturage> read = covoiturageRepository.findById(notAvailableId);
         assertTrue(read.isEmpty());
+    }
+
+    /***
+     * a remplir
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    /*
+     * Insertion d'un covoiturage possédant les attributs suivants:
+     * id = 51, nombre de places restantes = 2, distance = 456 km
+     */
+    @Sql("covoiturages.sql") /* Insère un covoiturage avec une id = 51 et nombre de place restantes à 2 */
+    public void testGetShouldReturnCovoiturage() throws Exception {
+        Integer availableId = 51;
+        Optional<Covoiturage> read = covoiturageRepository.findById(availableId);
+        assertTrue(read.isPresent());
+        assertThat(read.get().getNombrePlacesRestantes()).isEqualTo(2);
+        assertThat(read.get().getDistanceKm()).isEqualTo(456);
+
     }
 
     public static Covoiturage createCovoiturageForTest() {
