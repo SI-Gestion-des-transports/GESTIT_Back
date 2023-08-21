@@ -1,8 +1,6 @@
 package fr.diginamic.gestit_back.entites;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -32,7 +30,11 @@ public class Covoiturage extends AbstractBaseEntity {
     @ManyToOne
     private Adresse adresseArrivee;
 
-    @ManyToMany(mappedBy = "covoituragesPassagers")
+    //@ManyToMany(mappedBy = "covoituragesPassagers")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "covoiturages_collaborateur",
+            joinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "collaborateur_id", referencedColumnName = "id"))
     private Set<Utilisateur> passagers = new HashSet<>();
 
     @ManyToOne

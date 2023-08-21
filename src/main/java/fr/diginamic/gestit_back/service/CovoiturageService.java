@@ -5,13 +5,16 @@ import fr.diginamic.gestit_back.entites.VehiculePerso;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.repository.CovoiturageRepository;
 
+import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +26,7 @@ public class CovoiturageService {
 
     //@Autowired
     private CovoiturageRepository covoiturageRepository;
+    private UtilisateurRepository utilisateurRepository;
 
     public Covoiturage add(Covoiturage covoiturage) {
         return covoiturageRepository.save(covoiturage);
@@ -61,5 +65,18 @@ public class CovoiturageService {
 
     public List<Covoiturage> findCovoituragesByVehiculePerSupprimer(VehiculePerso vehiculePerso) {
         return covoiturageRepository.findCovoituragesByVehiculePersoAndDateDepartIsAfter(vehiculePerso, LocalDateTime.now());
+    }
+
+    public ResponseEntity testCreatePassageur(Integer userId, Integer conId) {
+        Optional<Covoiturage> covoiturage = covoiturageRepository.findById(conId);
+        System.out.println("****************"+covoiturage.get().getPassagers());
+        //utilisateurRepository.findUtilisateursByCovoituragesPassagers(covoiturage.get());
+
+        covoiturage.ifPresent(c -> {
+            c.getPassagers().add(utilisateurRepository.findById(userId).get());
+
+            covoiturageRepository.save(c);
+        });
+        return ResponseEntity.status(200).body(covoiturage.get());
     }
 }

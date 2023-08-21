@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Repository
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
+    Set<Utilisateur> findUtilisateursByCovoituragesPassagers(Covoiturage covoiturage);
     Optional<Utilisateur> findByNom(String nom);
     Optional<Utilisateur> findByEmail(String email);
     void deleteById(Integer id);

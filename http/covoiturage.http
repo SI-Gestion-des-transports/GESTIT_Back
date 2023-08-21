@@ -5,6 +5,19 @@ JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInBhc3N3b3JkIjoi
 
 {
   "nombrePlacesRestantes": 4,
-  "dateDepart": "2023-09-02T17:05:00",
+  "dateDepart": "2023-09-02T17:05:00"
+
+}
+
+###
+
+POST http://localhost:8080/covoiturages/testCreatePassageur
+Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInBhc3N3b3JkIjoie2JjcnlwdH0kMmEkMTAkWG44c2tOYjZVa3BsSFRHWWp3bXB3ZXpJTE1pMXdQR0k0NmJxZjdyd1JPd0d6YnAxNnQwZEciLCJyb2xlcyI6WyJDT0xMQUJPUkFURVVSIiwiQURNSU5JU1RSQVRFVVIiXSwiZW1haWwiOiJkaWppYWxlaUNvbGxBZG1pbkBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IkNvbGxBZG1pbiIsImV4cCI6MTY5MzE1MDA5OX0.juWSTv77L_SUTB_DKJlAQWyUSGFqNdv07_5EAkz1gvQ
+
+
+{
+  "userId": 2,
+  "conId": 1
 
 }

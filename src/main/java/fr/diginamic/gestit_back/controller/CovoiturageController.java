@@ -1,9 +1,11 @@
 package fr.diginamic.gestit_back.controller;
 
 import fr.diginamic.gestit_back.dto.CovoiturageDto;
+import fr.diginamic.gestit_back.dto.TestDto;
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
 
 import lombok.Data;
@@ -107,5 +109,9 @@ public class CovoiturageController {
         return listCovoiturages.stream().map(
                 entity -> entity2Dto(entity))
                 .collect(Collectors.toList());
+    }
+    @PostMapping("/testCreatePassageur")
+    public ResponseEntity testCreatePassageur(@RequestBody TestDto testDto){
+        return covoiturageService.testCreatePassageur(testDto.userId,testDto.conId);
     }
 }
