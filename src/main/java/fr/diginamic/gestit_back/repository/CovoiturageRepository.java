@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CovoiturageRepository extends JpaRepository<Covoiturage, Integer> {
    Set<Covoiturage> findCovoituragesByOrganisateur(Utilisateur utilisateur);
+
 }
