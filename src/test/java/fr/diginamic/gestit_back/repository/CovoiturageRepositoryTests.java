@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Assertions.*;
@@ -94,14 +95,29 @@ public class CovoiturageRepositoryTests {
      * Insertion d'un covoiturage possédant les attributs suivants:
      * id = 51, nombre de places restantes = 2, distance = 456 km
      */
-    @Sql("covoiturages.sql") /* Insère un covoiturage avec une id = 51 et nombre de place restantes à 2 */
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @Sql("covoiturages.sql")
     public void testGetShouldReturnCovoiturage() throws Exception {
         Integer availableId = 51;
         Optional<Covoiturage> read = covoiturageRepository.findById(availableId);
         assertTrue(read.isPresent());
         assertThat(read.get().getNombrePlacesRestantes()).isEqualTo(2);
         assertThat(read.get().getDistanceKm()).isEqualTo(456);
+    }
 
+    /***
+     * à remplir
+     * 
+     * @author AtsuhikoMochizuki
+     * @throws Exception
+     */
+    @Test
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @Sql("covoiturages.sql")
+    public void testListShouldReturnList() throws Exception {
+        List<Covoiturage> returnedList = covoiturageRepository.findAll();
+        assertThat(returnedList).isNotEmpty();
+        assertThat(returnedList.size()).isEqualTo(2);
     }
 
     public static Covoiturage createCovoiturageForTest() {
