@@ -76,7 +76,7 @@ POST localhost:8080/login
 Content-Type: application/json
 
 {
-  "nom": "CollAdmin",
+  "email": "dijialeiCollAdmin@gmail.com",
 
   "motDePasse": "CollAdmin"
 
