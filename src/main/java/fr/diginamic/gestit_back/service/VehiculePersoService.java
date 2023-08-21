@@ -48,4 +48,8 @@ public class VehiculePersoService {
     public void modifyVehiculePerso(VehiculePersoDto dto){
         createVehiculePerso(dto);
     }
+
+    public VehiculePerso findVehiculePersoById(Integer id){
+        return vehiculePersoRepository.findById(id).get();
+    }
 }

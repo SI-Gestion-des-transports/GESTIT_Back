@@ -2,6 +2,9 @@ package fr.diginamic.gestit_back.controller;
 
 import fr.diginamic.gestit_back.dto.VehiculePersoDto;
 import fr.diginamic.gestit_back.entites.Commune;
+import fr.diginamic.gestit_back.entites.Covoiturage;
+import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
+import fr.diginamic.gestit_back.service.CovoiturageService;
 import fr.diginamic.gestit_back.service.VehiculePersoService;
 import fr.diginamic.gestit_back.utils.JWTUtils;
 import lombok.AllArgsConstructor;
@@ -11,6 +14,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -20,6 +24,7 @@ import java.util.List;
 public class VehiculePersoController {
     private VehiculePersoService vehiculePersoService;
     private JWTUtils jwtUtils;
+    private CovoiturageService covoiturageService;
 
 
     @PostMapping("/create")
@@ -32,8 +37,14 @@ public class VehiculePersoController {
     public ResponseEntity<List<VehiculePersoDto>> deleteVehiculePerso(
             @RequestParam Integer id,
             @RequestHeader HttpHeaders httpHeaders
-    ){
+    ) throws CovoiturageNotFoundException {
         Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        List<Covoiturage> covoiturages = covoiturageService.findCovoituragesByVehiculePerSupprimer(vehiculePersoService.findVehiculePersoById(id));
+        for (Covoiturage c:covoiturages
+             ) {
+            //c.setPassagers(new HashSet<>());
+            covoiturageService.delete(c.getId());
+        }
         vehiculePersoService.deleteVehiculePerso(id);
         return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
