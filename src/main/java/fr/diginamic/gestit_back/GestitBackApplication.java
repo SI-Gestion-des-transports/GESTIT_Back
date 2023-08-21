@@ -8,10 +8,13 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class GestitBackApplication {
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+	/*
+	 * @Bean
+	 * public ModelMapper modelMapper() {
+	 * return new ModelMapper();
+	 * }
+	 */
+
 	public static void main(String[] args) {
 		SpringApplication.run(GestitBackApplication.class, args);
 	}
