@@ -1,11 +1,9 @@
 package fr.diginamic.gestit_back.controller;
 
 import fr.diginamic.gestit_back.configuration.JWTConfig;
-import fr.diginamic.gestit_back.dto.MessageDto;
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.service.ReservationVehiculeServiceService;
 import fr.diginamic.gestit_back.utils.JWTUtils;
-import fr.diginamic.gestit_back.utils.NotFoundOrValidException;
 import fr.diginamic.gestit_back.utils.RedisUtils;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Test;
@@ -14,12 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.mockito.Mockito.when;
@@ -66,7 +62,7 @@ public class ReservationVehiculeServiceControllerTest {
                 .andExpect(status().isOk());
     }
 
-<<<<<<< HEAD
+
 /*
     @Test
     public void test_ListerReservations_MissingJwtToken() throws Exception {
@@ -96,7 +92,7 @@ public class ReservationVehiculeServiceControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
     }*/
-=======
+
     /*
      * @Test
      * public void test_ListerReservations_MissingJwtToken() throws Exception {
@@ -133,6 +129,5 @@ public class ReservationVehiculeServiceControllerTest {
      * .andExpect(status().isUnauthorized());
      * }
      */
->>>>>>> f3ba9eaa55505c4ffdc79973f5949ae5e78e5a93
 
 }

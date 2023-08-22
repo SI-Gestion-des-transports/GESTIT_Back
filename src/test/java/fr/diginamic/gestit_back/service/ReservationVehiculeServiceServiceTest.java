@@ -5,14 +5,12 @@ import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculeService;
 import fr.diginamic.gestit_back.repository.ReservationVehiculeServiceRepository;
-import fr.diginamic.gestit_back.utils.NotFoundOrValidException;
+import fr.diginamic.gestit_back.exceptions.NotFoundOrValidException;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

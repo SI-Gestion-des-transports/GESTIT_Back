@@ -19,9 +19,9 @@ public class ReservationVehiculeService extends AbstractBaseEntity {
 
     @ManyToOne
     private VehiculeService vehiculeService;
-
-    private LocalDateTime dateHeureRetour;
     private LocalDateTime dateHeureDepart;
+    private LocalDateTime dateHeureRetour;
+
 
     public ReservationVehiculeService() {
 

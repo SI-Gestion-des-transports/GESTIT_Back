@@ -1,7 +1,9 @@
 package fr.diginamic.gestit_back.controller;
 
+import fr.diginamic.gestit_back.dto.MessageDto;
 import fr.diginamic.gestit_back.dto.ReservationVehiculeServiceDto;
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
+import fr.diginamic.gestit_back.exceptions.NotFoundOrValidException;
 import fr.diginamic.gestit_back.service.ReservationVehiculeServiceService;
 import fr.diginamic.gestit_back.utils.JWTUtils;
 import jakarta.validation.Valid;
@@ -32,11 +34,24 @@ public class ReservationVehiculeServiceController {
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }
 
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<ReservationVehiculeService>> listeReservationVSEnCours(@RequestHeader HttpHeaders httpHeaders){
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVSEnCours(utilisateurConnecteId));
+    }
+
+    @GetMapping("/past")
+    public ResponseEntity<List<ReservationVehiculeService>> listeReservationVSHistorique(@RequestHeader HttpHeaders httpHeaders){
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVSHistorique(utilisateurConnecteId));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<List<ReservationVehiculeService>>  creerReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto resDto){
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+
         this.reservationVehiculeServiceService.creerReservationVehiculeService(utilisateurConnecteId, resDto);
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }
@@ -47,6 +62,9 @@ public class ReservationVehiculeServiceController {
             @RequestBody @Valid ReservationVehiculeServiceDto newResDto,
             @RequestParam Integer resId){
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        if(!newResDto.userId().equals(utilisateurConnecteId)){
+            throw new NotFoundOrValidException(new MessageDto("Problème d'authentification : les id ne correspondent pas !!"));
+        }
         this.reservationVehiculeServiceService.modifierReservationVehiculeService(utilisateurConnecteId, newResDto, resId);
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }

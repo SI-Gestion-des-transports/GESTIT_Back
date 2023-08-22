@@ -22,6 +22,7 @@ public class VehiculePerso extends AbstractVehicule {
 
     @OneToMany(mappedBy = "vehiculePerso")
     private Set<Covoiturage> covoiturages = new HashSet<>();
+
     @Enumerated(EnumType.STRING)
     private Statut statut;
     public VehiculePerso() {

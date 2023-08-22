@@ -5,7 +5,6 @@ import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.repository.CovoiturageRepository;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
-import fr.diginamic.gestit_back.utils.NotFoundOrValidException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
