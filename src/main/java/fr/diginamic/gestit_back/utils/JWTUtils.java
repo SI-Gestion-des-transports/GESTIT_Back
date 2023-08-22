@@ -23,7 +23,8 @@ public class JWTUtils {
         map.put("password",utilisateur.getMotDePasse());
         map.put("email",utilisateur.getEmail());
         //map.put("id",utilisateur.getId());
-        //map.put("roles",roles);
+        map.put("roles",roles);
+        System.out.println(roles);
         String jetonJWT = Jwts.builder()
                 .setHeaderParam("typ","JWT")
                 .setHeaderParam("alg","HS265")

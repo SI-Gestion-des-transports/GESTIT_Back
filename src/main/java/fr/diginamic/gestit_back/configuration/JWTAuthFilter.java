@@ -41,9 +41,8 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             try {
                 body = jwtUtils.parseJWT(token);
             } catch (ExpiredJwtException e) {
-                System.out.println(e.getClaims().get("email"));
-                System.out.println(token);
-                //redisUtils.deleteRedisCache((String) e.getClaims().get("email"), token);
+
+                redisUtils.deleteRedisCache((String) e.getClaims().get("email"), token);
                 handlerExceptionResolver.resolveException(request, response, null, e);
                 return;
             } catch (JwtException e) {
@@ -51,16 +50,15 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                 return;
             }
 
-            if (true
-                    //redisUtils.verifyRedisCache((String) body.get("email"), token)
-                    ) {
+            if (redisUtils.verifyRedisCache((String) body.get("email"), token)) {
 
                 Utilisateur utilisateur = new Utilisateur(body);
                 LoginUser loginUser = new LoginUser(utilisateur);
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            }else handlerExceptionResolver.resolveException(request,response,null,new RuntimeException("Token signed out !"));
+            } else
+                handlerExceptionResolver.resolveException(request, response, null, new RuntimeException("Token signed out !"));
         }
 
         filterChain.doFilter(request, response);

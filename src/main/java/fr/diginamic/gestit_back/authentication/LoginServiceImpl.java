@@ -30,12 +30,12 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResponseEntity login(Utilisateur utilisateur) {
-        System.out.println(utilisateur.getEmail());
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(utilisateur.getEmail(), utilisateur.getMotDePasse());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         if (Objects.isNull(authentication))
-            return ResponseEntity.status(401).body("Username or password error !");
+            return ResponseEntity.status(403).body("Username or password error !");
         else {
             LoginUser loginUser = (LoginUser) authentication.getPrincipal();
             utilisateur = loginUser.getUtilisateur();
