@@ -31,7 +31,7 @@ public class UtilisateurService {
      * @throws NoSuchElementException Si aucun utilisateur avec le nom spécifié n'est trouvé.
      * @see Utilisateur
      */
-    public List<Utilisateur> listerUtilisateurParNom (String nom){
+    public List<Utilisateur> listerUtilisateurParNom(String nom) {
         List<Utilisateur> utilisateurs = new ArrayList<>();
           /* Optional<> option 1: .get()
           if (this.utilisateurRepository.findByNom(nom).isPresent()){
@@ -45,11 +45,11 @@ public class UtilisateurService {
         return utilisateurs;
     }
 
-    public Utilisateur trouverParId(Integer id){
+    public Utilisateur trouverParId(Integer id) {
         return this.utilisateurRepository.findById(id).orElseThrow();
     }
 
-    public Optional<Utilisateur> rechercheParId(Integer id){
+    public Optional<Utilisateur> rechercheParId(Integer id) {
         return this.utilisateurRepository.findById(id);
     }
 
@@ -63,8 +63,8 @@ public class UtilisateurService {
      * @see UtilisateurDto
      * @see Utilisateur
      */
-    public Utilisateur creerUtilisateur (UtilisateurDto utilisateurDto){
-        if (utilisateurRepository.findByEmail(utilisateurDto.email()).isPresent()){
+    public Utilisateur creerUtilisateur(UtilisateurDto utilisateurDto) {
+        if (utilisateurRepository.findByEmail(utilisateurDto.email()).isPresent()) {
             throw new RuntimeException("L'email a été utilisé par un autre utilisateur");
         } else {
             return this.utilisateurRepository.save(new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), passwordEncoder.encode(utilisateurDto.motDePasse()), Collections.singletonList("COLLABORATEUR")));
@@ -76,21 +76,21 @@ public class UtilisateurService {
      * Modifie les informations d'un utilisateur existant en utilisant les données fournies dans un objet UtilisateurDto.
      *
      * @param nouveauUtilisateur L'objet UtilisateurDto contenant les nouvelles informations de l'utilisateur.
-     * @param idUtilisateur L'identifiant de l'utilisateur à modifier.
+     * @param idUtilisateur      L'identifiant de l'utilisateur à modifier.
      * @return L'objet Utilisateur modifié et enregistré dans la base de données.
      * @throws NoSuchElementException Si aucun utilisateur avec l'identifiant spécifié n'est trouvé.
      * @see UtilisateurDto
      * @see Utilisateur
      */
     @Transactional
-    public Utilisateur modifierUtilisateur (UtilisateurDto nouveauUtilisateur, Integer idUtilisateur) {
+    public Utilisateur modifierUtilisateur(UtilisateurDto nouveauUtilisateur, Integer idUtilisateur) {
         Utilisateur utilisateurModif = utilisateurRepository.findById(idUtilisateur).orElseThrow();
 
-            utilisateurModif.setEmail(nouveauUtilisateur.email());
-            utilisateurModif.setNom(nouveauUtilisateur.nom());
-            utilisateurModif.setMotDePasse(nouveauUtilisateur.motDePasse());
-            //utilisateurModif.setDateNonValide(nouveauUtilisateur.dateNonValide());
-            return this.utilisateurRepository.save(utilisateurModif);
+        utilisateurModif.setEmail(nouveauUtilisateur.email());
+        utilisateurModif.setNom(nouveauUtilisateur.nom());
+        utilisateurModif.setMotDePasse(nouveauUtilisateur.motDePasse());
+        //utilisateurModif.setDateNonValide(nouveauUtilisateur.dateNonValide());
+        return this.utilisateurRepository.save(utilisateurModif);
 
     }
 
@@ -99,40 +99,40 @@ public class UtilisateurService {
      * Désactive un utilisateur en mettant à jour sa date de désactivation et en supprimant les covoiturages organisés
      * par cet utilisateur dont la date de départ est après la date de désactivation.
      *
-     * @param idUtilisateur   L'identifiant de l'utilisateur à désactiver.
+     * @param idUtilisateur     L'identifiant de l'utilisateur à désactiver.
      * @param dateDesactivation La date à partir de laquelle l'utilisateur ne sera plus actif.
      * @throws NoSuchElementException Si aucun utilisateur avec l'identifiant spécifié n'est trouvé.
      * @see Utilisateur
      * @see Covoiturage
      */
     public void desactiverUtilisateur(Integer idUtilisateur, LocalDate dateDesactivation) {
-            // Récupérer l'utilisateur à désactiver
-            Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findById(idUtilisateur);
-            // Si utulisateur est présent, prendre la date à partir de laquelle l'utilisateur n'est plus active.
-            if (utilisateurOptional.isPresent()) {
-                Utilisateur utilisateur = utilisateurOptional.get();
-                utilisateur.setDateNonValide(dateDesactivation);
+        // Récupérer l'utilisateur à désactiver
+        Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findById(idUtilisateur);
+        // Si utulisateur est présent, prendre la date à partir de laquelle l'utilisateur n'est plus active.
+        if (utilisateurOptional.isPresent()) {
+            Utilisateur utilisateur = utilisateurOptional.get();
+            utilisateur.setDateNonValide(dateDesactivation);
 
-                // Si la dateNonValide (la date à partir de laquelle l'utilisateur n'est plus active) est présente, cherche les covoiturages organisés par cet utilisateur
-                //if (dateNonValide != null){
+            // Si la dateNonValide (la date à partir de laquelle l'utilisateur n'est plus active) est présente, cherche les covoiturages organisés par cet utilisateur
+            //if (dateNonValide != null){
                     /*
                     @OneToMany(mappedBy = "organisateur")
                         private Set<Covoiturage> covoituragesOrganises = new HashSet<>();
                          => l'entity Utilisateur n'a pas accès sur les données de covoiturages, la fonction : "utilisateur.getCovoituragesOrganises()" ne marche pas; il faut passer par la classe Covoiturage (covoiturageRepository.findCovoituragesByOrganisateur(utilisateur) )
                         */
 
-                List<Covoiturage> covoiturageOrganise = covoiturageRepository.findCovoituragesByOrganisateur(utilisateur);
-                    // Si la date de covoiturage est après la dateNonValide, supprime le covoiturage
-                // Récupérer les covoiturages organisés par cet utilisateur
-                // Supprimer les covoiturages dont la date de départ est après la date de désactivation
-                for(Covoiturage c:covoiturageOrganise) {
-                    if (c.getDateDepart().isAfter(dateDesactivation)) {
-                            covoiturageRepository.delete(c);
-                    }
+            List<Covoiturage> covoiturageOrganise = covoiturageRepository.findCovoituragesByOrganisateur(utilisateur);
+            // Si la date de covoiturage est après la dateNonValide, supprime le covoiturage
+            // Récupérer les covoiturages organisés par cet utilisateur
+            // Supprimer les covoiturages dont la date de départ est après la date de désactivation
+            for (Covoiturage c : covoiturageOrganise) {
+                if (c.getDateDepart().isAfter(dateDesactivation)) {
+                    covoiturageRepository.delete(c);
                 }
-                utilisateurRepository.save(utilisateur);
-            } else {
-                throw new NoSuchElementException("Utilisateur non trouvé");
             }
+            utilisateurRepository.save(utilisateur);
+        } else {
+            throw new NoSuchElementException("Utilisateur non trouvé");
+        }
     }
 }

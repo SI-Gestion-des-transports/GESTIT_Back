@@ -16,7 +16,7 @@ public class ModeleService {
     private ModeleRepository modeleRepository;
     private MarqueRepository marqueRepository;
 
-    public void creerModele(String nom, Marque marque){
+    public void creerModele(String nom, Marque marque) {
         Modele modele = new Modele(nom, marqueRepository.findMarqueByNom(marque.getNom()));
         modeleRepository.save(modele);
     }

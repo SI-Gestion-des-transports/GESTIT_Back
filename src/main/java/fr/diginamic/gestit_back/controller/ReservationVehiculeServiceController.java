@@ -36,7 +36,7 @@ public class ReservationVehiculeServiceController {
      * @return La liste des réservations.
      */
     @GetMapping
-    public ResponseEntity<List<ReservationVehiculeService>> listerReservations(@RequestHeader HttpHeaders httpHeaders){
+    public ResponseEntity<List<ReservationVehiculeService>> listerReservations(@RequestHeader HttpHeaders httpHeaders) {
 
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
@@ -49,7 +49,7 @@ public class ReservationVehiculeServiceController {
      * @return La liste des réservations à venir.
      */
     @GetMapping("/upcoming")
-    public ResponseEntity<List<ReservationVehiculeService>> listeReservationVSEnCours(@RequestHeader HttpHeaders httpHeaders){
+    public ResponseEntity<List<ReservationVehiculeService>> listeReservationVSEnCours(@RequestHeader HttpHeaders httpHeaders) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVSEnCours(utilisateurConnecteId));
     }
@@ -61,7 +61,7 @@ public class ReservationVehiculeServiceController {
      * @return La liste des réservations passées.
      */
     @GetMapping("/past")
-    public ResponseEntity<List<ReservationVehiculeService>> listeReservationVSHistorique(@RequestHeader HttpHeaders httpHeaders){
+    public ResponseEntity<List<ReservationVehiculeService>> listeReservationVSHistorique(@RequestHeader HttpHeaders httpHeaders) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVSHistorique(utilisateurConnecteId));
     }
@@ -70,13 +70,13 @@ public class ReservationVehiculeServiceController {
      * Crée une nouvelle réservation de véhicule pour l'utilisateur connecté.
      *
      * @param httpHeaders Les entêtes HTTP, contenant le JWT pour l'authentification.
-     * @param resDto DTO représentant la nouvelle réservation.
+     * @param resDto      DTO représentant la nouvelle réservation.
      * @return La liste mise à jour des réservations.
      */
     @PostMapping("/create")
-    public ResponseEntity<List<ReservationVehiculeService>>  creerReservationVehiculeService(
+    public ResponseEntity<List<ReservationVehiculeService>> creerReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
-            @RequestBody @Valid ReservationVehiculeServiceDto resDto){
+            @RequestBody @Valid ReservationVehiculeServiceDto resDto) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         this.reservationVehiculeServiceService.creerReservationVehiculeService(utilisateurConnecteId, resDto);
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
@@ -86,17 +86,17 @@ public class ReservationVehiculeServiceController {
      * Modifie une réservation de véhicule existante.
      *
      * @param httpHeaders Les entêtes HTTP, contenant le JWT pour l'authentification.
-     * @param newResDto DTO représentant la réservation modifiée.
-     * @param resId ID de la réservation à modifier.
+     * @param newResDto   DTO représentant la réservation modifiée.
+     * @param resId       ID de la réservation à modifier.
      * @return La liste mise à jour des réservations.
      */
     @PostMapping("/modify")
     public ResponseEntity<List<ReservationVehiculeService>> modifierReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto newResDto,
-            @RequestParam Integer resId){
+            @RequestParam Integer resId) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
-        if(!newResDto.userId().equals(utilisateurConnecteId)){
+        if (!newResDto.userId().equals(utilisateurConnecteId)) {
             throw new NotFoundOrValidException(new MessageDto("Problème d'authentification : les id ne correspondent pas !!"));
         }
         this.reservationVehiculeServiceService.modifierReservationVehiculeService(utilisateurConnecteId, newResDto, resId);
@@ -107,14 +107,14 @@ public class ReservationVehiculeServiceController {
      * Supprime une réservation de véhicule existante.
      *
      * @param httpHeaders Les entêtes HTTP, contenant le JWT pour l'authentification.
-     * @param resId ID de la réservation à supprimer.
+     * @param resId       ID de la réservation à supprimer.
      * @return La liste mise à jour des réservations.
      */
     @PostMapping("/delete")
     public ResponseEntity<List<ReservationVehiculeService>> supprimerReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             //@RequestBody @Valid ReservationVehiculeServiceDto resDto,
-            @RequestParam Integer resId){
+            @RequestParam Integer resId) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         this.reservationVehiculeServiceService.supprimerReservationVehiculeService(utilisateurConnecteId, resId);
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
@@ -124,7 +124,7 @@ public class ReservationVehiculeServiceController {
      * Constructeur pour le contrôleur de gestion des réservations.
      *
      * @param reservationVehiculeServiceService Le service lié à la gestion des réservations.
-     * @param jwtUtils Utilitaire pour gérer les JWT.
+     * @param jwtUtils                          Utilitaire pour gérer les JWT.
      */
     @Autowired
     public ReservationVehiculeServiceController(

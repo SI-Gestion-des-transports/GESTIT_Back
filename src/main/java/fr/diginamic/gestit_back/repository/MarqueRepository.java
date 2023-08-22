@@ -7,9 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MarqueRepository extends JpaRepository<Marque, Integer> {
-    public Marque findMarqueByNom(String nom);
+     Marque findMarqueByNom(String nom);
 
-
-    public void deleteByNom(String nom);
+     void deleteByNom(String nom);
 
 }

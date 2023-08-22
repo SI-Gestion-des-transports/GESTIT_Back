@@ -30,11 +30,11 @@ public class WebSecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTAuthFilter jwtAuthFilter) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTAuthFilter jwtAuthFilter) throws Exception {
         http.authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(HttpMethod.POST,"/utilisateur/create").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/login").anonymous()
+                                .requestMatchers(HttpMethod.POST, "/utilisateur/create").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/login").anonymous()
                                 //.anyRequest().authenticated()
                                 .anyRequest().permitAll()
                 )
@@ -42,26 +42,28 @@ public class WebSecurityConfiguration {
                         //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         //.csrfTokenRequestHandler(new XorCsrfTokenRequestAttributeHandler()::handle)
                 )
-                .sessionManagement(sm->sm
+                .sessionManagement(sm -> sm
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //.headers(headers -> headers
-                       // .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                // .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                ;
+        ;
 
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         String encodingId = "bcrypt";
         return new DelegatingPasswordEncoder(encodingId, Map.of(encodingId, new BCryptPasswordEncoder()));
     }
+
     @Scope("prototype")
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
         return new MvcRequestMatcher.Builder(introspector);
     }
+
     @Bean
     public AuthenticationManager getAuthenticationManager() throws Exception {
         return configuration.getAuthenticationManager();

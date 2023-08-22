@@ -6,10 +6,12 @@ import fr.diginamic.gestit_back.service.AdresseService;
 import fr.diginamic.gestit_back.service.CommuneService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Data
+@Secured("COLLABORATEUR")
 @AllArgsConstructor
 @RequestMapping("adresse")
 public class AdresseController {
@@ -18,12 +20,12 @@ public class AdresseController {
     private CommuneService communeService;
 
     @PostMapping
-    public void creerAdresse(@RequestBody AdresseDto adresseDto){
+    public void creerAdresse(@RequestBody AdresseDto adresseDto) {
         this.adresseService.nouvelleAdresse(adresseDto);
     }
 
     @GetMapping("/find")
-    public Commune find(){
+    public Commune find() {
         return this.communeService.verifierExistenceCommune("Montpellier", 34000);
     }
 }

@@ -25,7 +25,7 @@ public class LoginUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.authorities == null)
-            authorities =utilisateur.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+            authorities = utilisateur.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         System.out.println(authorities);
         return authorities;
     }

@@ -16,21 +16,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GestionException {
 
     @ExceptionHandler({ExpiredJwtException.class})
-    public ResponseEntity getExpiredJwtException(ExpiredJwtException e){
-        return ResponseEntity.status(403).body("Erreur ExpiredJwtException:"+e.getMessage() );
+    public ResponseEntity getExpiredJwtException(ExpiredJwtException e) {
+        return ResponseEntity.status(403).body("Erreur ExpiredJwtException:" + e.getMessage());
     }
+
     @ExceptionHandler({JwtException.class})
-    public ResponseEntity getJwtException(JwtException e){
-        return ResponseEntity.status(403).body("Erreur JwtException:"+ e.getMessage() );
+    public ResponseEntity getJwtException(JwtException e) {
+        return ResponseEntity.status(403).body("Erreur JwtException:" + e.getMessage());
     }
+
     @ExceptionHandler({AccessDeniedException.class})
-    public ResponseEntity getAccessDeniedException(AccessDeniedException e){
+    public ResponseEntity getAccessDeniedException(AccessDeniedException e) {
 
         System.out.println("Erreur :" + e.getMessage());
         return ResponseEntity.status(401).body("Erreur :" + e.getMessage());
     }
+
     @ExceptionHandler({AuthenticationException.class})
-    public ResponseEntity getAuthenticationException(AuthenticationException e){
+    public ResponseEntity getAuthenticationException(AuthenticationException e) {
         System.out.println("Erreur :" + e.getMessage());
         return ResponseEntity.status(403).body("Erreur :" + "usename or password wrong");
     }
@@ -39,13 +42,14 @@ public class GestionException {
     public ResponseEntity<?> getMethodArgumentNotValidException(MethodArgumentNotValidException notValidArgException) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(notValidArgException.getDetailMessageArguments());
     }
+
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> getRuntimeException(RuntimeException e){
-        return ResponseEntity.status(403).body("Error : "+e.getMessage());
+    public ResponseEntity<String> getRuntimeException(RuntimeException e) {
+        return ResponseEntity.status(403).body("Error : " + e.getMessage());
     }
 
     @ExceptionHandler(NotFoundOrValidException.class)
-    public ResponseEntity getNotFoundOrValidException(NotFoundOrValidException exception){
+    public ResponseEntity getNotFoundOrValidException(NotFoundOrValidException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessageDto());
     }
 

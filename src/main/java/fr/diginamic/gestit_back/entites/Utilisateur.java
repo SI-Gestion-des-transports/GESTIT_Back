@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class Utilisateur extends AbstractBaseEntity {
     @OneToMany(mappedBy = "collaborateur")
     private List<ReservationVehiculeService> reservationVehiculeServices = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "passagers" )
+    @ManyToMany(mappedBy = "passagers")
 /*   @JoinTable(name = "covoiturages_collaborateur",
             joinColumns = @JoinColumn(name = "collaborateur_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))*/
@@ -50,7 +51,7 @@ public class Utilisateur extends AbstractBaseEntity {
         this.motDePasse = (String) body.get("password");
         this.email = (String) body.get("email");
         //this.setId(Integer.valueOf(body.getSubject()));
-        this.roles =(ArrayList<String>) body.get("roles");
+        this.roles = (ArrayList<String>) body.get("roles");
     }
 
     public Utilisateur(String nom, String email, String motDePasse, List<String> roles) {

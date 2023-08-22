@@ -1,21 +1,21 @@
-POST localhost:8080/utilisateur/create
-Content-Type: application/json
-
-{
-  "nom": "Admin",
-  "email": "dijialeiAdmin@gmail.com",
-  "motDePasse": "Admin"
-}
-
-
-###
+### LOGIN COLLABORATEUR
 
 POST localhost:8080/login
 Content-Type: application/json
 
 {
-  "email": "dijialeiAdmin@gmail.com",
-  "motDePasse": "Admin"
+  "email": "collaborateur1@gestit.fr",
+  "motDePasse": "passCollab1"
+}
+
+### LOGIN ADMINISTRATEUR
+
+POST localhost:8080/login
+Content-Type: application/json
+
+{
+  "email": "administrateur1@gestit.fr",
+  "motDePasse": "passAdmin1"
 }
 
 

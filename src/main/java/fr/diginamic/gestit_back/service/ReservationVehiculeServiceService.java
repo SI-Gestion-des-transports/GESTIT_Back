@@ -4,8 +4,8 @@ import fr.diginamic.gestit_back.dto.MessageDto;
 import fr.diginamic.gestit_back.dto.ReservationVehiculeServiceDto;
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.entites.Utilisateur;
-import fr.diginamic.gestit_back.repository.ReservationVehiculeServiceRepository;
 import fr.diginamic.gestit_back.exceptions.NotFoundOrValidException;
+import fr.diginamic.gestit_back.repository.ReservationVehiculeServiceRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class ReservationVehiculeServiceService {
      * @return La liste des réservations de véhicule.
      */
     @Transactional
-    public List<ReservationVehiculeService> listeReservationVehiculeService(Integer utilisateurConnecteId){
+    public List<ReservationVehiculeService> listeReservationVehiculeService(Integer utilisateurConnecteId) {
         return this.reservationVehiculeServiceRepository.findReservationVehiculeServiceByCollaborateur(
                 this.utilisateurService.trouverParId(utilisateurConnecteId));
     }
@@ -51,7 +52,7 @@ public class ReservationVehiculeServiceService {
      * @return La liste des réservations de véhicule en cours.
      */
     @Transactional
-    public List<ReservationVehiculeService> listeReservationVSEnCours(Integer utilisateurConnecteId){
+    public List<ReservationVehiculeService> listeReservationVSEnCours(Integer utilisateurConnecteId) {
         return this.reservationVehiculeServiceRepository.findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsAfter(
                 this.utilisateurService.trouverParId(utilisateurConnecteId), LocalDateTime.now());
     }
@@ -63,7 +64,7 @@ public class ReservationVehiculeServiceService {
      * @return La liste des réservations de véhicule terminées.
      */
     @Transactional
-    public List<ReservationVehiculeService> listeReservationVSHistorique(Integer utilisateurConnecteId){
+    public List<ReservationVehiculeService> listeReservationVSHistorique(Integer utilisateurConnecteId) {
         return this.reservationVehiculeServiceRepository.findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsBefore(
                 this.utilisateurService.trouverParId(utilisateurConnecteId), LocalDateTime.now());
     }
@@ -72,10 +73,10 @@ public class ReservationVehiculeServiceService {
      * Crée une nouvelle réservation de véhicule.
      *
      * @param utilisateurConnecteId L'ID de l'utilisateur connecté.
-     * @param res DTO de la réservation de véhicule.
+     * @param res                   DTO de la réservation de véhicule.
      */
     @Transactional
-    public void creerReservationVehiculeService(Integer utilisateurConnecteId, ReservationVehiculeServiceDto res){
+    public void creerReservationVehiculeService(Integer utilisateurConnecteId, ReservationVehiculeServiceDto res) {
 
         Optional<Utilisateur> connectedUser = utilisateurService.rechercheParId(utilisateurConnecteId);
 
@@ -83,14 +84,16 @@ public class ReservationVehiculeServiceService {
 
         if (overllapingReservationsList.isPresent() || connectedUser.isEmpty()) {
             throw new NotFoundOrValidException(new MessageDto("Create - La réservation est impossible à ces dates !"));
-        } else if (res.dateHeureDepart().isAfter(res.dateHeureRetour())){
+        } else if (res.dateHeureDepart().isAfter(res.dateHeureRetour())) {
             throw new NotFoundOrValidException(new MessageDto("Create - La date de retour doit être postérieure à la date de départ !"));
+        } else if (!res.userId().equals(utilisateurConnecteId)) {
+            throw new NotFoundOrValidException(new MessageDto("Create - L'utilisateur n'est pas bon !"));
         } else {
             reservationVehiculeServiceRepository.save(new ReservationVehiculeService(
-                    connectedUser.orElseThrow(),
-                    this.vehiculeServiceService.trouverParId(res.vehiculeServiceId()),
-                    res.dateHeureDepart(),
-                    res.dateHeureRetour()
+                            connectedUser.orElseThrow(),
+                            this.vehiculeServiceService.trouverParId(res.vehiculeServiceId()),
+                            res.dateHeureDepart(),
+                            res.dateHeureRetour()
                     )
             );
         }
@@ -100,29 +103,29 @@ public class ReservationVehiculeServiceService {
      * Modifie une réservation de véhicule existante.
      *
      * @param utilisateurConnecteId L'ID de l'utilisateur connecté.
-     * @param newRes Nouveau DTO de la réservation de véhicule.
-     * @param oldResId ID de l'ancienne réservation de véhicule.
+     * @param newRes                Nouveau DTO de la réservation de véhicule.
+     * @param oldResId              ID de l'ancienne réservation de véhicule.
      */
     @Transactional
-    public void modifierReservationVehiculeService(Integer utilisateurConnecteId, ReservationVehiculeServiceDto newRes, Integer oldResId){
+    public void modifierReservationVehiculeService(Integer utilisateurConnecteId, ReservationVehiculeServiceDto newRes, Integer oldResId) {
         ReservationVehiculeService reservationVSaModifier = reservationVehiculeServiceRepository.findById(oldResId).orElseThrow();
 
         Optional<List<ReservationVehiculeService>> optionalOverlappedRVS = overlappingReservations(newRes);
 
         List<ReservationVehiculeService> overlappedRVS = new ArrayList<>();
 
-        if(optionalOverlappedRVS.isPresent()){
+        if (optionalOverlappedRVS.isPresent()) {
             overlappedRVS = optionalOverlappedRVS.get();
-            if(overlappedRVS.contains(reservationVSaModifier)){
+            if (overlappedRVS.contains(reservationVSaModifier)) {
                 overlappedRVS.remove(reservationVSaModifier);
             }
         }
-        if (newRes.userId().equals(utilisateurConnecteId) && overlappedRVS.isEmpty() && newRes.dateHeureDepart().isBefore(newRes.dateHeureRetour())){
-        reservationVSaModifier.setCollaborateur(this.utilisateurService.trouverParId(utilisateurConnecteId));
-        reservationVSaModifier.setVehiculeService(this.vehiculeServiceService.trouverParId(newRes.vehiculeServiceId()));
-        reservationVSaModifier.setDateHeureDepart(newRes.dateHeureDepart());
-        reservationVSaModifier.setDateHeureRetour(newRes.dateHeureRetour());
-        reservationVehiculeServiceRepository.save(reservationVSaModifier);
+        if (newRes.userId().equals(utilisateurConnecteId) && overlappedRVS.isEmpty() && newRes.dateHeureDepart().isBefore(newRes.dateHeureRetour())) {
+            reservationVSaModifier.setCollaborateur(this.utilisateurService.trouverParId(utilisateurConnecteId));
+            reservationVSaModifier.setVehiculeService(this.vehiculeServiceService.trouverParId(newRes.vehiculeServiceId()));
+            reservationVSaModifier.setDateHeureDepart(newRes.dateHeureDepart());
+            reservationVSaModifier.setDateHeureRetour(newRes.dateHeureRetour());
+            reservationVehiculeServiceRepository.save(reservationVSaModifier);
         } else {
             throw new NotFoundOrValidException(new MessageDto("MOD - La modification n'est pas possible !"));
         }
@@ -132,13 +135,13 @@ public class ReservationVehiculeServiceService {
      * Supprime une réservation de véhicule.
      *
      * @param utilisateurConnecteId L'ID de l'utilisateur connecté.
-     * @param resId ID de la réservation de véhicule à supprimer.
+     * @param resId                 ID de la réservation de véhicule à supprimer.
      */
     @Transactional
-    public void supprimerReservationVehiculeService(Integer utilisateurConnecteId, Integer resId){
-        if (this.reservationVehiculeServiceRepository.findById(resId).isPresent() && !this.reservationVehiculeServiceRepository.findById(resId).isEmpty()){
+    public void supprimerReservationVehiculeService(Integer utilisateurConnecteId, Integer resId) {
+        if (this.reservationVehiculeServiceRepository.findById(resId).isPresent() && !this.reservationVehiculeServiceRepository.findById(resId).isEmpty()) {
             ReservationVehiculeService reservationVS = this.reservationVehiculeServiceRepository.findById(resId).get();
-            if(reservationVS.getDateHeureDepart().isBefore(LocalDateTime.now()) && reservationVS.getDateHeureRetour().isAfter(LocalDateTime.now())){
+            if (reservationVS.getDateHeureDepart().isBefore(LocalDateTime.now()) && reservationVS.getDateHeureRetour().isAfter(LocalDateTime.now())) {
                 throw new NotFoundOrValidException(new MessageDto("La suppression n'est plus possible, la réservation est en cours"));
             }
             reservationVehiculeServiceRepository.deleteReservationVehiculeServiceByCollaborateur_IdAndAndId(utilisateurConnecteId, resId);
@@ -150,11 +153,11 @@ public class ReservationVehiculeServiceService {
      * Seuls les administrateurs peuvent exécuter cette méthode.
      *
      * @param vehiculeServiceId L'ID du service de véhicule.
-     * @param date Date à partir de laquelle les réservations doivent être supprimées.
+     * @param date              Date à partir de laquelle les réservations doivent être supprimées.
      */
     @Transactional
     @Secured("ADMINISTRATEUR")
-    public void adminDeleteAllReservationsByVehiculeServiceId(Integer vehiculeServiceId, LocalDateTime date){
+    public void adminDeleteAllReservationsByVehiculeServiceId(Integer vehiculeServiceId, LocalDateTime date) {
 
         List<ReservationVehiculeService> reservationsToDelete = reservationVehiculeServiceRepository.findAllByVehiculeServiceIdAndAndDateHeureDepart(vehiculeServiceId, date);
 
@@ -174,7 +177,7 @@ public class ReservationVehiculeServiceService {
      * @param res DTO de la réservation de véhicule.
      * @return Une option contenant la liste des réservations en chevauchement ou un optionnel vide si aucun chevauchement n'est trouvé.
      */
-    public Optional<List<ReservationVehiculeService>> overlappingReservations(ReservationVehiculeServiceDto res){
+    public Optional<List<ReservationVehiculeService>> overlappingReservations(ReservationVehiculeServiceDto res) {
 
         Optional<List<ReservationVehiculeService>> overllapingReservationsList = reservationVehiculeServiceRepository.findOverlappingReservations(
                 res.vehiculeServiceId(),
@@ -183,7 +186,7 @@ public class ReservationVehiculeServiceService {
         );
 
         // Si la liste est présente et non vide, retour de la liste, sinon retour d'un optionnel vide
-        if (overllapingReservationsList.isPresent() && !overllapingReservationsList.get().isEmpty()){
+        if (overllapingReservationsList.isPresent() && !overllapingReservationsList.get().isEmpty()) {
             return overllapingReservationsList;
         } else {
             return Optional.empty();

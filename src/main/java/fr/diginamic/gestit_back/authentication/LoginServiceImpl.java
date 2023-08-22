@@ -26,8 +26,6 @@ public class LoginServiceImpl implements LoginService {
     private JWTConfig jwtConfig;
 
 
-
-
     @Override
     public ResponseEntity login(Utilisateur utilisateur) {
 
@@ -41,14 +39,13 @@ public class LoginServiceImpl implements LoginService {
             utilisateur = loginUser.getUtilisateur();
             String JWTtoken = jwtUtils.buildJWT(utilisateur);
             redisUtils.createRedisCache(utilisateur.getEmail(), JWTtoken);
-            Map<String,String> map = new HashMap<>();
-            map.put(jwtConfig.getName(),JWTtoken);
+            Map<String, String> map = new HashMap<>();
+            map.put(jwtConfig.getName(), JWTtoken);
             map.put("userId", String.valueOf(loginUser.getUtilisateur().getId()));
             return ResponseEntity.status(200).body(map);
         }
 
     }
-
 
 
     @Override
@@ -57,7 +54,7 @@ public class LoginServiceImpl implements LoginService {
         LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println(loginUser.getUsername());
         System.out.println(token);
-        redisUtils.deleteRedisCache(loginUser.getUsername(),token);
+        redisUtils.deleteRedisCache(loginUser.getUsername(), token);
         return ResponseEntity.status(200).body("Logout successful ! Token deleted!");
     }
 

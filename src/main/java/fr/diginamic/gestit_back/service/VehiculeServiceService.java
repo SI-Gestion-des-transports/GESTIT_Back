@@ -2,7 +2,6 @@ package fr.diginamic.gestit_back.service;
 
 import fr.diginamic.gestit_back.dto.VehiculeServiceDto;
 import fr.diginamic.gestit_back.entites.Modele;
-import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.entites.VehiculeService;
 import fr.diginamic.gestit_back.enumerations.Statut;
 import fr.diginamic.gestit_back.repository.ModeleRepository;
@@ -15,11 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Data

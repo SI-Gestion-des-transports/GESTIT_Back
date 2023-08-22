@@ -5,7 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 public interface LoginService {
-    ResponseEntity getId(HttpHeaders httpHeaders) ;
+    ResponseEntity getId(HttpHeaders httpHeaders);
 
     ResponseEntity login(Utilisateur utilisateur);
 
