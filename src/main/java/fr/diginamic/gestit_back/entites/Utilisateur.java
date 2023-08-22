@@ -1,6 +1,7 @@
 package fr.diginamic.gestit_back.entites;
 
 
+import fr.diginamic.gestit_back.enumerations.Statut;
 import io.jsonwebtoken.Claims;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -47,7 +48,7 @@ public class Utilisateur extends AbstractBaseEntity {
     private Set<VehiculePerso> vehiculesPerso = new HashSet<>();
 
     @OneToMany(mappedBy = "organisateur")
-    private Set<Covoiturage> covoituragesOrganises = new HashSet<>();
+    private List<Covoiturage> covoituragesOrganises = new ArrayList<>();
 
     public Utilisateur(Claims body) {
         //this.setId((Integer) body.get("id")) ;
