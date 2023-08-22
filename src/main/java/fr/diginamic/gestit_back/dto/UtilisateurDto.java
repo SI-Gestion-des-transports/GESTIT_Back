@@ -9,7 +9,6 @@ import java.util.List;
 public record UtilisateurDto(
         @NotNull String nom,
         @NotNull String motDePasse,
-        @NotNull @Email String email,
-        @NotNull List<String> roles
+        @NotNull @Email String email
 ) {
 }
