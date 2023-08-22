@@ -121,9 +121,9 @@ public class UtilisateurService {
                          => l'entity Utilisateur n'a pas accès sur les données de covoiturages, la fonction : "utilisateur.getCovoituragesOrganises()" ne marche pas; il faut passer par la classe Covoiturage (covoiturageRepository.findCovoituragesByOrganisateur(utilisateur) )
                         */
 
+                List<Covoiturage> covoiturageOrganise = covoiturageRepository.findCovoituragesByOrganisateur(utilisateur);
+                    // Si la date de covoiturage est après la dateNonValide, supprime le covoiturage
                 // Récupérer les covoiturages organisés par cet utilisateur
-                Set<Covoiturage> covoiturageOrganise = covoiturageRepository.findCovoituragesByOrganisateur(utilisateur);
-
                 // Supprimer les covoiturages dont la date de départ est après la date de désactivation
                 for(Covoiturage c:covoiturageOrganise) {
                     if (c.getDateDepart().isAfter(dateDesactivation)) {

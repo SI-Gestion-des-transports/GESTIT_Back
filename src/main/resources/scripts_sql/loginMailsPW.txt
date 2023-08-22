@@ -1,0 +1,41 @@
+collaborateur1@gestit.fr
+passCollab1 = {bcrypt}$2a$10$SEUQuY5MU/a0DhQQG8LMm.j0tsVGjExoIz1ecfysVkG9n88HJedhq
+
+collaborateur2@gestit.fr
+passCollab2 = {bcrypt}$2a$10$IDyjp2WHNrHrCGGXGMLoZu3sZLsSxAjeMiCChDKkC00HyQTC.qYBq
+
+collaborateur3@gestit.fr
+passCollab3 = {bcrypt}$2a$10$wpq.mTIiKa0Kn3WKGDdCjuamKUwxZ/Du.uGMkVBs8pwApWisnM5Wy
+
+collaborateur4@gestit.fr
+passCollab4 = {bcrypt}$2a$10$J8sQ8xYesEafg2//xWZlnOL5mb93GrZV0Pef7W47YjZOvqWAEiQ6S
+
+collaborateur5@gestit.fr
+passCollab5 = {bcrypt}$2a$10$L/EQZ3wYmahSmkz1K8sf8ec7Fl//1eHEyKmhXNgefxAbTwMIZKxom
+
+collaborateur6@gestit.fr
+passCollab6 = {bcrypt}$2a$10$7SGXBgy8uqI6achM.YSOMuGJeBDXs0fIPmLUq5aifFvuZzA7k8F.q
+
+collaborateur7@gestit.fr
+passCollab7 = {bcrypt}$2a$10$zXQkEgXm6CaRK4aRBL1xOOdK3jLsTp2dtoC.m04lSZ8a6u4b0ihJi
+
+collaborateur8@gestit.fr
+passCollab8 = {bcrypt}$2a$10$DjY9HgawXQv3pxXDzB2uTOQRerjbPiOMNjnyb0bywYDBEdmvPtvo6
+
+organisateur1@gestit.fr
+passOrga1 = {bcrypt}$2a$10$AmJTqxsvkrqwifEgaCbb7eGrkr26RjoESQxRkCivMyyIWyxcob9XS
+
+organisateur2@gestit.fr
+passOrga2 = {bcrypt}$2a$10$zyZFOVLXdoVnsMApvrzs/.snma322FQKQKwIR7GoaVGfMMRrT3F4i
+
+organisateur3@gestit.fr
+passOrga3 = {bcrypt}$2a$10$QkzVFhm9MQz0AUxRuJhQFu58bPH0S3ZOocfVL08xYLUcekIa/pSqm
+
+organisateur4@gestit.fr
+passOrga4 = {bcrypt}$2a$10$85cAUGUksAcPKxqP1vz6iOkahoAUPJtN/4uygoaiQtTAPYWNVs/T6
+
+administrateur1@gestit.fr
+passAdmin1 = {bcrypt}$2a$10$TqavM2HmzsQtdN7iVC1JXe6VP0IG2jKf0Zc15GLzUh.NGATFW5dxi
+
+administrateur2@gestit.fr
+passAdmin2 = {bcrypt}$2a$10$4I52vkZNijrAw4aoYM5by.wT.PTBvQbHSQZKxeW8xGUClJwvWHhDS

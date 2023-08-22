@@ -1,6 +1,9 @@
 package fr.diginamic.gestit_back.dto;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import lombok.Data;
@@ -11,12 +14,13 @@ public class CovoiturageDto {
     private Integer nombrePlacesRestantes;
     private Integer dureeTrajet;
     private Integer distanceKm;
+    private LocalDate dateDepart;
 
     private AdresseDto adresseDepart;
     private AdresseDto adresseArrivee;
 
     private UtilisateurDto organisateur;
-    private Set<UtilisateurDto> passagers = new HashSet<>();
+    private List<UtilisateurDto> passagers = new ArrayList<>();
 
     private VehiculePersoDto vehiculePerso;
 }

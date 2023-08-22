@@ -45,17 +45,27 @@ JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3IiwicGFzc3dvcmQiOiJ7
 POST localhost:8080/signout
 Content-Type: application/json
 
-###
+### ADMIN
 POST localhost:8080/utilisateur/create
 Content-Type: application/json
 
 {
-  "nom": "Admin",
-  "email": "dijialeiAdmin@gmail.com",
-  "motDePasse": "Admin"
+  "nom": "Admin2",
+  "email": "administrateur2@gestit.fr",
+  "motDePasse": "passAdmin2",
+  "roles": ["ADMINISTRATEUR"]
 }
 
+### COLLAB
+POST localhost:8080/utilisateur/create
+Content-Type: application/json
 
+{
+  "nom": "Orga4",
+  "email": "organisateur4@gestit.fr",
+  "motDePasse": "passOrga4",
+  "roles": ["COLLABORATEUR"]
+}
 
 ###
 GET localhost:8080/admin/vehiculeservice/list
@@ -78,7 +88,6 @@ Content-Type: application/json
 
 {
   "email": "dijialeiCollAdmin@gmail.com",
-
   "motDePasse": "CollAdmin"
 
 }

@@ -41,7 +41,8 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             try {
                 body = jwtUtils.parseJWT(token);
             } catch (ExpiredJwtException e) {
-
+                System.out.println(e.getClaims().get("email"));
+                System.out.println(token);
                 redisUtils.deleteRedisCache((String) e.getClaims().get("email"), token);
                 handlerExceptionResolver.resolveException(request, response, null, e);
                 return;
@@ -51,7 +52,6 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             }
 
             if (redisUtils.verifyRedisCache((String) body.get("email"), token)) {
-
                 Utilisateur utilisateur = new Utilisateur(body);
                 LoginUser loginUser = new LoginUser(utilisateur);
                 UsernamePasswordAuthenticationToken authenticationToken =
