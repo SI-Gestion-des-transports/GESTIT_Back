@@ -10,7 +10,6 @@ public record UtilisateurDto(
         @NotNull String nom,
         @NotNull String motDePasse,
         @NotNull @Email String email,
-        @NotNull List<String> roles,
-        LocalDate dateNonValide
+        @NotNull List<String> roles
 ) {
 }
