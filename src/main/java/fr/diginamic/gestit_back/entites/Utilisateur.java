@@ -48,7 +48,7 @@ public class Utilisateur extends AbstractBaseEntity {
     private Set<VehiculePerso> vehiculesPerso = new HashSet<>();
 
     @OneToMany(mappedBy = "organisateur")
-    private Set<Covoiturage> covoituragesOrganises = new HashSet<>();
+    private List<Covoiturage> covoituragesOrganises = new ArrayList<>();
 
     public Utilisateur(Claims body) {
         //this.setId((Integer) body.get("id")) ;

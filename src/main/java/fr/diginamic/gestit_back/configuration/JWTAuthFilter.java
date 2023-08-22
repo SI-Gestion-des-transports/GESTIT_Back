@@ -50,7 +50,8 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                 handlerExceptionResolver.resolveException(request, response, null, e);
                 return;
             }
-            if (redisUtils.verifyRedisCache((String) body.get("email"), token)) {
+            if (//redisUtils.verifyRedisCache((String) body.get("email"), token)) {
+                    true){
                 Utilisateur utilisateur = new Utilisateur(body);
                 LoginUser loginUser = new LoginUser(utilisateur);
                 UsernamePasswordAuthenticationToken authenticationToken =
