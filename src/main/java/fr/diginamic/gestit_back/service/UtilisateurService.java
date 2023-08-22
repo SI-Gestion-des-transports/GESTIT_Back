@@ -85,7 +85,7 @@ public class UtilisateurService {
                         private Set<Covoiturage> covoituragesOrganises = new HashSet<>();
                          => l'entity Utilisateur n'a pas accès sur les données de covoiturages, la fonction : "utilisateur.getCovoituragesOrganises()" ne marche pas; il faut passer par la classe Covoiturage (covoiturageRepository.findCovoituragesByOrganisateur(utilisateur) )
                         */
-                Set<Covoiturage> covoiturageOrganise = covoiturageRepository.findCovoituragesByOrganisateur(utilisateur);
+                List<Covoiturage> covoiturageOrganise = covoiturageRepository.findCovoituragesByOrganisateur(utilisateur);
                     // Si la date de covoiturage est après la dateNonValide, supprime le covoiturage
 
                 for(Covoiturage c:covoiturageOrganise) {

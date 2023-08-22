@@ -53,26 +53,38 @@ insert into adresse (numero, voie, commune_id) values(35, 'Boulevard Gambetta', 
 insert into adresse (numero, voie, commune_id) values(13, 'Avenue Georges Pompidou', 2);
 insert into adresse (numero, voie, commune_id) values(2, 'Quai du Port', 3);
 insert into adresse (numero, voie, commune_id) values(15, 'Avenue du Prado', 3);
-insert into utilisateur (email, mot_de_passe, nom) values('admin1@gestit.fr', 'passAdmin1', 'Admin1');
-insert into utilisateur (email, mot_de_passe, nom) values('admin2@gestit.fr', 'passAdmin2', 'Admin2');
-insert into utilisateur (email, mot_de_passe, nom) values('collab1@gestit.fr', 'passCollab1', 'Collab1');
-insert into utilisateur (email, mot_de_passe, nom) values('collab2@gestit.fr', 'passCollab2', 'Collab2');
-insert into utilisateur (email, mot_de_passe, nom) values('orga1@gestit.fr', 'passOrga1', 'Orga1');
-insert into utilisateur (email, mot_de_passe, nom) values('orga2@gestit.fr', 'passOrga2', 'Orga2');
-insert into utilisateur (email, mot_de_passe, nom) values('c3@gestit.fr', 'c3', 'c3');
-insert into utilisateur (email, mot_de_passe, nom) values('c4@gestit.fr', 'c4', 'c4');
-insert into utilisateur (email, mot_de_passe, nom) values('c5@gestit.fr', 'c5', 'c5');
-insert into utilisateur (email, mot_de_passe, nom) values('c6@gestit.fr', 'c6', 'c6');
-insert into utilisateur (email, mot_de_passe, nom) values('c7@gestit.fr', 'c7', 'c7');
-insert into utilisateur (email, mot_de_passe, nom) values('c8@gestit.fr', 'c8', 'c8');
-insert into utilisateur (email, mot_de_passe, nom) values('c9@gestit.fr', 'c9', 'c9');
-insert into utilisateur (email, mot_de_passe, nom) values('c10@gestit.fr', 'c10', 'c10');
-insert into utilisateur_roles (roles, utilisateur_id) values('ADMiNISTRATEUR',1);
-insert into utilisateur_roles (roles, utilisateur_id) values('ADMINISTRATEUR',2);
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur1@gestit.fr
+', '{bcrypt}$2a$10$SEUQuY5MU/a0DhQQG8LMm.j0tsVGjExoIz1ecfysVkG9n88HJedhq', 'Collab1');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur2@gestit.fr', '{bcrypt}$2a$10$IDyjp2WHNrHrCGGXGMLoZu3sZLsSxAjeMiCChDKkC00HyQTC.qYBq', 'Collab2');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur3@gestit.fr
+', '{bcrypt}$2a$10$wpq.mTIiKa0Kn3WKGDdCjuamKUwxZ/Du.uGMkVBs8pwApWisnM5Wy', 'Collab3');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur4@gestit.fr
+', '{bcrypt}$2a$10$J8sQ8xYesEafg2//xWZlnOL5mb93GrZV0Pef7W47YjZOvqWAEiQ6S', 'Collab4');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur5@gestit.fr', '{bcrypt}$2a$10$L/EQZ3wYmahSmkz1K8sf8ec7Fl//1eHEyKmhXNgefxAbTwMIZKxom', 'Collab5');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur6@gestit.fr', '{bcrypt}$2a$10$7SGXBgy8uqI6achM.YSOMuGJeBDXs0fIPmLUq5aifFvuZzA7k8F.q', 'Collab6');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur7@gestit.fr', '{bcrypt}$2a$10$zXQkEgXm6CaRK4aRBL1xOOdK3jLsTp2dtoC.m04lSZ8a6u4b0ihJi', 'Collab7');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur8@gestit.fr', '{bcrypt}$2a$10$DjY9HgawXQv3pxXDzB2uTOQRerjbPiOMNjnyb0bywYDBEdmvPtvo6', 'Collab8');
+insert into utilisateur (email, mot_de_passe, nom) values('organisateur1@gestit.fr
+', '{bcrypt}$2a$10$AmJTqxsvkrqwifEgaCbb7eGrkr26RjoESQxRkCivMyyIWyxcob9XS', 'Orga1');
+insert into utilisateur (email, mot_de_passe, nom) values('organisateur2@gestit.fr', '{bcrypt}$2a$10$zyZFOVLXdoVnsMApvrzs/.snma322FQKQKwIR7GoaVGfMMRrT3F4i', 'Orga2');
+insert into utilisateur (email, mot_de_passe, nom) values('organisateur3@gestit.fr', '{bcrypt}$2a$10$QkzVFhm9MQz0AUxRuJhQFu58bPH0S3ZOocfVL08xYLUcekIa/pSqm', 'Orga3');
+insert into utilisateur (email, mot_de_passe, nom) values('organisateur4@gestit.fr', '{bcrypt}$2a$10$85cAUGUksAcPKxqP1vz6iOkahoAUPJtN/4uygoaiQtTAPYWNVs/T6', 'Orga4');
+insert into utilisateur (email, mot_de_passe, nom) values('administrateur1@gestit.fr', '{bcrypt}$2a$10$TqavM2HmzsQtdN7iVC1JXe6VP0IG2jKf0Zc15GLzUh.NGATFW5dxi', 'Admin1');
+insert into utilisateur (email, mot_de_passe, nom) values('administrateur2@gestit.fr', '{bcrypt}$2a$10$4I52vkZNijrAw4aoYM5by.wT.PTBvQbHSQZKxeW8xGUClJwvWHhDS', 'Admin2');
+insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',1);
+insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',2);
 insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',3);
 insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',4);
 insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',5);
 insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',6);
+insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',7);
+insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',8);
+insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',9);
+insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',10);
+insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',11);
+insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',12);
+insert into utilisateur_roles (roles, utilisateur_id) values('ADMINISTRATEUR',13);
+insert into utilisateur_roles (roles, utilisateur_id) values('ADMINISTRATEUR',14);
 insert into vehicule_perso(modele_id, nombre_de_place_disponibles, proprietaire_id, immatriculation) values (1, 5, 5, '34-XXX-43');
 insert into vehicule_perso(modele_id, nombre_de_place_disponibles, proprietaire_id, immatriculation) values (2, 5, 6, '43-YYY-34');
 insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (1, 5, '11-ZZZ-11', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://m.media-amazon.com/images/I/71E32iPE92L._AC_SL1500_.jpg');

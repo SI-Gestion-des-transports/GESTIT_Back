@@ -23,16 +23,16 @@ JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJ7
 }
 
 
-###
-
+### USER 5
 POST http://localhost:8080/covoiturages/create
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 Content-Type: application/json
-JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInBhc3N3b3JkIjoie2JjcnlwdH0kMmEkMTAkWG44c2tOYjZVa3BsSFRHWWp3bXB3ZXpJTE1pMXdQR0k0NmJxZjdyd1JPd0d6YnAxNnQwZEciLCJyb2xlcyI6WyJDT0xMQUJPUkFURVVSIiwiQURNSU5JU1RSQVRFVVIiXSwiZW1haWwiOiJkaWppYWxlaUNvbGxBZG1pbkBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IkNvbGxBZG1pbiIsImV4cCI6MTY5MzE1MDA5OX0.juWSTv77L_SUTB_DKJlAQWyUSGFqNdv07_5EAkz1gvQ
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRML0VRWjN3WW1haFNta3oxSzhzZjhlYzdGbC8vMWVIRXlLbWhYTmdlZnhBYlR3TUlaS3hvbSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiXSwiZW1haWwiOiJjb2xsYWJvcmF0ZXVyNUBnZXN0aXQuZnIiLCJ1c2VybmFtZSI6IkNvbGxhYjUiLCJleHAiOjE2OTM1Nzc5NDB9.8XjrK7NuzSKt-5OXN654U3FgHeK97fJRx4SvM3vb5u4
 
 {
   "nombrePlacesRestantes": 4,
-  "dureeTrajet": 3,
-  "distanceKm": 50,
+  "dureeTrajet": 1,
+  "distanceKm": 1350,
   "dateDepart": "2023-09-01",
   "adresseDepartId": 1,
   "adresseArriveeID":2,
@@ -41,3 +41,8 @@ JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInBhc3N3b3JkIjoi
   "vehiculePersoId": 2
 }
 
+### USER 5
+GET http://localhost:8080/covoiturages/listerorganises
+Content-Type: application/json
+X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRML0VRWjN3WW1haFNta3oxSzhzZjhlYzdGbC8vMWVIRXlLbWhYTmdlZnhBYlR3TUlaS3hvbSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiXSwiZW1haWwiOiJjb2xsYWJvcmF0ZXVyNUBnZXN0aXQuZnIiLCJ1c2VybmFtZSI6IkNvbGxhYjUiLCJleHAiOjE2OTM1Nzc5NDB9.8XjrK7NuzSKt-5OXN654U3FgHeK97fJRx4SvM3vb5u4
