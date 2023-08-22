@@ -24,27 +24,45 @@ import java.util.Optional;
 public class UtilisateurController {
     private UtilisateurService utilisateurCollaborateurService;
     private PasswordEncoder passwordEncoder;
-
     private JWTUtils jwtUtils;
 
+
+    /**
+     * Récupère une liste d'objets Utilisateur avec le nom spécifié.
+     *
+     * @return Une liste d'objets Utilisateur correspondant au nom "Admin1".
+     * @see Utilisateur
+     */
     @GetMapping("/findNom")
     public List<Utilisateur> findNom() {
         return this.utilisateurCollaborateurService.listerUtilisateurParNom("Admin1");
     }
-/*
-    @PostMapping("/create2")
-    public ResponseEntity createUser(@RequestBody Utilisateur utilisateur){
-        System.out.println(utilisateur);
-        utilisateur.setMotDePasse(passwordEncoder.encode(utilisateur.getMotDePasse()));
-        utilisateurRepository.save(utilisateur);
-        return ResponseEntity.status(200).body(utilisateur);
-    }*/
 
+    /**
+     * Crée un nouveau objet Utilisateur en utilisant les informations fournies dans un objet UtilisateurDto.
+     *
+     * @param utilisateurDto L'objet UtilisateurDto contenant les informations du nouvel utilisateur.
+     * @return L'objet Utilisateur nouvellement créé.
+     * @throws IllegalArgumentException Si les données fournies dans utilisateurDto ne sont pas valides ou manquantes.
+     * @see UtilisateurDto
+     * @see Utilisateur
+     */
     @PostMapping("/create")
     public Utilisateur nouveauUtilisateur(@RequestBody @Valid UtilisateurDto utilisateurDto) {
         return this.utilisateurCollaborateurService.creerUtilisateur(utilisateurDto);
     }
 
+    /**
+     * Modifie un objet Utilisateur existant en utilisant les informations fournies dans un objet UtilisateurDto.
+     *
+     * @param httpHeaders      Les en-têtes HTTP de la requête, contenant le token JWT pour l'authentification.
+     * @param nouveauUtilisateurDto L'objet UtilisateurDto contenant les nouvelles informations de l'utilisateur.
+     * @param idUser           L'identifiant de l'utilisateur à modifier.
+     * @return Une ResponseEntity contenant l'objet Utilisateur modifié si l'opération réussit (code 200).
+     * @throws NotFoundOrValidException Si l'utilisateur n'existe pas ou si l'opération de modification n'est pas autorisée.
+     * @see UtilisateurDto
+     * @see Utilisateur
+     */
     @PostMapping("/modify")
     public ResponseEntity<Utilisateur> utilisateurModifie(@RequestHeader HttpHeaders httpHeaders, @RequestBody @Valid UtilisateurDto nouveauUtilisateurDto, @RequestParam Integer idUser) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
@@ -57,6 +75,15 @@ public class UtilisateurController {
         }
     }
 
+
+    /**
+     * Désactive un utilisateur en utilisant son identifiant, marquant ainsi son statut comme désactivé.
+     *
+     * @param httpHeaders Les en-têtes HTTP de la requête, contenant le token JWT pour l'authentification.
+     * @param idUser      L'identifiant de l'utilisateur à désactiver.
+     * @throws NotFoundOrValidException Si l'utilisateur n'existe pas ou si l'opération de désactivation n'est pas autorisée.
+     * @see Utilisateur
+     */
     @GetMapping("/disable")
     public void utilisateurDesactive(@RequestHeader HttpHeaders httpHeaders, @RequestParam Integer idUser) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());

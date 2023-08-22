@@ -1,18 +1,19 @@
-GET http://localhost:8080/utilisateur/findNom
-X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
-Content-Type: application/json
-
-###
 POST localhost:8080/utilisateur/create
 X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
 Content-Type: application/json
 
 {
   "nom": "nom7",
-  "email": "nom7@nom.com",
-  "motDePasse": "1234",
-  "roles": ["COLLABORATEUR"]
+  "email": "nom8@nom.com",
+  "motDePasse": "1234"
 }
+
+###
+
+GET http://localhost:8080/utilisateur/findNom
+X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
+Content-Type: application/json
+
 ###
 POST localhost:8080/utilisateur/modify?idUser=14
 X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
@@ -22,15 +23,14 @@ JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInBhc3N3b3JkIjoi
 {
   "nom": "nom6",
   "email":"c10@gestit.fr" ,
-  "motDePasse": "1236",
-  "roles": ["COLLABORATEUR"]
-
+  "motDePasse": "1236"
 }
 ###
 GET http://localhost:8080/utilisateur/disable?idUser=14
 X-XSRF-TOKEN: d6c14f6f-9589-4094-925a-40e845bd4a02
 Content-Type: application/json
 JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInBhc3N3b3JkIjoie2JjcnlwdH0kMmEkMTAkWG44c2tOYjZVa3BsSFRHWWp3bXB3ZXpJTE1pMXdQR0k0NmJxZjdyd1JPd0d6YnAxNnQwZEciLCJyb2xlcyI6WyJDT0xMQUJPUkFURVVSIiwiQURNSU5JU1RSQVRFVVIiXSwiZW1haWwiOiJkaWppYWxlaUNvbGxBZG1pbkBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IkNvbGxBZG1pbiIsImV4cCI6MTY5MzE1MDA5OX0.juWSTv77L_SUTB_DKJlAQWyUSGFqNdv07_5EAkz1gvQ
+
 
 
 
@@ -52,8 +52,7 @@ Content-Type: application/json
 {
   "nom": "Admin",
   "email": "dijialeiAdmin@gmail.com",
-  "motDePasse": "Admin",
-  "roles": ["ADMINISTRATEUR"]
+  "motDePasse": "Admin"
 }
 
 
