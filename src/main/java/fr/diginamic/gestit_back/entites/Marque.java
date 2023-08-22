@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -17,7 +18,7 @@ public class Marque extends AbstractBaseEntity {
     private String nom;
 
     @OneToMany(mappedBy = "marque")
-    private Set<Modele> modeles;
+    private List<Modele> modeles;
 
     public Marque() {
 

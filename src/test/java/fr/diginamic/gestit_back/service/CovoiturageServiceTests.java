@@ -347,8 +347,8 @@ public class CovoiturageServiceTests {
 
         Utilisateur conducteur = new Utilisateur();
         LocalDate dateConducteur = LocalDate.of(2022, 4, 6);
-        Set<Covoiturage> conducteurCovoituragesOrganises = new HashSet<>();
-        Set<Covoiturage> conducteurCovoituragesPassagers = new HashSet<>();
+        List<Covoiturage> conducteurCovoituragesOrganises = new ArrayList<>();
+        List<Covoiturage> conducteurCovoituragesPassagers = new ArrayList<>();
         List<String> roleConducteur = new ArrayList<>();
         roleConducteur.add("COLLABORATEUR");
         conducteur.setEmail("RonaldMerziner@gmail.com");
@@ -361,8 +361,8 @@ public class CovoiturageServiceTests {
 
         Utilisateur passager = new Utilisateur();
         LocalDate datePassager = LocalDate.of(2020, 1, 8);
-        Set<Covoiturage> covoituragesOrganises = new HashSet<>();
-        Set<Covoiturage> covoituragesPassagers = new HashSet<>();
+        List<Covoiturage> covoituragesOrganises = new ArrayList<>();
+        List<Covoiturage> covoituragesPassagers = new ArrayList<>();
         List<String> rolePassager = new ArrayList<>();
         rolePassager.add("COLLABORATEUR");
         passager.setEmail("RonaldMerziner@gmail.com");
@@ -372,7 +372,7 @@ public class CovoiturageServiceTests {
         passager.setCovoituragesPassagers(covoituragesPassagers);
         passager.setDateNonValide(datePassager);
         passager.setRoles(rolePassager);
-        Set<Utilisateur> passagersABord = new HashSet<>();
+        List<Utilisateur> passagersABord = new ArrayList<>();
 
         /* A CORRIGER : CET APPEL POSE PROBLEME */
         // passagersABord.add(conducteur);

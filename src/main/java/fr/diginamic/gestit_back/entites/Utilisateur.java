@@ -1,19 +1,13 @@
 package fr.diginamic.gestit_back.entites;
 
-
-import fr.diginamic.gestit_back.enumerations.Statut;
 import io.jsonwebtoken.Claims;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -35,7 +29,7 @@ public class Utilisateur extends AbstractBaseEntity {
     private List<String> roles;
 
     @OneToMany(mappedBy = "collaborateur")
-    private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
+    private List<ReservationVehiculeService> reservationVehiculeServices = new ArrayList<>();
 
     @ManyToMany(mappedBy = "passagers" )
 /*   @JoinTable(name = "covoiturages_collaborateur",
@@ -45,7 +39,7 @@ public class Utilisateur extends AbstractBaseEntity {
     private List<Covoiturage> covoituragesPassagers = new ArrayList<>();
 
     @OneToMany(mappedBy = "proprietaire")
-    private Set<VehiculePerso> vehiculesPerso = new HashSet<>();
+    private List<VehiculePerso> vehiculesPerso = new ArrayList<>();
 
     @OneToMany(mappedBy = "organisateur")
     private List<Covoiturage> covoituragesOrganises = new ArrayList<>();
