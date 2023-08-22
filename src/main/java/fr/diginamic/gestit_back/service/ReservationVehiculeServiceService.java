@@ -82,7 +82,9 @@ public class ReservationVehiculeServiceService {
         Optional<List<ReservationVehiculeService>> overllapingReservationsList = overlappingReservations(res);
 
         if (overllapingReservationsList.isPresent() || connectedUser.isEmpty()) {
-            throw new NotFoundOrValidException(new MessageDto("Create - La réservation est impossible !"));
+            throw new NotFoundOrValidException(new MessageDto("Create - La réservation est impossible à ces dates !"));
+        } else if (res.dateHeureDepart().isAfter(res.dateHeureRetour())){
+            throw new NotFoundOrValidException(new MessageDto("Create - La date de retour doit être postérieure à la date de départ !"));
         } else {
             reservationVehiculeServiceRepository.save(new ReservationVehiculeService(
                     connectedUser.orElseThrow(),
@@ -115,7 +117,7 @@ public class ReservationVehiculeServiceService {
                 overlappedRVS.remove(reservationVSaModifier);
             }
         }
-        if (newRes.userId().equals(utilisateurConnecteId) && overlappedRVS.isEmpty()){
+        if (newRes.userId().equals(utilisateurConnecteId) && overlappedRVS.isEmpty() && newRes.dateHeureDepart().isBefore(newRes.dateHeureRetour())){
         reservationVSaModifier.setCollaborateur(this.utilisateurService.trouverParId(utilisateurConnecteId));
         reservationVSaModifier.setVehiculeService(this.vehiculeServiceService.trouverParId(newRes.vehiculeServiceId()));
         reservationVSaModifier.setDateHeureDepart(newRes.dateHeureDepart());
@@ -136,7 +138,7 @@ public class ReservationVehiculeServiceService {
     public void supprimerReservationVehiculeService(Integer utilisateurConnecteId, Integer resId){
         if (this.reservationVehiculeServiceRepository.findById(resId).isPresent() && !this.reservationVehiculeServiceRepository.findById(resId).isEmpty()){
             ReservationVehiculeService reservationVS = this.reservationVehiculeServiceRepository.findById(resId).get();
-            if(reservationVS.getDateHeureDepart().isBefore(LocalDateTime.now()) || reservationVS.getDateHeureRetour().isAfter(LocalDateTime.now())){
+            if(reservationVS.getDateHeureDepart().isBefore(LocalDateTime.now()) && reservationVS.getDateHeureRetour().isAfter(LocalDateTime.now())){
                 throw new NotFoundOrValidException(new MessageDto("La suppression n'est plus possible, la réservation est en cours"));
             }
             reservationVehiculeServiceRepository.deleteReservationVehiculeServiceByCollaborateur_IdAndAndId(utilisateurConnecteId, resId);

@@ -78,10 +78,6 @@ public class ReservationVehiculeServiceController {
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto resDto){
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
-
-        if (resDto.dateHeureDepart().isAfter(resDto.dateHeureRetour())){
-
-        }
         this.reservationVehiculeServiceService.creerReservationVehiculeService(utilisateurConnecteId, resDto);
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }
