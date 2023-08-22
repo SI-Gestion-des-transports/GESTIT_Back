@@ -22,7 +22,6 @@ import java.util.Map;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
-
 public class WebSecurityConfiguration {
     private final AuthenticationConfiguration configuration;
 
