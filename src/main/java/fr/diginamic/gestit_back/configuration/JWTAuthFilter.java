@@ -51,14 +51,14 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                 return;
             }
 
-            if (redisUtils.verifyRedisCache((String) body.get("email"), token)
-                    ) {
+            if (redisUtils.verifyRedisCache((String) body.get("email"), token)) {
                 Utilisateur utilisateur = new Utilisateur(body);
                 LoginUser loginUser = new LoginUser(utilisateur);
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            }else handlerExceptionResolver.resolveException(request,response,null,new RuntimeException("Token signed out !"));
+            } else
+                handlerExceptionResolver.resolveException(request, response, null, new RuntimeException("Token signed out !"));
         }
 
         filterChain.doFilter(request, response);
