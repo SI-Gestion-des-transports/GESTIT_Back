@@ -1,0 +1,32 @@
+POST localhost:8080/utilisateur/create
+Content-Type: application/json
+
+{
+  "nom": "Admin",
+  "email": "dijialeiAdmin@gmail.com",
+  "motDePasse": "Admin",
+  "roles": ["ADMINISTRATEUR"]
+}
+
+###
+
+POST localhost:8080/login
+Content-Type: application/json
+
+{
+  "email": "dijialeiAdmin@gmail.com",
+
+  "motDePasse": "Admin"
+
+}
+
+###
+
+POST localhost:8080/signout
+Content-Type: application/json
+JWT-TOKEN: "votre JWT-TOKEN reçu"
+
+{
+
+
+}
