@@ -50,10 +50,10 @@ POST localhost:8080/utilisateur/create
 Content-Type: application/json
 
 {
-  "nom": "CollAdmin",
-  "email": "dijialeiCollAdmin@gmail.com",
-  "motDePasse": "CollAdmin",
-  "roles": ["COLLABORATEUR","ADMINISTRATEUR"]
+  "nom": "Admin",
+  "email": "dijialeiAdmin@gmail.com",
+  "motDePasse": "Admin",
+  "roles": ["ADMINISTRATEUR"]
 }
 
 

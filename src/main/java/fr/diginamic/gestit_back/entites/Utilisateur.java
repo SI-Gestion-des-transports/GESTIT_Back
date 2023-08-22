@@ -42,7 +42,7 @@ public class Utilisateur extends AbstractBaseEntity {
             joinColumns = @JoinColumn(name = "collaborateur_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))*/
 
-    private Set<Covoiturage> covoituragesPassagers = new HashSet<>();
+    private List<Covoiturage> covoituragesPassagers = new ArrayList<>();
 
     @OneToMany(mappedBy = "proprietaire")
     private Set<VehiculePerso> vehiculesPerso = new HashSet<>();

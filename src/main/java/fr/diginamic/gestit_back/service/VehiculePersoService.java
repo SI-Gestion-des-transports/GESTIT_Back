@@ -5,6 +5,7 @@ import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
 import fr.diginamic.gestit_back.enumerations.Statut;
+import fr.diginamic.gestit_back.enumerations.StatutPerso;
 import fr.diginamic.gestit_back.repository.ModeleRepository;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import fr.diginamic.gestit_back.repository.VehiculePersoRepository;
@@ -43,7 +44,7 @@ public class VehiculePersoService {
 
     public void deleteVehiculePerso(Integer id) {
 
-        vehiculePersoRepository.findById(id).get().setStatut(Statut.SUPPRIMER);
+        vehiculePersoRepository.findById(id).get().setStatut(StatutPerso.SUPPRIMER);
     }
     public void modifyVehiculePerso(VehiculePersoDto dto){
         createVehiculePerso(dto);

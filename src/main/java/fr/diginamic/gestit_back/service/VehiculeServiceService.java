@@ -62,7 +62,7 @@ public class VehiculeServiceService {
     public void deleteVehiculeService(Integer id) {
         // = changer le statut en hors service ?
         Optional<VehiculeService> vehiculeService = vehiculeServiceRepository.findById(id);
-        vehiculeService.ifPresent(vs -> vs.setStatut(Statut.SUPPRIMER));
+        vehiculeService.ifPresent(vs -> vs.setStatut(Statut.HORS_SERVICE));
     }
 
     public void modifyVehiclueService(VehiculeServiceDto dto) {
