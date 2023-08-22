@@ -32,24 +32,27 @@ public class VehiculePersoService {
     }
 
 
-    public void createVehiculePerso(VehiculePersoDto dto) {
+    public void createVehiculePerso(VehiculePersoDto dto, Integer userId) {
         //VehiculePerso vehiculePerso = vehiculePersoRepository.findVehiculePersoByImmatriculation(dto.getImmatriculation());
-       // if (vehiculePerso == null) {
-            Optional<Utilisateur> utilisateur = utilisateurRepository.findById(dto.getUserId());
-            Modele modele = modeleRepository.findModeleByNom(dto.getModele());
-            utilisateur.ifPresent(user->vehiculePersoRepository.save(new VehiculePerso(dto, user, modele)));
-       // }else throw new RuntimeException("Immatriculation existait !");
+        // if (vehiculePerso == null) {
+        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(userId);
+
+        Modele modele = modeleRepository.findModeleByNom(dto.getModele());
+
+        utilisateur.ifPresent(user -> vehiculePersoRepository.save(new VehiculePerso(dto, user, modele)));
+        // }else throw new RuntimeException("Immatriculation existait !");
     }
 
     public void deleteVehiculePerso(Integer id) {
 
         vehiculePersoRepository.findById(id).get().setStatut(StatutPerso.SUPPRIMER);
     }
-    public void modifyVehiculePerso(VehiculePersoDto dto){
-        createVehiculePerso(dto);
+
+    public void modifyVehiculePerso(VehiculePersoDto dto, Integer userId) {
+        createVehiculePerso(dto, userId);
     }
 
-    public VehiculePerso findVehiculePersoById(Integer id){
+    public VehiculePerso findVehiculePersoById(Integer id) {
         return vehiculePersoRepository.findById(id).get();
     }
 }
