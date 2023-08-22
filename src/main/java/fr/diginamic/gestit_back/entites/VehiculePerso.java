@@ -25,6 +25,7 @@ public class VehiculePerso extends AbstractVehicule {
 
     @OneToMany(mappedBy = "vehiculePerso")
     private List<Covoiturage> covoiturages = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private StatutPerso statut;
     public VehiculePerso() {
