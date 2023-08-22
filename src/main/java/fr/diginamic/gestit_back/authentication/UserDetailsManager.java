@@ -16,7 +16,7 @@ public class UserDetailsManager implements UserDetailsService {
     private UtilisateurRepository utilisateurRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Utilisateur> loginUser = utilisateurRepository.findByNom(username);
+        Optional<Utilisateur> loginUser = utilisateurRepository.findByEmail(username);
         return new LoginUser(loginUser.orElseThrow(()->new RuntimeException("No such user !")));
     }
 }

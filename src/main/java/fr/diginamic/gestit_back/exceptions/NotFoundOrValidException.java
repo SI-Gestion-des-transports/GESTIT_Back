@@ -1,4 +1,4 @@
-package fr.diginamic.gestit_back.utils;
+package fr.diginamic.gestit_back.exceptions;
 
 import fr.diginamic.gestit_back.dto.MessageDto;
 import lombok.Getter;

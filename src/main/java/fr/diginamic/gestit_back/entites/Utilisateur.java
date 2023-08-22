@@ -1,6 +1,7 @@
 package fr.diginamic.gestit_back.entites;
 
 
+import fr.diginamic.gestit_back.enumerations.Statut;
 import io.jsonwebtoken.Claims;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -36,22 +37,25 @@ public class Utilisateur extends AbstractBaseEntity {
     @OneToMany(mappedBy = "collaborateur")
     private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "covoiturages_collaborateur",
+    @ManyToMany(mappedBy = "passagers" )
+/*   @JoinTable(name = "covoiturages_collaborateur",
             joinColumns = @JoinColumn(name = "collaborateur_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))
-    private Set<Covoiturage> covoituragesPassagers = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))*/
+
+    private List<Covoiturage> covoituragesPassagers = new ArrayList<>();
 
     @OneToMany(mappedBy = "proprietaire")
     private Set<VehiculePerso> vehiculesPerso = new HashSet<>();
 
     @OneToMany(mappedBy = "organisateur")
-    private Set<Covoiturage> covoituragesOrganises = new HashSet<>();
+    private List<Covoiturage> covoituragesOrganises = new ArrayList<>();
 
     public Utilisateur(Claims body) {
         //this.setId((Integer) body.get("id")) ;
         this.nom = (String) body.get("username");
         this.motDePasse = (String) body.get("password");
+        this.email = (String) body.get("email");
+        //this.setId(Integer.valueOf(body.getSubject()));
         this.roles =(ArrayList<String>) body.get("roles");
     }
 

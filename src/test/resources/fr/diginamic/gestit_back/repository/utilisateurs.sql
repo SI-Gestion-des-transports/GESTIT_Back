@@ -1,2 +1,2 @@
-insert into utilisateur (email, mot_de_passe, nom) values('admin1@gestit.fr', 'passAdmin1', 'Admin1');
-insert into utilisateur (email, mot_de_passe, nom) values('collab1@gestit.fr', 'passCollab1', 'Collab1');
+insert into utilisateur (email, mot_de_passe, nom, date_non_valide) values('admin1@gestit.fr', 'passAdmin1', 'Admin1', null);
+insert into utilisateur (email, mot_de_passe, nom, date_non_valide) values('collab1@gestit.fr', 'passCollab1', 'Collab1', null);

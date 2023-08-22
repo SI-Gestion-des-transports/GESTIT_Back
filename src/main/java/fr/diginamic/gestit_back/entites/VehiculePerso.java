@@ -1,14 +1,17 @@
 package fr.diginamic.gestit_back.entites;
 
 import fr.diginamic.gestit_back.dto.VehiculePersoDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import fr.diginamic.gestit_back.enumerations.Categorie;
+import fr.diginamic.gestit_back.enumerations.Statut;
+import fr.diginamic.gestit_back.enumerations.StatutPerso;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -21,8 +24,10 @@ public class VehiculePerso extends AbstractVehicule {
     private Utilisateur proprietaire;
 
     @OneToMany(mappedBy = "vehiculePerso")
-    private Set<Covoiturage> covoiturages = new HashSet<>();
+    private List<Covoiturage> covoiturages = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private StatutPerso statut;
     public VehiculePerso() {
     }
     public VehiculePerso(VehiculePersoDto dto,Utilisateur utilisateur,Modele modele){

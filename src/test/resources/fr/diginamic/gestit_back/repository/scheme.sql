@@ -4,11 +4,12 @@ CREATE TABLE IF NOT EXISTS utilisateur (
     id INT AUTO_INCREMENT PRIMARY KEY,
     mot_de_passe VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    nom VARCHAR(255) NOT NULL
+    nom VARCHAR(255) NOT NULL,
+    date_non_valide DATE
     );
 
 CREATE TABLE IF NOT EXISTS utilisateur_roles (
-     id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     roles VARCHAR(255) NOT NULL,
     utilisateur_id INT,
     FOREIGN KEY (utilisateur_id) REFERENCES utilisateur(id)
@@ -71,6 +72,22 @@ CREATE TABLE IF NOT EXISTS reservation_vehicule_service (
     FOREIGN KEY (collaborateur_id) REFERENCES utilisateur(id),
     FOREIGN KEY (vehicule_service_id) REFERENCES vehicule_service(id)
     );
+
+CREATE TABLE IF NOT EXISTS covoiturage (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombrePlacesRestantes INT,
+    dureeTrajet INT,
+    distanceKm INT,
+    dateDepart DATE,
+    adresseDepart_id INT,
+    adresseArrivee_id INT,
+    organisateur_id INT,
+    vehiculePerso_id INT,
+    FOREIGN KEY (adresseDepart_id) REFERENCES adresse(id),
+    FOREIGN KEY (adresseArrivee_id) REFERENCES adresse(id),
+    FOREIGN KEY (organisateur_id) REFERENCES utilisateur(id),
+    FOREIGN KEY (vehiculePerso_id) REFERENCES vehicule_perso(id)
+);
 
 
 

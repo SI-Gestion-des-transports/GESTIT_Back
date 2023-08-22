@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface VehiculePersoRepository extends JpaRepository<VehiculePerso,Integer> {
-     VehiculePerso findVehiculePersoByImmatriculation(String immatriculation);
+
      List<VehiculePerso> findVehiculePersoByProprietaire(Utilisateur utilisateur);
 
 

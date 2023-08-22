@@ -76,8 +76,12 @@ insert into utilisateur_roles (roles, utilisateur_id) values('COLLABORATEUR',6);
 insert into vehicule_perso(modele_id, nombre_de_place_disponibles, proprietaire_id, immatriculation) values (1, 5, 5, '34-XXX-43');
 insert into vehicule_perso(modele_id, nombre_de_place_disponibles, proprietaire_id, immatriculation) values (2, 5, 6, '43-YYY-34');
 insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (1, 5, '11-ZZZ-11', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://m.media-amazon.com/images/I/71E32iPE92L._AC_SL1500_.jpg');
-insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (3, 5, '11-ZZZ-11', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://m.media-amazon.com/images/I/71E32iPE92L._AC_SL1500_.jpg');
+insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (3, 5, '22-AAA-22', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://m.media-amazon.com/images/I/71E32iPE92L._AC_SL1500_.jpg');
 insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (1, 1, '2023-07-30 14:00:00', '2023-08-01 16:00:00');
 insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (1, 1, '2023-07-31 18:00:00', '2023-08-04 13:30:00');
-insert into covoiturage (distance_km, duree_trajet, nombre_places_restantes, date_depart, adresse_arrivee_id, adresse_depart_id, organisateur_id, vehicule_perso_id) values (150, 3, 2, '2023-08-01', 1, 3, 5, 1);
-insert into covoiturage (distance_km, duree_trajet, nombre_places_restantes, date_depart, adresse_arrivee_id, adresse_depart_id, organisateur_id, vehicule_perso_id) values (150, 3, 2, '2019-08-01', 1, 3, 5, 1)
+insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (12, 2, '2023-06-30 19:00:00', '2023-08-04 13:30:00');
+insert into covoiturage (distance_km, duree_trajet, nombre_places_restantes, date_depart, adresse_arrivee_id, adresse_depart_id, organisateur_id, vehicule_perso_id) values (150, 3, 1, '2023-08-01', 1, 3, 5, 1);
+insert into covoiturage (distance_km, duree_trajet, nombre_places_restantes, date_depart, adresse_arrivee_id, adresse_depart_id, organisateur_id, vehicule_perso_id) values (110, 3, 4, '2019-08-01', 1, 3, 5, 1);
+insert into covoiturages_collaborateur (collaborateur_id, covoiturage_id) values (4,1);
+insert into covoiturages_collaborateur (collaborateur_id, covoiturage_id) values (5,1);
+insert into covoiturages_collaborateur (collaborateur_id, covoiturage_id) values (8,1);

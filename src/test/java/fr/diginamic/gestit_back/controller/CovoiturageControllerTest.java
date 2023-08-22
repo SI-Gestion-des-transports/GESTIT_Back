@@ -51,9 +51,9 @@ import fr.diginamic.gestit_back.utils.RedisUtils;
  * MockMvc
  * Le processus de sérialisation/désérialisation (conversion Java<->Json) des
  * données pour le transport est réalisé par un ObjectMapper.
- * 
+ *
  * @author AtsuhikoMochizuki
- * 
+ *
  */
 @WebMvcTest(CovoiturageController.class)
 public class CovoiturageControllerTest {
@@ -355,6 +355,7 @@ public class CovoiturageControllerTest {
 		Mockito.verify(this.doublureCovoiturageService, times(1)).delete(this.covoiturageExample.getId());
 	}
 
+
 	/***
 	 * Ce test envoie une requête pour la suppression en base d'un covoiturage
 	 * existant.
@@ -441,4 +442,5 @@ public class CovoiturageControllerTest {
 
 		return covoiturage;
 	}
+
 }

@@ -1,3 +1,43 @@
-GET http://localhost:8080/covoiturages
-X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
+
+POST http://localhost:8080/covoiturages
 Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCR3UmRpTzc2YU5TUy81bkw4cERDNUJ1bU56czQvMnd1czMuL0tEUmFIckhkNVhtcDJGSnQ2ZSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiLCJBRE1JTklTVFJBVEVVUiJdLCJlbWFpbCI6ImRpamlhbGVpQ29sbEFkbWluQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiQ29sbEFkbWluIiwiZXhwIjoxNjkzNDkzNjQyfQ.cqfbJxJlkp3naSQCZQhu3c16yhZje7c_cL2vuvhq5sc
+
+
+{
+  "nombrePlacesRestantes": 4,
+  "dateDepart": "2023-09-02T17:05:00"
+
+}
+
+###
+
+POST http://localhost:8080/covoiturages/testCreatePassageur
+Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCR3UmRpTzc2YU5TUy81bkw4cERDNUJ1bU56czQvMnd1czMuL0tEUmFIckhkNVhtcDJGSnQ2ZSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiLCJBRE1JTklTVFJBVEVVUiJdLCJlbWFpbCI6ImRpamlhbGVpQ29sbEFkbWluQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiQ29sbEFkbWluIiwiZXhwIjoxNjkzNDkzNjQyfQ.cqfbJxJlkp3naSQCZQhu3c16yhZje7c_cL2vuvhq5sc
+
+
+{
+  "userId": 5,
+  "conId": 2
+}
+
+
+###
+
+POST http://localhost:8080/covoiturages/create
+Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNCIsInBhc3N3b3JkIjoie2JjcnlwdH0kMmEkMTAkWG44c2tOYjZVa3BsSFRHWWp3bXB3ZXpJTE1pMXdQR0k0NmJxZjdyd1JPd0d6YnAxNnQwZEciLCJyb2xlcyI6WyJDT0xMQUJPUkFURVVSIiwiQURNSU5JU1RSQVRFVVIiXSwiZW1haWwiOiJkaWppYWxlaUNvbGxBZG1pbkBnbWFpbC5jb20iLCJ1c2VybmFtZSI6IkNvbGxBZG1pbiIsImV4cCI6MTY5MzE1MDA5OX0.juWSTv77L_SUTB_DKJlAQWyUSGFqNdv07_5EAkz1gvQ
+
+{
+  "nombrePlacesRestantes": 4,
+  "dureeTrajet": 3,
+  "distanceKm": 50,
+  "dateDepart": "2023-09-01",
+  "adresseDepartId": 1,
+  "adresseArriveeID":2,
+  "organisateurId": 6,
+  "passagers": null,
+  "vehiculePersoId": 2
+}
+

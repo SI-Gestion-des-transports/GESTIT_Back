@@ -2,7 +2,9 @@ package fr.diginamic.gestit_back.repository;
 
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.entites.Utilisateur;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -17,7 +19,17 @@ public interface ReservationVehiculeServiceRepository extends JpaRepository<Rese
 
     List<ReservationVehiculeService> findAllByVehiculeServiceIdAndAndDateHeureDepart(Integer vehiculeServiceId, LocalDateTime date);
 
-    List<ReservationVehiculeService> findAllByVehiculeServiceId(Integer vehiculeServiceId);
+    ReservationVehiculeService findByVehiculeServiceId(Integer vehiculeServiceId);
+
+    List<ReservationVehiculeService> findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsBefore(Utilisateur utilisateur, LocalDateTime dateRetour);
+
+    List<ReservationVehiculeService> findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsAfter(Utilisateur utilisateur, LocalDateTime dateRetour);
+
+    @Query("SELECT res FROM ReservationVehiculeService res WHERE res.vehiculeService.id = :vehiculeId AND " +
+            "((res.dateHeureDepart < :endDate) AND (res.dateHeureRetour > :startDate))")
+    Optional<List<ReservationVehiculeService>> findOverlappingReservations(@Param("vehiculeId") Integer vehiculeId,
+                                                                 @Param("startDate") LocalDateTime startDate,
+                                                                 @Param("endDate") LocalDateTime endDate);
 
     void deleteAllByVehiculeServiceId(Integer vehiculeServiceId);
 

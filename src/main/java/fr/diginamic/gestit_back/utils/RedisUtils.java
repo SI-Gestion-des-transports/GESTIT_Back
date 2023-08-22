@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 @Data
 public class RedisUtils {
     private RedisTemplate<String,String> redisTemplate;
-    public void createRedisCache(String username,String token){
-        redisTemplate.opsForSet().add(username,token);
+    public void createRedisCache(String email,String token){
+        redisTemplate.opsForSet().add(email,token);
     }
-    public boolean verifyRedisCache(String username,String token){
-        return redisTemplate.opsForSet().isMember(username,token);
+    public boolean verifyRedisCache(String email,String token){
+        return redisTemplate.opsForSet().isMember(email,token);
     }
-    public void deleteRedisCache(String username,String token){
-        if (verifyRedisCache(username,token))
-        redisTemplate.opsForSet().remove(username,token);
+    public void deleteRedisCache(String email,String token){
+        if (verifyRedisCache(email,token))
+        redisTemplate.opsForSet().remove(email,token);
     }
 }
