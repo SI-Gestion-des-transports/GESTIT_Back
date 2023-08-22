@@ -1,5 +1,6 @@
 package fr.diginamic.gestit_back.controller;
 
+import fr.diginamic.gestit_back.exceptions.NotFoundOrValidException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,11 @@ public class GestionException {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> getRuntimeException(RuntimeException e){
         return ResponseEntity.status(403).body("Error : "+e.getMessage());
+    }
+
+    @ExceptionHandler(NotFoundOrValidException.class)
+    public ResponseEntity getNotFoundOrValidException(NotFoundOrValidException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessageDto());
     }
 
 

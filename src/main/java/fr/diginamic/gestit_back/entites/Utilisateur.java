@@ -38,7 +38,7 @@ public class Utilisateur extends AbstractBaseEntity {
     private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
 
     @ManyToMany(mappedBy = "passagers" )
-   /* @JoinTable(name = "covoiturages_collaborateur",
+/*   @JoinTable(name = "covoiturages_collaborateur",
             joinColumns = @JoinColumn(name = "collaborateur_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "covoiturage_id", referencedColumnName = "id"))*/
 

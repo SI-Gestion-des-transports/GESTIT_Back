@@ -19,7 +19,11 @@ public interface ReservationVehiculeServiceRepository extends JpaRepository<Rese
 
     List<ReservationVehiculeService> findAllByVehiculeServiceIdAndAndDateHeureDepart(Integer vehiculeServiceId, LocalDateTime date);
 
-    List<ReservationVehiculeService> findAllByVehiculeServiceId(Integer vehiculeServiceId);
+    ReservationVehiculeService findByVehiculeServiceId(Integer vehiculeServiceId);
+
+    List<ReservationVehiculeService> findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsBefore(Utilisateur utilisateur, LocalDateTime dateRetour);
+
+    List<ReservationVehiculeService> findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsAfter(Utilisateur utilisateur, LocalDateTime dateRetour);
 
     @Query("SELECT res FROM ReservationVehiculeService res WHERE res.vehiculeService.id = :vehiculeId AND " +
             "((res.dateHeureDepart < :endDate) AND (res.dateHeureRetour > :startDate))")

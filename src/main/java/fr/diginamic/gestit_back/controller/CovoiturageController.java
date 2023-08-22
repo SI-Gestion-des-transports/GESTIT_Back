@@ -1,10 +1,14 @@
 package fr.diginamic.gestit_back.controller;
 
 import fr.diginamic.gestit_back.dto.CovoiturageDto;
+import fr.diginamic.gestit_back.dto.TestCovoiturageDto;
 import fr.diginamic.gestit_back.dto.TestDto;
 import fr.diginamic.gestit_back.entites.Covoiturage;
+import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
+import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import fr.diginamic.gestit_back.service.CovoiturageService;
+import fr.diginamic.gestit_back.service.UtilisateurService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
 
@@ -26,13 +30,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@Secured("COLLABORATEUR")
+//@Secured("COLLABORATEUR")
 @Data
 @RequestMapping("/covoiturages")
 public class CovoiturageController {
     private CovoiturageService covoiturageService;
 
     private ModelMapper modelMapper;
+
+    UtilisateurRepository utilisateurRepository;
 
     protected CovoiturageController(CovoiturageService covoiturageService, ModelMapper mapper) {
         this.covoiturageService = covoiturageService;
@@ -110,8 +116,16 @@ public class CovoiturageController {
                 entity -> entity2Dto(entity))
                 .collect(Collectors.toList());
     }
+
     @PostMapping("/testCreatePassageur")
     public ResponseEntity testCreatePassageur(@RequestBody TestDto testDto){
         return covoiturageService.testCreatePassageur(testDto.userId,testDto.conId);
+    }
+
+    @PostMapping("/create")
+    public void testCreate(@RequestBody TestCovoiturageDto tcd) throws CovoiturageNotFoundException {
+        Integer covoitId = covoiturageService.testCreate(tcd);
+
+        covoiturageService.testFindPassager(covoitId);
     }
 }
