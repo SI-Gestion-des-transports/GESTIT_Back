@@ -3,6 +3,7 @@ package fr.diginamic.gestit_back.repository;
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,6 @@ public interface CovoiturageRepository extends JpaRepository<Covoiturage, Intege
    Set<Covoiturage> findCovoituragesByOrganisateur(Utilisateur utilisateur);
    Covoiturage findCovoituragesById(Integer id);
 
-   List<Covoiturage> findCovoituragesByVehiculePersoAndDateDepartIsAfter(VehiculePerso vehiculePerso, LocalDateTime dateTimeSupprimer);
+   List<Covoiturage> findCovoituragesByVehiculePersoAndDateDepartIsAfter(VehiculePerso vehiculePerso, LocalDate dateTimeSupprimer);
 
 }

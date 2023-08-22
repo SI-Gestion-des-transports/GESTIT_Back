@@ -8,6 +8,7 @@ import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import fr.diginamic.gestit_back.utils.NotFoundOrValidException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ import java.util.*;
 public class UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
     private final CovoiturageRepository covoiturageRepository;
+    private PasswordEncoder passwordEncoder;
 
     public List<Utilisateur> listerUtilisateurParNom (String nom){
         List<Utilisateur> utilisateurs = new ArrayList<>();
@@ -48,7 +50,7 @@ public class UtilisateurService {
         if (utilisateurRepository.findByEmail(utilisateurDto.email()).isPresent()){
             throw new RuntimeException("L'email a été utilisé par un autre utilisateur");
         } else {
-            return this.utilisateurRepository.save(new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), utilisateurDto.motDePasse(), utilisateurDto.roles(), utilisateurDto.dateNonValide()));
+            return this.utilisateurRepository.save(new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), passwordEncoder.encode(utilisateurDto.motDePasse()), utilisateurDto.roles(), utilisateurDto.dateNonValide()));
         }
     }
 

@@ -36,13 +36,16 @@ public class VehiculePersoController {
     @GetMapping("/delete")
     public ResponseEntity<List<VehiculePersoDto>> deleteVehiculePerso(
             @RequestParam Integer id,
+            //@RequestParam Integer userId,
             @RequestHeader HttpHeaders httpHeaders
     ) throws CovoiturageNotFoundException {
         Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+
         List<Covoiturage> covoiturages = covoiturageService.findCovoituragesByVehiculePerSupprimer(vehiculePersoService.findVehiculePersoById(id));
+
         for (Covoiturage c:covoiturages
              ) {
-            //c.setPassagers(new HashSet<>());
+
             covoiturageService.delete(c.getId());
         }
         vehiculePersoService.deleteVehiculePerso(id);
