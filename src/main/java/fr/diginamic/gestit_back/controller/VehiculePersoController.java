@@ -28,10 +28,11 @@ public class VehiculePersoController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<List<VehiculePersoDto>> createVehiculePerso(@Validated @RequestBody VehiculePersoDto dto){
-
-        vehiculePersoService.createVehiculePerso(dto);
-        return ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(dto.getUserId()));
+    public ResponseEntity<List<VehiculePersoDto>> createVehiculePerso(@RequestHeader HttpHeaders httpHeaders,@Validated @RequestBody VehiculePersoDto dto){
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        System.out.println(userId);
+        vehiculePersoService.createVehiculePerso(dto,userId);
+        return ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
     @GetMapping("/delete")
     public ResponseEntity<List<VehiculePersoDto>> deleteVehiculePerso(
@@ -54,15 +55,16 @@ public class VehiculePersoController {
 
     @GetMapping("/list")
     public ResponseEntity<List<VehiculePersoDto>> listVehiculePerso(
-            @RequestParam Integer userId
+            @RequestHeader HttpHeaders httpHeaders
     ){
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
     @PostMapping("/modify")
-    public ResponseEntity<List<VehiculePersoDto>> modifyVehiculePerso(@Validated @RequestBody VehiculePersoDto dto){
-
-        vehiculePersoService.modifyVehiculePerso(dto);
-        return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(dto.getUserId()));
+    public ResponseEntity<List<VehiculePersoDto>> modifyVehiculePerso(@RequestHeader HttpHeaders httpHeaders,@Validated @RequestBody VehiculePersoDto dto){
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        vehiculePersoService.modifyVehiculePerso(dto,userId);
+        return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
     @CrossOrigin
     @PostMapping("/test")
