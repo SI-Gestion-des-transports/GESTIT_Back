@@ -16,15 +16,14 @@ public class CommuneService {
 
     private CommuneRepository communeRepository;
 
-
     @Transactional
-    public Commune nouvelleCommune(Commune commune){
+    public Commune nouvelleCommune(Commune commune) {
         return this.communeRepository.save(commune);
     }
 
     @Transactional
-    public Commune verifierExistenceCommune(String commune, Integer codePostal){
-        Optional <Commune> optionalCommune = this.communeRepository.findCommuneByNomAndCodePostal(commune, codePostal);
+    public Commune verifierExistenceCommune(String commune, Integer codePostal) {
+        Optional<Commune> optionalCommune = this.communeRepository.findCommuneByNomAndCodePostal(commune, codePostal);
         return optionalCommune.orElse(null);
     }
 }

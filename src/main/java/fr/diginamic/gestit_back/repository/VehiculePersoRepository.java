@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface VehiculePersoRepository extends JpaRepository<VehiculePerso,Integer> {
+public interface VehiculePersoRepository extends JpaRepository<VehiculePerso, Integer> {
 
-     List<VehiculePerso> findVehiculePersoByProprietaire(Utilisateur utilisateur);
-
+    List<VehiculePerso> findVehiculePersoByProprietaire(Utilisateur utilisateur);
 
 }

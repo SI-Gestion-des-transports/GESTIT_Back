@@ -23,10 +23,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class VehiculeService extends AbstractVehicule {
 
-    @Column(name="photo_url")
+    @Column(name = "photo_url")
     private String photoURL;
 
-    @Column(name="emission_co2")
+    @Column(name = "emission_co2")
     private Double emissionCO2;
 
     @Enumerated(EnumType.STRING)
@@ -40,13 +40,14 @@ public class VehiculeService extends AbstractVehicule {
 
     @OneToMany(mappedBy = "vehiculeService")
     private List<ReservationVehiculeService> reservationVehiculeServices = new ArrayList<>();
-    public VehiculeService(VehiculeServiceDto dto, Modele modele){
-        if (dto.getId()!=null) this.setId(dto.getId());
-        this.categorie=dto.getCategorie();
-        this.emissionCO2= dto.getEmissionCO2();
-        this.statut=dto.getStatut();
-        this.motorisation =dto.getMotorisation();
-        this.photoURL=dto.getPhotoURL();
+
+    public VehiculeService(VehiculeServiceDto dto, Modele modele) {
+        if (dto.getId() != null) this.setId(dto.getId());
+        this.categorie = dto.getCategorie();
+        this.emissionCO2 = dto.getEmissionCO2();
+        this.statut = dto.getStatut();
+        this.motorisation = dto.getMotorisation();
+        this.photoURL = dto.getPhotoURL();
         this.setModele(modele);
         this.setImmatriculation(dto.getImmatriculation());
         this.setNombreDePlaceDisponibles(dto.getNombreDePlaceDisponibles());

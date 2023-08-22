@@ -11,16 +11,19 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class LoginController {
     private LoginService loginService;
+
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody Utilisateur utilisateur){
+    public ResponseEntity login(@RequestBody Utilisateur utilisateur) {
         return loginService.login(utilisateur);
     }
+
     @PostMapping("/signout")
-    public ResponseEntity signout(@RequestHeader HttpHeaders httpHeaders){
+    public ResponseEntity signout(@RequestHeader HttpHeaders httpHeaders) {
         return loginService.signout(httpHeaders);
     }
+
     @PostMapping("/getidbyjwt")
-    public ResponseEntity getId(@RequestHeader HttpHeaders httpHeaders){
+    public ResponseEntity getId(@RequestHeader HttpHeaders httpHeaders) {
         return loginService.getId(httpHeaders);
     }
 }

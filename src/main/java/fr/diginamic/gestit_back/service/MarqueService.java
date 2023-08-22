@@ -19,19 +19,21 @@ public class MarqueService {
 
     private MarqueRepository marqueRepository;
 
-    public List<Marque> listerMarques(){
+    public List<Marque> listerMarques() {
         return this.marqueRepository.findAll();
     }
 
-    public boolean verifyMarque(String nom){
+    public boolean verifyMarque(String nom) {
         Marque marque = marqueRepository.findMarqueByNom(nom);
         if (marque == null) return false;
         else return true;
     }
-    public void deleteMarqueByNom(String nom){
+
+    public void deleteMarqueByNom(String nom) {
         marqueRepository.deleteByNom(nom);
     }
-    public void updateMarque(MarqueDto marqueDto){
+
+    public void updateMarque(MarqueDto marqueDto) {
         Optional<Marque> marque = marqueRepository.findById(marqueDto.id());
         Marque marquefinded = marque.get();
         marquefinded.setNom(marqueDto.nom());
@@ -40,7 +42,7 @@ public class MarqueService {
     }
 
 
-    public Marque creerMarque(String nom){
+    public Marque creerMarque(String nom) {
         return this.marqueRepository.save(new Marque(nom, null));
     }
 }

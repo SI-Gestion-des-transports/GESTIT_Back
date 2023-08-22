@@ -25,7 +25,7 @@ public class AdresseService {
         // Récupération de la commune en basse
         Commune commune = this.communeService.verifierExistenceCommune(adresseDto.commune(), adresseDto.codePostal());
         // Si la commune n'existe pas, création et insertion en base
-        if(commune == null){
+        if (commune == null) {
             commune = communeService.nouvelleCommune(new Commune(adresseDto.commune(), adresseDto.codePostal()));
         }
         // Ajout de la commune à l'adresse

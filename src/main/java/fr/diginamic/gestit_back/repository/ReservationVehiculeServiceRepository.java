@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +14,11 @@ import java.util.Optional;
 @Repository
 public interface ReservationVehiculeServiceRepository extends JpaRepository<ReservationVehiculeService, Integer> {
 
-    List<ReservationVehiculeService> findReservationVehiculeServiceByCollaborateur (Utilisateur utilisateur);
+    List<ReservationVehiculeService> findReservationVehiculeServiceByCollaborateur(Utilisateur utilisateur);
 
     List<ReservationVehiculeService> findAllByVehiculeServiceIdAndAndDateHeureDepart(Integer vehiculeServiceId, LocalDateTime date);
 
-    ReservationVehiculeService findByVehiculeServiceId(Integer vehiculeServiceId);
+    //ReservationVehiculeService findByVehiculeServiceId(Integer vehiculeServiceId);
 
     List<ReservationVehiculeService> findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsBefore(Utilisateur utilisateur, LocalDateTime dateRetour);
 
@@ -28,10 +27,10 @@ public interface ReservationVehiculeServiceRepository extends JpaRepository<Rese
     @Query("SELECT res FROM ReservationVehiculeService res WHERE res.vehiculeService.id = :vehiculeId AND " +
             "((res.dateHeureDepart < :endDate) AND (res.dateHeureRetour > :startDate))")
     Optional<List<ReservationVehiculeService>> findOverlappingReservations(@Param("vehiculeId") Integer vehiculeId,
-                                                                 @Param("startDate") LocalDateTime startDate,
-                                                                 @Param("endDate") LocalDateTime endDate);
+                                                                           @Param("startDate") LocalDateTime startDate,
+                                                                           @Param("endDate") LocalDateTime endDate);
 
-    void deleteAllByVehiculeServiceId(Integer vehiculeServiceId);
+    //void deleteAllByVehiculeServiceId(Integer vehiculeServiceId);
 
     void deleteReservationVehiculeServiceByIdAndAndDateHeureDepartIsAfterAndDateHeureRetourIsBefore(Integer vehiculeServiceId, LocalDateTime dateDepart, LocalDateTime dateRetour);
 

@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 @AllArgsConstructor
 public class Commune extends AbstractBaseEntity {
 
-
     private String nom;
 
     private Integer codePostal;

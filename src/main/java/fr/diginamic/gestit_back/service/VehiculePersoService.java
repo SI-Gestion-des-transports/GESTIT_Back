@@ -4,7 +4,6 @@ import fr.diginamic.gestit_back.dto.VehiculePersoDto;
 import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
-import fr.diginamic.gestit_back.enumerations.Statut;
 import fr.diginamic.gestit_back.enumerations.StatutPerso;
 import fr.diginamic.gestit_back.repository.ModeleRepository;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;

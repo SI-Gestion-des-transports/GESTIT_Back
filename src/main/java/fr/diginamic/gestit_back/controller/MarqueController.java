@@ -6,10 +6,12 @@ import fr.diginamic.gestit_back.service.MarqueService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Secured({"COLLABORATEUR", "ADMINISTRATEUR"})
 @Data
 @AllArgsConstructor
 @RequestMapping("marque")
@@ -19,22 +21,25 @@ public class MarqueController {
     private MarqueService marqueService;
 
     @PostMapping("/create")
-    public void creerMarque(@Valid @RequestBody MarqueDto marqueDto){
+    public void creerMarque(@Valid @RequestBody MarqueDto marqueDto) {
         if (marqueService.verifyMarque(marqueDto.nom())) throw new RuntimeException("la marque existe déjà");
         else this.marqueService.creerMarque(marqueDto.nom());
     }
+
     @GetMapping("/list")
-    public void listerMarque(){
-        for(Marque m : this.marqueService.listerMarques()){
+    public void listerMarque() {
+        for (Marque m : this.marqueService.listerMarques()) {
             System.out.println(m.toString());
         }
     }
+
     @PostMapping("/delete")
-    public void deleteMarque(@Valid @RequestBody MarqueDto marqueDto){
+    public void deleteMarque(@Valid @RequestBody MarqueDto marqueDto) {
         marqueService.deleteMarqueByNom(marqueDto.nom());
     }
+
     @PostMapping("/update")
-    public void updateMarque(@Valid @RequestBody MarqueDto marqueDto){
+    public void updateMarque(@Valid @RequestBody MarqueDto marqueDto) {
         marqueService.updateMarque(marqueDto);
     }
 }
