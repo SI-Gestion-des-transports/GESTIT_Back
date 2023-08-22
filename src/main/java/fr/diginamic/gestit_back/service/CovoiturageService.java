@@ -52,7 +52,7 @@ public class CovoiturageService {
             if (covoiturageOptional.get().getNombrePlacesRestantes() <= 0) {
                 throw new NotFoundOrValidException(new MessageDto("Il n'y a plus de place dans ce covoiturage"));
             } else {
-                Set<Utilisateur> passagers = covoiturage.getPassagers();
+                List<Utilisateur> passagers = covoiturage.getPassagers();
                 passagers.add(utilisateurRepository.findById(passager.getId()).orElseThrow());
                 covoiturage.setNombrePlacesRestantes(covoiturage.getNombrePlacesRestantes() - 1);
                 covoiturage.setPassagers(passagers);
@@ -121,7 +121,7 @@ public class CovoiturageService {
         System.out.println("vehiculePerso" + vehiculePerso.getImmatriculation());
 
         System.out.println("****** New Covoit ******");
-        Covoiturage covoiturage = new Covoiturage(tcd.nombrePlacesRestantes(), tcd.dureeTrajet(), tcd.distanceKm(), dateDepart, adresseDepart, adresseArrivee, new HashSet<>(), organisateur, vehiculePerso);
+        Covoiturage covoiturage = new Covoiturage(tcd.nombrePlacesRestantes(), tcd.dureeTrajet(), tcd.distanceKm(), dateDepart, adresseDepart, adresseArrivee, new ArrayList<>(), organisateur, vehiculePerso);
         System.out.println("****** SAVE ?? ******");
         covoiturageRepository.save(covoiturage);
         System.out.println("****** SAVE OK ******");

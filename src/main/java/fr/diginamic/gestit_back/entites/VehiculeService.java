@@ -10,7 +10,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -37,7 +39,7 @@ public class VehiculeService extends AbstractVehicule {
     private Categorie categorie;
 
     @OneToMany(mappedBy = "vehiculeService")
-    private Set<ReservationVehiculeService> reservationVehiculeServices = new HashSet<>();
+    private List<ReservationVehiculeService> reservationVehiculeServices = new ArrayList<>();
     public VehiculeService(VehiculeServiceDto dto, Modele modele){
         if (dto.getId()!=null) this.setId(dto.getId());
         this.categorie=dto.getCategorie();

@@ -3,19 +3,16 @@ package fr.diginamic.gestit_back.controller;
 import fr.diginamic.gestit_back.dto.MessageDto;
 import fr.diginamic.gestit_back.dto.UtilisateurDto;
 import fr.diginamic.gestit_back.entites.Utilisateur;
-import fr.diginamic.gestit_back.repository.UtilisateurRepository;
+import fr.diginamic.gestit_back.exceptions.NotFoundOrValidException;
 import fr.diginamic.gestit_back.service.UtilisateurService;
 import fr.diginamic.gestit_back.utils.JWTUtils;
-import fr.diginamic.gestit_back.utils.NotFoundOrValidException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +31,8 @@ public class UtilisateurController {
     public List<Utilisateur> findNom() {
         return this.utilisateurCollaborateurService.listerUtilisateurParNom("Admin1");
     }
-/*    @PostMapping("/create2")
+/*
+    @PostMapping("/create2")
     public ResponseEntity createUser(@RequestBody Utilisateur utilisateur){
         System.out.println(utilisateur);
         utilisateur.setMotDePasse(passwordEncoder.encode(utilisateur.getMotDePasse()));
@@ -68,8 +66,6 @@ public class UtilisateurController {
             this.utilisateurCollaborateurService.desactiverUtilisateur(idUser, dateDesactivation);
         } else {
             throw new NotFoundOrValidException(new MessageDto("Vous ne pouvez pas désactiver cet utilisateur"));
-
         }
-
     }
 }

@@ -51,7 +51,7 @@ public class UtilisateurService {
         if (utilisateurRepository.findByEmail(utilisateurDto.email()).isPresent()){
             throw new RuntimeException("L'email a été utilisé par un autre utilisateur");
         } else {
-            return this.utilisateurRepository.save(new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), passwordEncoder.encode(utilisateurDto.motDePasse()), utilisateurDto.roles(), utilisateurDto.dateNonValide()));
+            return this.utilisateurRepository.save(new Utilisateur(utilisateurDto.nom(), utilisateurDto.email(), passwordEncoder.encode(utilisateurDto.motDePasse()), utilisateurDto.roles()));
         }
     }
 
