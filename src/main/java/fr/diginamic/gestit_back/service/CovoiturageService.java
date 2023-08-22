@@ -65,15 +65,15 @@ public class CovoiturageService {
         if (!covoiturageRepository.existsById(covoiturage.getId())) {
             throw new CovoiturageNotFoundException();
         }
+
         return covoiturageRepository.save(covoiturage);
     }
 
     public Covoiturage get(Integer id) throws CovoiturageNotFoundException {
         Optional<Covoiturage> result = covoiturageRepository.findById(id);
-        if (result.isPresent()) {
-            return result.get();
-        }
-        throw new CovoiturageNotFoundException();
+        if (result.isEmpty())
+            throw new CovoiturageNotFoundException();
+        return result.get();
     }
 
     public List<Covoiturage> list() {
