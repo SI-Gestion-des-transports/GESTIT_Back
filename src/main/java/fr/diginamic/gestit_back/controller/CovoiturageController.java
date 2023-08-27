@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.modelmapper.ModelMapper;
 import io.jsonwebtoken.Claims;
 
@@ -30,19 +31,17 @@ import java.util.stream.Collectors;
 @RestController
 @Secured("COLLABORATEUR")
 @Data
-@RequestMapping("/covoiturages")
+@RequestMapping(path=EndPointsApp.ENDPOINT_COVOITURAGE_ALL)
 public class CovoiturageController {
 
-    public static final String EP_ROOT = "/covoiturages";
-    public static final String EP_LISTER_COVOITURAGES_ENREGISTRES = EP_ROOT + "/    lister-covoiturages-enregistres";
+    
 
     private CovoiturageService covoiturageService;
+    UtilisateurRepository utilisateurRepository;
 
     @Autowired
     private JWTUtils jwtUtils;
     private ModelMapper modelMapper;
-
-    UtilisateurRepository utilisateurRepository;
 
     protected CovoiturageController(CovoiturageService covoiturageService, ModelMapper mapper) {
         this.covoiturageService = covoiturageService;
@@ -59,9 +58,11 @@ public class CovoiturageController {
      * @author AtsuhikoMochizuki
      * 
      */
-    @GetMapping(CovoiturageController.EP_LISTER_COVOITURAGES_ENREGISTRES)
-    public ResponseEntity<List<Covoiturage>> afficherCovoituragesEnregistres() {
+    @GetMapping(path=EndPointsApp.ENDPOINT_COVOITURAGE_ALL)
+    public ResponseEntity<List<Covoiturage>> afficherCovoituragesInDb(@RequestHeader HttpHeaders httpHeaders) {
+       Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         List<Covoiturage> list = this.covoiturageService.list();
+        //URI uri = URI.create("/covoiturages/toto");
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
     

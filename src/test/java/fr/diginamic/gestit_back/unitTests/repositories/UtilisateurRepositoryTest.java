@@ -1,6 +1,7 @@
-package fr.diginamic.gestit_back.repository;
+package fr.diginamic.gestit_back.unitTests.repositories;
 
 import fr.diginamic.gestit_back.entites.Utilisateur;
+import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

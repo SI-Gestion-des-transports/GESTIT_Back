@@ -1,7 +1,9 @@
-package fr.diginamic.gestit_back.service;
+package fr.diginamic.gestit_back.unitTests.services;
 
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
+import fr.diginamic.gestit_back.service.UtilisateurService;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package fr.diginamic.gestit_back.repository;
+package fr.diginamic.gestit_back.unitTests.repositories;
 
 import static org.junit.Assert.assertTrue;
 
@@ -29,6 +29,7 @@ import fr.diginamic.gestit_back.entites.Marque;
 import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
+import fr.diginamic.gestit_back.repository.CovoiturageRepository;
 import jakarta.validation.ConstraintViolationException;
 
 @RunWith(SpringRunner.class)

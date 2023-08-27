@@ -1,4 +1,4 @@
-package fr.diginamic.gestit_back.service;
+package fr.diginamic.gestit_back.unitTests.services;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -32,6 +32,7 @@ import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.repository.CovoiturageRepository;
+import fr.diginamic.gestit_back.service.CovoiturageService;
 
 /***
  * Cette classe propose une batterie de tests

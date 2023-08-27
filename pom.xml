@@ -143,4 +143,21 @@
 		</plugins>
 	</build>
 
+
+
+	<dependencyManagement>
+	
+
+		<dependencies>
+		
+
+			<dependency>
+				<groupId>org.checkerframework</groupId>
+				<artifactId>checker-qual</artifactId>
+				<version>3.33.0</version>
+			</dependency>
+
+		</dependencies>
+
+	</dependencyManagement>
 </project>

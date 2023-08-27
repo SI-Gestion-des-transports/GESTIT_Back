@@ -1,10 +1,13 @@
-package fr.diginamic.gestit_back.service;
+package fr.diginamic.gestit_back.unitTests.services;
 
 import fr.diginamic.gestit_back.dto.ReservationVehiculeServiceDto;
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculeService;
 import fr.diginamic.gestit_back.repository.ReservationVehiculeServiceRepository;
+import fr.diginamic.gestit_back.service.ReservationVehiculeServiceService;
+import fr.diginamic.gestit_back.service.UtilisateurService;
+import fr.diginamic.gestit_back.service.VehiculeServiceService;
 import fr.diginamic.gestit_back.exceptions.NotFoundOrValidException;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
