@@ -73,9 +73,9 @@ import static org.junit.Assert.assertTrue;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
-@DataJpaTest
-@RunWith(SpringRunner.class)
-// @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+//@DataJpaTest
+// @RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 public class Rest_covoiturage {
 
     private RestTemplate restTemplate;
@@ -84,6 +84,7 @@ public class Rest_covoiturage {
 
     Covoiturage instanceExample;
 
+    private static final String GET_ALL_COVOIT_URL = ("http://localhost:8080/covoiturages/getAllCovoiturages");
      public static final String BASE_URL = "https://jsonplaceholder.typicode.com/todos";
     @BeforeEach
     public void init() {
@@ -99,10 +100,48 @@ public class Rest_covoiturage {
     }
 
     @Test
+    public void allCovoiturages() {
+        HttpHeaders headers = new HttpHeaders();
+
+        /*
+         * Configuration du type de données attendues et contenues
+         * dans la requête. Ici, un objet JSON)
+         */
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        
+        //Zone à remplir pour Spring Security
+            //Passage du token
+            //headers.add("Authorization", headerValue);
+
+
+        //
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(GET_ALL_COVOIT_URL, HttpMethod.GET, entity,
+                String.class);
+        
+        assertTrue(true);
+    }
+
+    @Test
     public void firstTodo() throws URISyntaxException{
         URI uri = new URI(BASE_URL+"/1");
         Todo firstTodo = restTemplate.getForObject(uri,Todo.class);
         System.out.println(firstTodo);
         assertThat(firstTodo.getTitle()).isEqualTo("delectus aut autem");
     }
+
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @Sql("covoiturages.sql")
+    @Test
+    public void first() throws URISyntaxException{
+        URI uri = new URI("http://localhost:8080/covoiturage/getAllCovoiturages");
+        Covoiturage read = restTemplate.getForObject(uri,Covoiturage.class);
+        assertThat(read).isNotNull();
+        // assertThat(read.getNombrePlacesRestantes()).isEqualTo(2);
+        // assertThat(read.getDistanceKm()).isEqualTo(456);
+        
+    }
+
+
 }

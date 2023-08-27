@@ -42,5 +42,14 @@ JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwicGFzc3dvcmQiOiJ7
 }
 
 ### USER 5
-GET http://localhost:8080/covoiturages
+GET http://localhost:8080/RestTemplate/getAllCovoiturages
 Content-Type: application/json
+
+### USER 6
+POST http://localhost:8080/RestTemplate/addCovoiturage
+Content-Type: application/json
+{
+  "nombrePlacesRestantes": 4,
+  "dateDepart": "2023-09-02T17:05:00"
+
+}
