@@ -20,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Covoiturage extends AbstractBaseEntity {
 
-    @NotNull(message = "nombreDePlacesrestantes must not be null")
+    //@NotNull(message = "nombreDePlacesrestantes must not be null")
     private Integer nombrePlacesRestantes;
 
     private Integer dureeTrajet;

@@ -1,8 +1,10 @@
 package fr.diginamic.gestit_back.integrationTest.RestServices;
 
 import java.util.List;
+import java.io.IOException;
 import java.util.Arrays;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +18,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
@@ -26,11 +30,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import fr.diginamic.gestit_back.controller.CovoiturageController;
 import fr.diginamic.gestit_back.controller.EndPointsApp;
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import static fr.diginamic.gestit_back.unitTests.utils.TestRestServicesUtils.Covoiturage_instanceExample;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -109,9 +115,40 @@ public class RestTemplateApiGESTIT {
                 });
 
         List<Covoiturage> covoiturages = responseEntity.getBody();
-        
+
         assertThat(covoiturages.get(0).getId()).isEqualTo(601);
         assertThat(covoiturages.get(0).getNombrePlacesRestantes()).isEqualTo(3);
         assertThat(covoiturages.get(0).getDistanceKm()).isEqualTo(102);
     }
+
+    @Test
+    public void createCovoiturage() {
+        Covoiturage covoiturageToSend = CovoiturageController.Covoiturage_instanceExample();
+        covoiturageToSend.setId(502);
+        covoiturageToSend.setDistanceKm(7401);
+        covoiturageToSend.setDureeTrajet(4789);
+        covoiturageToSend.setNombrePlacesRestantes(2);
+        ResponseEntity<Covoiturage> saved = restTemplate
+                .postForEntity(EndPointsApp.COVOITURAGE_CREATE_URI,
+                        covoiturageToSend, Covoiturage.class);
+
+        assertThat(saved.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        assertThat(saved.getBody().getId()).isEqualTo(502);
+
+    }
+
+    @Test
+public void givenDataIsJson_whenDataIsPostedByPostForEntity_thenResponseBodyIsNotNull()
+  throws IOException {
+    HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+    HttpEntity<String> request = 
+      new HttpEntity<String>(this.instanceExample.toString(), headers);
+    
+      ResponseEntity<Covoiturage> responseEntity = restTemplate.
+      postForEntity(EndPointsApp.COVOITURAGE_CREATE_URI, request, Covoiturage.class);
+     
+    assertNotNull(responseEntity.getBody());
+    assertNotNull(responseEntity.getBody().getId());
+}
 }
