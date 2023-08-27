@@ -46,6 +46,3 @@ GET http://localhost:8080/covoiturages/listerorganises
 Content-Type: application/json
 X-XSRF-TOKEN: 4f2ed8de-4381-4e78-9eca-0d4168abb148
 JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRML0VRWjN3WW1haFNta3oxSzhzZjhlYzdGbC8vMWVIRXlLbWhYTmdlZnhBYlR3TUlaS3hvbSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiXSwiZW1haWwiOiJjb2xsYWJvcmF0ZXVyNUBnZXN0aXQuZnIiLCJ1c2VybmFtZSI6IkNvbGxhYjUiLCJleHAiOjE2OTM1Nzc5NDB9.8XjrK7NuzSKt-5OXN654U3FgHeK97fJRx4SvM3vb5u4
-
-### USER 6
-GET http://localhost:8080/covoiturages/toto

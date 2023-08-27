@@ -63,10 +63,8 @@ import static fr.diginamic.gestit_back.unitTests.utils.TestRestServicesUtils.Cov
 @WebMvcTest(CovoiturageController.class)
 public class CovoiturageControllerTest {
 
-	private static String END_POINT_PATH = EndPointsApp.ENDPOINT_COVOITURAGE_ALL;
+	private static String END_POINT_PATH = EndPointsApp.COVOITURAGE_ENDPOINT;
 	
-	
-
 	private MockMvc testeur;
 	private ObjectMapper convertisseurJavaJson;
 	private Covoiturage covoiturageExample;
@@ -109,7 +107,7 @@ public class CovoiturageControllerTest {
 		Mockito.when(this.doublureCovoiturageService.list()).thenReturn(listCovoiturages);
 
 		/*Envoi de la requête HTTP et validation du retour attendu */
-		testeur.perform(get(EndPointsApp.ENDPOINT_COVOITURAGE_ALL))
+		testeur.perform(get(EndPointsApp.COVOITURAGE_ENDPOINT+EndPointsApp.COVOITURAGE_GET_ALL_RESOURCE))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$[0].id").value(covoiturage1.getId()))

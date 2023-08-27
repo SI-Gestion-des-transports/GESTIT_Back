@@ -26,14 +26,21 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
-import fr.diginamic.gestit_back.entites.*;
+import static fr.diginamic.gestit_back.controller.EndPointsApp.*;
+import fr.diginamic.gestit_back.entites.Covoiturage;
+import fr.diginamic.gestit_back.entites.Adresse;
+import fr.diginamic.gestit_back.entites.Commune;
+import fr.diginamic.gestit_back.entites.Utilisateur;
+import fr.diginamic.gestit_back.entites.VehiculePerso;
+import fr.diginamic.gestit_back.entites.Modele;
+import fr.diginamic.gestit_back.entites.Marque;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 @RestController
 // @Secured("COLLABORATEUR")
 @Data
-@RequestMapping("/covoiturages")
+@RequestMapping(EndPointsApp.COVOITURAGE_ENDPOINT)
 public class CovoiturageController {
 
     @Autowired
@@ -41,23 +48,24 @@ public class CovoiturageController {
 
     private ModelMapper modelMapper;
 
-    
-
     protected CovoiturageController(CovoiturageService covoiturageService, ModelMapper mapper) {
         this.covoiturageService = covoiturageService;
         this.modelMapper = mapper;
     }
 
-    @PostMapping("/create")
+    
+    @PostMapping(EndPointsApp.COVOITURAGE_CREATE_RESOURCE)
     public Covoiturage createCovoiturage(@RequestBody Covoiturage covoiturage) {
         return covoiturageService.add(covoiturage);
     }
 
-    @GetMapping("/getAllCovoiturages")
+    @GetMapping(EndPointsApp.COVOITURAGE_GET_ALL_RESOURCE)
     public List<Covoiturage> getCovoiturages(){
         return covoiturageService.list();
     }
 
+
+    /*Fonctions utilitaires */
     public static Covoiturage Covoiturage_instanceExample() {
         Covoiturage covoiturage = new Covoiturage();
         Commune commune = new Commune("Paris", 75000);
