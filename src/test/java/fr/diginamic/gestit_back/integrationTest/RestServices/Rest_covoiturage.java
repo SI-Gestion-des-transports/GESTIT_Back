@@ -8,7 +8,7 @@ import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,6 +72,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.core.ParameterizedTypeReference;
 
 //@DataJpaTest
 // @RunWith(SpringRunner.class)
@@ -99,28 +100,30 @@ public class Rest_covoiturage {
         restTemplate = new RestTemplate();
     }
 
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    @Sql("covoiturages.sql")
     @Test
     public void allCovoiturages() {
         HttpHeaders headers = new HttpHeaders();
-
-        /*
-         * Configuration du type de données attendues et contenues
-         * dans la requête. Ici, un objet JSON)
-         */
+        /* Configuration du type de données attendues et contenues dans la requête. Ici, un objet JSON)*/
+        
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         
         //Zone à remplir pour Spring Security
-            //Passage du token
-            //headers.add("Authorization", headerValue);
+        //Passage du token
+        //headers.add("Authorization", headerValue);
 
+        /*Insertion des données à transmettre */
+     //   HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
-        //
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        ResponseEntity<List<Covoiturage>> responseEntity = restTemplate.exchange(GET_ALL_COVOIT_URL,
+    HttpMethod.GET,
+    null,
+    new ParameterizedTypeReference<List<Covoiturage>>() {});
 
-        ResponseEntity<String> response = restTemplate.exchange(GET_ALL_COVOIT_URL, HttpMethod.GET, entity,
-                String.class);
-        
-        assertTrue(true);
+  List<Covoiturage> covoiturages = responseEntity.getBody();
+        assertThat(covoiturages.get(0).getId()).isEqualTo(51);
+   
     }
 
     @Test
