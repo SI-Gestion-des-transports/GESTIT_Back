@@ -59,6 +59,8 @@ import fr.diginamic.gestit_back.utils.RedisUtils;
 public class CovoiturageControllerTest {
 
 	private static final String END_POINT_PATH = "/covoiturages";
+	
+	
 
 	private MockMvc testeur;
 	private ObjectMapper convertisseurJavaJson;
@@ -84,6 +86,31 @@ public class CovoiturageControllerTest {
 				.build();
 		this.covoiturageExample = createCovoiturageForTest();
 		this.testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
+
+	}
+
+	
+	@Test
+	public void test_afficherCovoituragesEnregistres_ShoudReturnList() throws Exception{
+		String endPoint = CovoiturageController.EP_LISTER_COVOITURAGES_ENREGISTRES;
+		
+		Covoiturage covoiturage1 = createCovoiturageForTest();
+		covoiturage1.setId(255);
+		Covoiturage covoiturage2 = createCovoiturageForTest();
+		covoiturage2.setId(256);
+
+		List<Covoiturage> listCovoiturages = List.of(covoiturage1, covoiturage2);
+
+		Mockito.when(this.doublureCovoiturageService.list()).thenReturn(listCovoiturages);
+
+		testeur.perform(get(endPoint))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[0].id").value(covoiturage1.getId()))
+				.andExpect(jsonPath("$[1].id").value(covoiturage2.getId()))
+				.andDo(print());
+		
+		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
 
 	}
 
@@ -242,6 +269,38 @@ public class CovoiturageControllerTest {
 				.andDo(print());
 		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
 	}
+
+	/***
+	 * Ce test crée une liste de deux covoiturages à renvoyer en réponse.
+	 * L'objectif est de vérifier ici le retour du contrôleur en status
+	 * 200 (OK).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
+	@Test
+	public void test_afficherCovoituragesEnregistres_ShouldReturn200OK() throws Exception {
+		Covoiturage covoiturage1 = createCovoiturageForTest();
+		covoiturage1.setId(255);
+		Covoiturage covoiturage2 = createCovoiturageForTest();
+		covoiturage2.setId(256);
+
+		List<Covoiturage> listCovoiturages = List.of(covoiturage1, covoiturage2);
+
+		Mockito.when(this.doublureCovoiturageService.list()).thenReturn(listCovoiturages);
+
+		testeur.perform(get(CovoiturageController.EP_LISTER_COVOITURAGES_ENREGISTRES))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[0].id").value(covoiturage1.getId()))
+				.andExpect(jsonPath("$[1].id").value(covoiturage2.getId()))
+				.andDo(print());
+		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
+	}
+
+	
 
 	/***
 	 * Ce test crée une demande de modifiaction de l'id d'un

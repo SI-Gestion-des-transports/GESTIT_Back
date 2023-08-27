@@ -16,10 +16,12 @@ import jakarta.validation.Valid;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
+import io.jsonwebtoken.Claims;
 
 import java.net.URI;
 import java.util.List;
@@ -30,6 +32,9 @@ import java.util.stream.Collectors;
 @Data
 @RequestMapping("/covoiturages")
 public class CovoiturageController {
+
+    public static final String EP_ROOT = "/covoiturages";
+    public static final String EP_LISTER_COVOITURAGES_ENREGISTRES = EP_ROOT + "/    lister-covoiturages-enregistres";
 
     private CovoiturageService covoiturageService;
 
@@ -44,12 +49,23 @@ public class CovoiturageController {
         this.modelMapper = mapper;
     }
 
+    /* reprises fonctionnalités 26/08/2023 */
+
     /**
-     * Liste tous les covoiturages organisés par l'utilisateur connecté.
-     *
-     * @param httpHeaders Les entêtes HTTP, contenant notamment le JWT pour l'authentification.
-     * @return Une réponse contenant la liste des covoiturages organisés par l'utilisateur.
+     * Fournit au collaborateur la liste de tous les covoiturages enregistrés.
+     * @return une réponse HTML contenant la liste des covoiturages enregistrés en
+     *         base de données
+     * @throws Exception
+     * @author AtsuhikoMochizuki
+     * 
      */
+    @GetMapping(CovoiturageController.EP_LISTER_COVOITURAGES_ENREGISTRES)
+    public ResponseEntity<List<Covoiturage>> afficherCovoituragesEnregistres() {
+        List<Covoiturage> list = this.covoiturageService.list();
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+    
+    /* Fonctions David */
     @GetMapping("/listerorganises")
     public ResponseEntity<List<Covoiturage>> listerCovoiturageOrganises(@RequestHeader HttpHeaders httpHeaders) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
@@ -60,22 +76,29 @@ public class CovoiturageController {
     /**
      * Crée un nouveau covoiturage basé sur les données fournies par le DTO.
      *
-     * @param covoiturageDto Le DTO contenant les informations sur le covoiturage à créer.
-     * @param httpHeaders    Les entêtes HTTP, contenant notamment le JWT pour l'authentification.
+     * @param covoiturageDto Le DTO contenant les informations sur le covoiturage à
+     *                       créer.
+     * 
+     * @param httpHeaders    Les entêtes HTTP, contenant notamment le JWT pour
+     *                       l'authentification.
+     * 
      * @return Une réponse contenant le covoiturage créé.
-     * @throws CovoiturageNotFoundException Si le covoiturage n'a pas été trouvé ou ne peut être créé pour une raison quelconque.
+     * 
+     * @throws CovoiturageNotFoundException Si le covoiturage n'a pas été trouvé ou
+     *                                      ne peut être créé pour une raison
+     *                                      quelconque.
      */
     @PostMapping("/create")
     public ResponseEntity<Covoiturage> creerCovoiturage(
             @RequestBody @Valid TestCovoiturageDto covoiturageDto,
-            @RequestHeader HttpHeaders httpHeaders
-    ) throws CovoiturageNotFoundException {
-        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+            @RequestHeader HttpHeaders httpHeaders) throws CovoiturageNotFoundException {
+        Integer utilisateurConnecteId = Integer
+                .decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
 
         URI uri = URI.create("/covoiturages/create");
-        return ResponseEntity.created(uri).body(this.covoiturageService.creerCovoiturage(covoiturageDto, utilisateurConnecteId));
+        return ResponseEntity.created(uri)
+                .body(this.covoiturageService.creerCovoiturage(covoiturageDto, utilisateurConnecteId));
     }
-
 
     @PostMapping
     public ResponseEntity<?> add(@RequestBody @Valid Covoiturage covoiturage) {
@@ -116,7 +139,7 @@ public class CovoiturageController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
-                                    @RequestBody @Valid Covoiturage covoiturage) {
+            @RequestBody @Valid Covoiturage covoiturage) {
         try {
             covoiturage.setId(id);
             Covoiturage updatedCovoiturage = covoiturageService.update(covoiturage);
@@ -145,7 +168,7 @@ public class CovoiturageController {
 
     private List<CovoiturageDto> list2Dto(List<Covoiturage> listCovoiturages) {
         return listCovoiturages.stream().map(
-                        entity -> entity2Dto(entity))
+                entity -> entity2Dto(entity))
                 .collect(Collectors.toList());
     }
 
@@ -154,10 +177,13 @@ public class CovoiturageController {
         return covoiturageService.testCreatePassageur(testDto.userId, testDto.conId);
     }
 
-/*    @PostMapping("/create")
-    public void testCreate(@RequestBody TestCovoiturageDto tcd) throws CovoiturageNotFoundException {
-        Integer covoitId = covoiturageService.testCreate(tcd);
-
-        covoiturageService.testFindPassager(covoitId);
-    }*/
+    /*
+     * @PostMapping("/create")
+     * public void testCreate(@RequestBody TestCovoiturageDto tcd) throws
+     * CovoiturageNotFoundException {
+     * Integer covoitId = covoiturageService.testCreate(tcd);
+     * 
+     * covoiturageService.testFindPassager(covoitId);
+     * }
+     */
 }
