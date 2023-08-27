@@ -122,7 +122,10 @@ public class Rest_covoiturage {
     new ParameterizedTypeReference<List<Covoiturage>>() {});
 
   List<Covoiturage> covoiturages = responseEntity.getBody();
-        assertThat(covoiturages.get(0).getId()).isEqualTo(51);
+        assertThat(covoiturages.get(0).getId()).isEqualTo(601);
+        assertThat(covoiturages.get(0).getNombrePlacesRestantes()).isEqualTo(3);
+        assertThat(covoiturages.get(0).getId()).isEqualTo(102);
+
    
     }
 
