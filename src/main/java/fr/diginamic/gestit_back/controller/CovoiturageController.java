@@ -56,7 +56,7 @@ public class CovoiturageController {
     
     @PostMapping(EndPointsApp.COVOITURAGE_CREATE_RESOURCE)
     public Covoiturage createCovoiturage(@RequestBody Covoiturage covoiturage) {
-        return covoiturageService.add(covoiturage);
+       return covoiturageService.add(covoiturage);
     }
 
     @GetMapping(EndPointsApp.COVOITURAGE_GET_ALL_RESOURCE)

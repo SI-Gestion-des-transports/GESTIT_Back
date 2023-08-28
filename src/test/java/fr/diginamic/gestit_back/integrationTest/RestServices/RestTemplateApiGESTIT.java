@@ -122,23 +122,7 @@ public class RestTemplateApiGESTIT {
     }
 
     @Test
-    public void createCovoiturage() {
-        Covoiturage covoiturageToSend = CovoiturageController.Covoiturage_instanceExample();
-        covoiturageToSend.setId(502);
-        covoiturageToSend.setDistanceKm(7401);
-        covoiturageToSend.setDureeTrajet(4789);
-        covoiturageToSend.setNombrePlacesRestantes(2);
-        ResponseEntity<Covoiturage> saved = restTemplate
-                .postForEntity(EndPointsApp.COVOITURAGE_CREATE_URI,
-                        covoiturageToSend, Covoiturage.class);
-
-        assertThat(saved.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        assertThat(saved.getBody().getId()).isEqualTo(502);
-
-    }
-
-    @Test
-    public void givenDataIsJson_whenDataIsPostedByPostForEntity_thenResponseBodyIsNotNull()
+    public void test_covoiturage_creerCovoiturage()
             throws IOException {
 
         this.instanceExample.setDistanceKm(4564);
@@ -148,13 +132,13 @@ public class RestTemplateApiGESTIT {
 
         HttpEntity<Covoiturage> request = new HttpEntity<>(this.instanceExample, headers);
 
-        
-        ResponseEntity<Covoiturage> result = this.restTemplate.postForEntity(EndPointsApp.COVOITURAGE_CREATE_URI, this.instanceExample,
+        ResponseEntity<Covoiturage> result = this.restTemplate.postForEntity(EndPointsApp.COVOITURAGE_CREATE_URI,
+                this.instanceExample,
                 Covoiturage.class);
 
         // Normalement 201 created !
         assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        
+        assertThat(result.getBody().getDistanceKm()).isEqualTo(4564);
 
     }
 }
