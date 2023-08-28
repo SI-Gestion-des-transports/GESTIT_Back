@@ -138,17 +138,23 @@ public class RestTemplateApiGESTIT {
     }
 
     @Test
-public void givenDataIsJson_whenDataIsPostedByPostForEntity_thenResponseBodyIsNotNull()
-  throws IOException {
-    HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-    HttpEntity<String> request = 
-      new HttpEntity<String>(this.instanceExample.toString(), headers);
-    
-      ResponseEntity<Covoiturage> responseEntity = restTemplate.
-      postForEntity(EndPointsApp.COVOITURAGE_CREATE_URI, request, Covoiturage.class);
-     
-    assertNotNull(responseEntity.getBody());
-    assertNotNull(responseEntity.getBody().getId());
-}
+    public void givenDataIsJson_whenDataIsPostedByPostForEntity_thenResponseBodyIsNotNull()
+            throws IOException {
+
+        this.instanceExample.setDistanceKm(4564);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Covoiturage> request = new HttpEntity<>(this.instanceExample, headers);
+
+        
+        ResponseEntity<Covoiturage> result = this.restTemplate.postForEntity(EndPointsApp.COVOITURAGE_CREATE_URI, this.instanceExample,
+                Covoiturage.class);
+
+        // Normalement 201 created !
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        
+
+    }
 }
