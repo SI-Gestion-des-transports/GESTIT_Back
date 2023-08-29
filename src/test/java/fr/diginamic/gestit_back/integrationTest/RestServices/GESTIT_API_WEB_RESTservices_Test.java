@@ -4,7 +4,7 @@ import java.util.List;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.json.JSONObject;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -21,29 +21,32 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
+
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import fr.diginamic.gestit_back.controller.CovoiturageController;
+
 import fr.diginamic.gestit_back.controller.EndPointsApp;
 import fr.diginamic.gestit_back.entites.Covoiturage;
+
 import static fr.diginamic.gestit_back.unitTests.utils.TestRestServicesUtils.Covoiturage_instanceExample;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(replace = Replace.ANY)
 @Sql("covoiturages_RestTemplateApiGestit.sql")
-public class RestTemplateApiGESTIT {
+public class GESTIT_API_WEB_RESTservices_Test {
 
     private RestTemplate restTemplate;
     private ObjectMapper convertisseurJavaJson;
@@ -61,28 +64,8 @@ public class RestTemplateApiGESTIT {
         restTemplate = new RestTemplate();
     }
 
-    /***
-     * Cette fonction permet de tester le RESTservice
-     * afficherCovoituragesEnregistres
-     * (http://<adresse>:<port>/covoiturages/getAllCovoiturages), en envoyant la
-     * requête
-     * à l'API.
-     * 
-     * La base de données virtuelle H2 est effacé au lancement du test, puis un
-     * covoiturage
-     * dont certaines valeurs sont connues y sont affectées à l'aide d'un script
-     * SQL.
-     * L'envoi de la requête et la réception de la réponse sont gérés par le
-     * RESTtemplateGestitApi,
-     * qui joue le rôle de client Http.
-     * 
-     * La lecture et l'assertion positive des données retournées valide le test
-     * 
-     * @author AtsuhikoMochizuki
-     */
-
     @Test
-    public void test_covoiturages_afficherCovoituragesEnregistres() {
+    public void covoiturages_afficherCovoituragesEnregistres() {
         /*
          * Création des entêtes de la requête, et configuration du type de données
          * qui y sont attendues (un objet JSON dans le cas présent)
@@ -114,31 +97,56 @@ public class RestTemplateApiGESTIT {
                 new ParameterizedTypeReference<List<Covoiturage>>() {
                 });
 
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         List<Covoiturage> covoiturages = responseEntity.getBody();
 
-        assertThat(covoiturages.get(0).getId()).isEqualTo(601);
-        assertThat(covoiturages.get(0).getNombrePlacesRestantes()).isEqualTo(3);
-        assertThat(covoiturages.get(0).getDistanceKm()).isEqualTo(102);
+        assertThat(covoiturages.get(1).getId()).isEqualTo(601);
+        assertThat(covoiturages.get(1).getNombrePlacesRestantes()).isEqualTo(3);
+        assertThat(covoiturages.get(1).getDistanceKm()).isEqualTo(102);
     }
 
+    /*
+     * Utilisation de exchange() pour POST
+     * 
+     * Dans les exemples précédents, nous avons vu des méthodes distinctes pour
+     * effectuer des appels API comme postForObject() pour HTTP POST et
+     * getForEntity() pour GET. La classe RestTemplate dispose de méthodes
+     * similaires pour d'autres verbes HTTP tels que PUT, DELETE et PATCH.
+     * 
+     * La méthode exchange(), en revanche, est plus générale et peut être utilisée
+     * pour différents verbes HTTP.
+     * Ici, nous effectuons une requête POST en envoyant HttpMethod.POST
+     * comme paramètre en plus du corps de la requête et du type de réponse POJO.
+     *
+     * !ATTENTION! : Ce test semble soulever un défaut de conception dans les
+     * relations
+     * entre entités, qui semble pouvoir se résoudre par des cascades/
+     * https://www.baeldung.com/hibernate-unsaved-transient-instance-error
+     */
     @Test
-    public void test_covoiturage_creerCovoiturage()
-            throws IOException {
+    public void covoiturages_creerCovoiturage() throws IOException {
 
-        this.instanceExample.setDistanceKm(4564);
+        RestTemplate restTemplate = new RestTemplate();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+         Covoiturage covoiturageToSend = this.instanceExample;
+        covoiturageToSend.setDistanceKm(808);
+        covoiturageToSend.setDureeTrajet(605);
+        covoiturageToSend.setNombrePlacesRestantes(4);
 
-        HttpEntity<Covoiturage> request = new HttpEntity<>(this.instanceExample, headers);
+        /* Création du corps de la requête en enveloppant l'objet dans un HttpEntity */
+        HttpEntity<Covoiturage> request = new HttpEntity<Covoiturage>(covoiturageToSend);
 
-        ResponseEntity<Covoiturage> result = this.restTemplate.postForEntity(EndPointsApp.COVOITURAGE_CREATE_URI,
-                this.instanceExample,
+        ResponseEntity<Covoiturage> covoiturageCreatedResponse = restTemplate.exchange(
+                EndPointsApp.COVOITURAGE_CREATE_URI,
+                HttpMethod.POST,
+                request,
                 Covoiturage.class);
+        assertThat(covoiturageCreatedResponse.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        Covoiturage createdCovoiturage = covoiturageCreatedResponse.getBody();
 
-        // Normalement 201 created !
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        assertThat(result.getBody().getDistanceKm()).isEqualTo(4564);
-
+        /* Validation */
+        assertThat(createdCovoiturage.getNombrePlacesRestantes()).isEqualTo(4);
+        assertThat(createdCovoiturage.getDistanceKm()).isEqualTo(808);
+        assertThat(createdCovoiturage.getDureeTrajet()).isEqualTo(605);
     }
 }

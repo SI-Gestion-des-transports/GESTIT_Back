@@ -2,11 +2,9 @@ package fr.diginamic.gestit_back.repository;
 
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.entites.Utilisateur;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+
 
 import fr.diginamic.gestit_back.entites.VehiculePerso;
 import org.springframework.data.jpa.repository.JpaRepository;

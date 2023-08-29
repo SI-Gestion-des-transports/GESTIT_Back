@@ -1,32 +1,23 @@
 package fr.diginamic.gestit_back.controller;
-
-import fr.diginamic.gestit_back.dto.CovoiturageDto;
-import fr.diginamic.gestit_back.dto.TestCovoiturageDto;
-import fr.diginamic.gestit_back.dto.TestDto;
-import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
-import fr.diginamic.gestit_back.repository.UtilisateurRepository;
 import fr.diginamic.gestit_back.service.CovoiturageService;
-import fr.diginamic.gestit_back.service.UtilisateurService;
-import fr.diginamic.gestit_back.utils.JWTUtils;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.validation.Valid;
+
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.modelmapper.ModelMapper;
-import io.jsonwebtoken.Claims;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
-import java.net.URI;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import org.modelmapper.ModelMapper;
 import java.util.List;
-import java.util.stream.Collectors;
-import static fr.diginamic.gestit_back.controller.EndPointsApp.*;
+
 import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.entites.Adresse;
 import fr.diginamic.gestit_back.entites.Commune;
@@ -46,6 +37,11 @@ public class CovoiturageController {
     @Autowired
     private CovoiturageService covoiturageService;
 
+    private ObjectMapper convertisseurJavaJson = JsonMapper.builder()
+            .addModule(new JavaTimeModule())
+            .enable(SerializationFeature.INDENT_OUTPUT)
+            .build();
+
     private ModelMapper modelMapper;
 
     protected CovoiturageController(CovoiturageService covoiturageService, ModelMapper mapper) {
@@ -53,19 +49,20 @@ public class CovoiturageController {
         this.modelMapper = mapper;
     }
 
-    
     @PostMapping(EndPointsApp.COVOITURAGE_CREATE_RESOURCE)
-    public Covoiturage createCovoiturage(@RequestBody Covoiturage covoiturage) {
-       return covoiturageService.add(covoiturage);
+    public ResponseEntity<String> createCovoiturage(RequestEntity<Covoiturage> covoiturage)
+            throws JsonProcessingException {
+        Covoiturage savedCovoiturage = covoiturageService.add(covoiturage.getBody());
+        String covoiturageToSend = this.convertisseurJavaJson.writeValueAsString(savedCovoiturage);
+        return ResponseEntity.status(HttpStatus.CREATED).body(covoiturageToSend);
     }
 
     @GetMapping(EndPointsApp.COVOITURAGE_GET_ALL_RESOURCE)
-    public List<Covoiturage> getCovoiturages(){
+    public List<Covoiturage> getCovoiturages() {
         return covoiturageService.list();
     }
 
-
-    /*Fonctions utilitaires */
+    /* Fonctions utilitaires */
     public static Covoiturage Covoiturage_instanceExample() {
         Covoiturage covoiturage = new Covoiturage();
         Commune commune = new Commune("Paris", 75000);

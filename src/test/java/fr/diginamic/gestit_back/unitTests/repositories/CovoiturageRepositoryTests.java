@@ -6,10 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.Test;
 
