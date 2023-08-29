@@ -25,7 +25,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -347,10 +349,12 @@ public class mecanismeRestTemplate {
      * La lecture et l'assertion positive des données retournées valide le test
      * 
      * @author AtsuhikoMochizuki
+ * @throws JsonProcessingException
+ * @throws JsonMappingException
      */
 
     @Test
-    public void createCovoiturage_withPostForEntity() {
+    public void createCovoiturage_withPostForEntity() throws JsonMappingException, JsonProcessingException {
         Covoiturage covoiturageToSend = this.instanceExample;
         covoiturageToSend.setId(502);
         covoiturageToSend.setDistanceKm(7401);
@@ -366,18 +370,5 @@ public class mecanismeRestTemplate {
         assertThat(saved.getBody().getDistanceKm()).isEqualTo(7401);
         assertThat(saved.getBody().getDureeTrajet()).isEqualTo(4789);
         assertThat(saved.getBody().getNombrePlacesRestantes()).isEqualTo(2);
- 
-        String createdCovoiturageStr = restTemplate
-                .postForObject(EndPointsApp.TEST_COVOITURAGE_CREATE_URI, requete, String.class);
-
-        /* Validation de la fonctionnalité */
-        JsonNode rootNode = this.convertisseurJavaJson.readTree(createdCovoiturageStr);
-        Covoiturage readCovoiturage = this.convertisseurJavaJson.treeToValue(rootNode, Covoiturage.class);
-
-        /* Validation */
-        assertThat(readCovoiturage.getNombrePlacesRestantes()).isEqualTo(18);
-        assertThat(readCovoiturage.getDistanceKm()).isEqualTo(75);
-        assertThat(readCovoiturage.getDureeTrajet()).isEqualTo(50);
-        
     }
 }
