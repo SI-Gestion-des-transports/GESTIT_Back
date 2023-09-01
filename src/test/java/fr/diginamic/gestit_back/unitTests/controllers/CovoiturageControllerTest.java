@@ -1,10 +1,8 @@
-package fr.diginamic.gestit_back.controller;
+package fr.diginamic.gestit_back.unitTests.controllers;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,12 +21,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import fr.diginamic.gestit_back.configuration.JWTConfig;
+import fr.diginamic.gestit_back.controller.CovoiturageController;
+import fr.diginamic.gestit_back.controller.EndPointsApp;
 import fr.diginamic.gestit_back.entites.Adresse;
 import fr.diginamic.gestit_back.entites.Commune;
 import fr.diginamic.gestit_back.entites.Covoiturage;
@@ -38,8 +39,10 @@ import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
+import fr.diginamic.gestit_back.unitTests.utils.TestRestServicesUtils;
 import fr.diginamic.gestit_back.utils.JWTUtils;
 import fr.diginamic.gestit_back.utils.RedisUtils;
+import static fr.diginamic.gestit_back.unitTests.utils.TestRestServicesUtils.Covoiturage_instanceExample;
 
 /**
  * Classe de tests unitaires dédiée au contrôleur REST CovoiturageController
@@ -58,8 +61,8 @@ import fr.diginamic.gestit_back.utils.RedisUtils;
 @WebMvcTest(CovoiturageController.class)
 public class CovoiturageControllerTest {
 
-	private static final String END_POINT_PATH = "/covoiturages";
-
+	private static String END_POINT_PATH = EndPointsApp.COVOITURAGE_ENDPOINT;
+	
 	private MockMvc testeur;
 	private ObjectMapper convertisseurJavaJson;
 	private Covoiturage covoiturageExample;
@@ -82,9 +85,35 @@ public class CovoiturageControllerTest {
 				.addModule(new JavaTimeModule())
 				.enable(SerializationFeature.INDENT_OUTPUT)
 				.build();
-		this.covoiturageExample = createCovoiturageForTest();
+		this.covoiturageExample = Covoiturage_instanceExample();
 		this.testeur = MockMvcBuilders.standaloneSetup(cobaye).build();
 
+	}
+
+	
+	@Test
+	public void test_afficherCovoituragesInDb_ShoudReturnList() throws Exception{
+		
+		/*Création d'une liste à retourner par la doublure */
+		Covoiturage covoiturage1 = Covoiturage_instanceExample();
+		covoiturage1.setId(255);
+		Covoiturage covoiturage2 = Covoiturage_instanceExample();
+		covoiturage2.setId(256);
+		List<Covoiturage> listCovoiturages = List.of(covoiturage1, covoiturage2);
+
+		/*Configuration de la doublure*/
+		Mockito.when(this.doublureCovoiturageService.list()).thenReturn(listCovoiturages);
+
+		/*Envoi de la requête HTTP et validation du retour attendu */
+		testeur.perform(get(EndPointsApp.COVOITURAGE_ENDPOINT+EndPointsApp.COVOITURAGE_GET_ALL_RESOURCE))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[0].id").value(covoiturage1.getId()))
+				.andExpect(jsonPath("$[1].id").value(covoiturage2.getId()))
+				.andDo(print());
+		
+		/*Vérification de la réponse immédiate du service */
+		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
 	}
 
 	/***
@@ -225,9 +254,9 @@ public class CovoiturageControllerTest {
 	 */
 	@Test
 	public void testListShouldReturn200OK() throws Exception {
-		Covoiturage covoiturage1 = createCovoiturageForTest();
+		Covoiturage covoiturage1 = Covoiturage_instanceExample();
 		covoiturage1.setId(255);
-		Covoiturage covoiturage2 = createCovoiturageForTest();
+		Covoiturage covoiturage2 = Covoiturage_instanceExample();
 		covoiturage2.setId(256);
 
 		List<Covoiturage> listCovoiturages = List.of(covoiturage1, covoiturage2);
@@ -242,6 +271,38 @@ public class CovoiturageControllerTest {
 				.andDo(print());
 		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
 	}
+
+	/***
+	 * Ce test crée une liste de deux covoiturages à renvoyer en réponse.
+	 * L'objectif est de vérifier ici le retour du contrôleur en status
+	 * 200 (OK).
+	 * Le service normalement requis est simulé ici par une doublure Mokito.
+	 * On vérifie également que le service n'a été appelé qu'une seule fois
+	 * 
+	 * @author AtsuhikoMochizuki
+	 * @throws Exception
+	 */
+	@Test
+	public void test_afficherCovoituragesEnregistres_ShouldReturn200OK() throws Exception {
+		Covoiturage covoiturage1 = TestRestServicesUtils.Covoiturage_instanceExample();
+		covoiturage1.setId(255);
+		Covoiturage covoiturage2 = TestRestServicesUtils.Covoiturage_instanceExample();
+		covoiturage2.setId(256);
+
+		List<Covoiturage> listCovoiturages = List.of(covoiturage1, covoiturage2);
+
+		Mockito.when(this.doublureCovoiturageService.list()).thenReturn(listCovoiturages);
+
+		testeur.perform(get(END_POINT_PATH))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[0].id").value(covoiturage1.getId()))
+				.andExpect(jsonPath("$[1].id").value(covoiturage2.getId()))
+				.andDo(print());
+		Mockito.verify(this.doublureCovoiturageService, times(1)).list();
+	}
+
+	
 
 	/***
 	 * Ce test crée une demande de modifiaction de l'id d'un
@@ -382,65 +443,67 @@ public class CovoiturageControllerTest {
 	}
 
 	public static Covoiturage createCovoiturageForTest() {
-		Covoiturage covoiturage = new Covoiturage();
-		Commune commune = new Commune("Paris", 75000);
-		Adresse adresseDepart = new Adresse(26, "rue des Alouettes", commune);
-		Adresse adresseArrivee = new Adresse(32, "Bvd des Aubépines", commune);
+        Covoiturage covoiturage = new Covoiturage();
+        Commune commune = new Commune("Paris", 75000);
+        Adresse adresseDepart = new Adresse(26, "rue des Alouettes", commune);
+        Adresse adresseArrivee = new Adresse(32, "Bvd des Aubépines", commune);
 
-		Utilisateur conducteur = new Utilisateur();
-		LocalDate dateConducteur = LocalDate.of(2022, 4, 6);
-		List<Covoiturage> conducteurCovoituragesOrganises = new ArrayList<>();
-		List<Covoiturage> conducteurCovoituragesPassagers = new ArrayList<>();
-		List<String> roleConducteur = new ArrayList<>();
-		roleConducteur.add("COLLABORATEUR");
-		conducteur.setEmail("RonaldMerziner@gmail.com");
-		conducteur.setMotDePasse("4321");
-		conducteur.setNom("Merziner");
-		conducteur.setCovoituragesOrganises(conducteurCovoituragesOrganises);
-		conducteur.setCovoituragesPassagers(conducteurCovoituragesPassagers);
-		conducteur.setDateNonValide(dateConducteur);
-		conducteur.setRoles(roleConducteur);
+        Utilisateur conducteur = new Utilisateur();
+        LocalDate dateConducteur = LocalDate.of(2022, 4, 6);
+        List<Covoiturage> conducteurCovoituragesOrganises = new ArrayList<>();
+        List<Covoiturage> conducteurCovoituragesPassagers = new ArrayList<>();
+        List<String> roleConducteur = new ArrayList<>();
+        roleConducteur.add("COLLABORATEUR");
+        conducteur.setEmail("RonaldMerziner@gmail.com");
+        conducteur.setMotDePasse("4321");
+        conducteur.setNom("Merziner");
+        conducteur.setCovoituragesOrganises(conducteurCovoituragesOrganises);
+        conducteur.setCovoituragesPassagers(conducteurCovoituragesPassagers);
+        conducteur.setDateNonValide(dateConducteur);
+        conducteur.setRoles(roleConducteur);
 
-		Utilisateur passager = new Utilisateur();
-		LocalDate datePassager = LocalDate.of(2020, 1, 8);
-		List<Covoiturage> covoituragesOrganises = new ArrayList<>();
-		List<Covoiturage> covoituragesPassagers = new ArrayList<>();
-		List<String> rolePassager = new ArrayList<>();
-		rolePassager.add("COLLABORATEUR");
-		passager.setEmail("RonaldMerziner@gmail.com");
-		passager.setMotDePasse("4321");
-		passager.setNom("Merziner");
-		passager.setCovoituragesOrganises(covoituragesOrganises);
-		passager.setCovoituragesPassagers(covoituragesPassagers);
-		passager.setDateNonValide(datePassager);
-		passager.setRoles(rolePassager);
-		List<Utilisateur> passagersABord = new ArrayList<>();
+        Utilisateur passager = new Utilisateur();
+        LocalDate datePassager = LocalDate.of(2020, 1, 8);
+        List<Covoiturage> covoituragesOrganises = new ArrayList<>();
+        List<Covoiturage> covoituragesPassagers = new ArrayList<>();
+        List<String> rolePassager = new ArrayList<>();
+        rolePassager.add("COLLABORATEUR");
+        passager.setEmail("RonaldMerziner@gmail.com");
+        passager.setMotDePasse("4321");
+        passager.setNom("Merziner");
+        passager.setCovoituragesOrganises(covoituragesOrganises);
+        passager.setCovoituragesPassagers(covoituragesPassagers);
+        passager.setDateNonValide(datePassager);
+        passager.setRoles(rolePassager);
+        List<Utilisateur> passagersABord = new ArrayList<>();
 
-		/* A CORRIGER : CET APPEL POSE PROBLEME */
-		// passagersABord.add(conducteur);
+        /* A CORRIGER : CET APPEL POSE PROBLEME */
+        // passagersABord.add(conducteur);
 
-		VehiculePerso vehiculeConducteur = new VehiculePerso();
-		vehiculeConducteur.setImmatriculation("789-hu-78");
-		Modele modele = new Modele();
-		Marque marque = new Marque();
-		marque.setNom("Fiat");
-		modele.setNom("mini500");
-		modele.setMarque(marque);
-		vehiculeConducteur.setModele(modele);
-		vehiculeConducteur.setNombreDePlaceDisponibles(4);
-		vehiculeConducteur.setProprietaire(conducteur);
+        VehiculePerso vehiculeConducteur = new VehiculePerso();
+        vehiculeConducteur.setImmatriculation("789-hu-78");
+        Modele modele = new Modele();
+        Marque marque = new Marque();
+        marque.setNom("Fiat");
+        modele.setNom("mini500");
+        modele.setMarque(marque);
+        vehiculeConducteur.setModele(modele);
+        vehiculeConducteur.setNombreDePlaceDisponibles(4);
+        vehiculeConducteur.setProprietaire(conducteur);
 
-		covoiturage.setDistanceKm(15);
-		covoiturage.setDureeTrajet(30);
-		covoiturage.setNombrePlacesRestantes(4);
-		covoiturage.setAdresseDepart(adresseDepart);
-		covoiturage.setAdresseArrivee(adresseArrivee);
-		covoiturage.setOrganisateur(conducteur);
-		covoiturage.setId(23);
-		covoiturage.setVehiculePerso(vehiculeConducteur);
-		covoiturage.setPassagers(passagersABord);
+        covoiturage.setDistanceKm(15);
+        covoiturage.setDureeTrajet(30);
+        covoiturage.setNombrePlacesRestantes(4);
+        covoiturage.setAdresseDepart(adresseDepart);
+        covoiturage.setAdresseArrivee(adresseArrivee);
+        covoiturage.setOrganisateur(conducteur);
+        covoiturage.setId(23);
+        covoiturage.setVehiculePerso(vehiculeConducteur);
+        covoiturage.setPassagers(passagersABord);
 
-		return covoiturage;
-	}
+        return covoiturage;
+    }
+
+	
 
 }

@@ -1,6 +1,8 @@
-package fr.diginamic.gestit_back.repository;
+package fr.diginamic.gestit_back.unitTests.repositories;
 
 import fr.diginamic.gestit_back.entites.Adresse;
+import fr.diginamic.gestit_back.repository.AdresseRepository;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

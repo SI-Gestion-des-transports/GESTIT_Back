@@ -18,10 +18,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import fr.diginamic.gestit_back.controller.EndPointsApp;
+
 import java.util.Map;
 
 @Configuration
-@EnableMethodSecurity(securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = false)
 public class WebSecurityConfiguration {
     private final AuthenticationConfiguration configuration;
 

@@ -8,11 +8,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -20,7 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Covoiturage extends AbstractBaseEntity {
 
-    @NotNull(message = "nombreDePlacesrestantes must not be null")
+    //@NotNull(message = "nombreDePlacesrestantes must not be null")
     private Integer nombrePlacesRestantes;
 
     private Integer dureeTrajet;
