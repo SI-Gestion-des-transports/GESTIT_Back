@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("vehiculeperso")
-@Secured("COLLABORATEUR")
+//@Secured("COLLABORATEUR")
 @AllArgsConstructor
 public class VehiculePersoController {
     private VehiculePersoService vehiculePersoService;
@@ -28,12 +28,12 @@ public class VehiculePersoController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<List<VehiculePersoDto>> createVehiculePerso(@Validated @RequestBody VehiculePersoDto dto) {
-
-        vehiculePersoService.createVehiculePerso(dto);
-        return ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(dto.getUserId()));
+    public ResponseEntity<List<VehiculePersoDto>> createVehiculePerso(@RequestHeader HttpHeaders httpHeaders,@Validated @RequestBody VehiculePersoDto dto){
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        System.out.println(userId);
+        vehiculePersoService.createVehiculePerso(dto,userId);
+        return ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
-
     @GetMapping("/delete")
     public ResponseEntity<List<VehiculePersoDto>> deleteVehiculePerso(
             @RequestParam Integer id,
@@ -44,35 +44,35 @@ public class VehiculePersoController {
 
         List<Covoiturage> covoiturages = covoiturageService.findCovoituragesByVehiculePerSupprimer(vehiculePersoService.findVehiculePersoById(id));
 
-        for (Covoiturage c : covoiturages
-        ) {
+        for (Covoiturage c:covoiturages
+             ) {
 
             covoiturageService.delete(c.getId());
         }
         vehiculePersoService.deleteVehiculePerso(id);
-        return ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
+        return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
 
     @GetMapping("/list")
     public ResponseEntity<List<VehiculePersoDto>> listVehiculePerso(
-            @RequestParam Integer userId
-    ) {
-        return ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
+            @RequestHeader HttpHeaders httpHeaders
+    ){
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
-
     @PostMapping("/modify")
-    public ResponseEntity<List<VehiculePersoDto>> modifyVehiculePerso(@Validated @RequestBody VehiculePersoDto dto) {
-
-        vehiculePersoService.modifyVehiculePerso(dto);
-        return ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(dto.getUserId()));
+    public ResponseEntity<List<VehiculePersoDto>> modifyVehiculePerso(@RequestHeader HttpHeaders httpHeaders,@Validated @RequestBody VehiculePersoDto dto){
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        vehiculePersoService.modifyVehiculePerso(dto,userId);
+        return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
-
     @CrossOrigin
     @PostMapping("/test")
-    public ResponseEntity test(@RequestHeader HttpHeaders httpHeaders, @RequestBody String username) {
+    public ResponseEntity test(@RequestHeader HttpHeaders httpHeaders ,@RequestBody String username){
         System.out.println(httpHeaders.get("username").get(0));
         System.out.println(username);
-        return ResponseEntity.status(200).body(new Commune("d", 222));
+        System.out.println(httpHeaders.get("Content-Type"));
+        return ResponseEntity.status(200).body(new Commune("d",222));
     }
 
 }

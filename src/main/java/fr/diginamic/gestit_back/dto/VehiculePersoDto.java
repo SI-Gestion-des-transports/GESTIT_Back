@@ -20,7 +20,7 @@ public class VehiculePersoDto {
     private Integer nombreDePlaceDisponibles;
     @NotBlank
     private String immatriculation;
-    @NotNull
+
     private Integer userId;
 
     public VehiculePersoDto(VehiculePerso vehiculePerso){
