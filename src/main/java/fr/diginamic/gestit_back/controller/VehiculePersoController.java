@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("vehiculeperso")
-@Secured("COLLABORATEUR")
+//@Secured("COLLABORATEUR")
 @AllArgsConstructor
 public class VehiculePersoController {
     private VehiculePersoService vehiculePersoService;
@@ -71,6 +71,7 @@ public class VehiculePersoController {
     public ResponseEntity test(@RequestHeader HttpHeaders httpHeaders ,@RequestBody String username){
         System.out.println(httpHeaders.get("username").get(0));
         System.out.println(username);
+        System.out.println(httpHeaders.get("Content-Type"));
         return ResponseEntity.status(200).body(new Commune("d",222));
     }
 
