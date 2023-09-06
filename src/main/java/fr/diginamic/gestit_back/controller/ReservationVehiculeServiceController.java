@@ -21,7 +21,8 @@ import java.util.List;
  */
 @RestController
 @Validated
-@Secured("COLLABORATEUR")
+/*@Secured("COLLABORATEUR")*/
+@CrossOrigin
 @RequestMapping("reservation")
 public class ReservationVehiculeServiceController {
 
@@ -62,6 +63,9 @@ public class ReservationVehiculeServiceController {
      */
     @GetMapping("/past")
     public ResponseEntity<List<ReservationVehiculeService>> listeReservationVSHistorique(@RequestHeader HttpHeaders httpHeaders) {
+        System.out.println("*****************************************");
+        System.out.println("SOUT TOKEN" + httpHeaders.get("JWT-TOKEN"));
+        System.out.println("*****************************************");
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVSHistorique(utilisateurConnecteId));
     }
@@ -73,6 +77,7 @@ public class ReservationVehiculeServiceController {
      * @param resDto      DTO représentant la nouvelle réservation.
      * @return La liste mise à jour des réservations.
      */
+
     @PostMapping("/create")
     public ResponseEntity<List<ReservationVehiculeService>> creerReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,

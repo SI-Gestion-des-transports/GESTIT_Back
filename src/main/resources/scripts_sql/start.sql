@@ -53,19 +53,15 @@ insert into adresse (numero, voie, commune_id) values(35, 'Boulevard Gambetta', 
 insert into adresse (numero, voie, commune_id) values(13, 'Avenue Georges Pompidou', 2);
 insert into adresse (numero, voie, commune_id) values(2, 'Quai du Port', 3);
 insert into adresse (numero, voie, commune_id) values(15, 'Avenue du Prado', 3);
-insert into utilisateur (email, mot_de_passe, nom) values('collaborateur1@gestit.fr
-', '{bcrypt}$2a$10$SEUQuY5MU/a0DhQQG8LMm.j0tsVGjExoIz1ecfysVkG9n88HJedhq', 'Collab1');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur1@gestit.fr', '{bcrypt}$2a$10$SEUQuY5MU/a0DhQQG8LMm.j0tsVGjExoIz1ecfysVkG9n88HJedhq', 'Collab1');
 insert into utilisateur (email, mot_de_passe, nom) values('collaborateur2@gestit.fr', '{bcrypt}$2a$10$IDyjp2WHNrHrCGGXGMLoZu3sZLsSxAjeMiCChDKkC00HyQTC.qYBq', 'Collab2');
-insert into utilisateur (email, mot_de_passe, nom) values('collaborateur3@gestit.fr
-', '{bcrypt}$2a$10$wpq.mTIiKa0Kn3WKGDdCjuamKUwxZ/Du.uGMkVBs8pwApWisnM5Wy', 'Collab3');
-insert into utilisateur (email, mot_de_passe, nom) values('collaborateur4@gestit.fr
-', '{bcrypt}$2a$10$J8sQ8xYesEafg2//xWZlnOL5mb93GrZV0Pef7W47YjZOvqWAEiQ6S', 'Collab4');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur3@gestit.fr', '{bcrypt}$2a$10$wpq.mTIiKa0Kn3WKGDdCjuamKUwxZ/Du.uGMkVBs8pwApWisnM5Wy', 'Collab3');
+insert into utilisateur (email, mot_de_passe, nom) values('collaborateur4@gestit.fr', '{bcrypt}$2a$10$J8sQ8xYesEafg2//xWZlnOL5mb93GrZV0Pef7W47YjZOvqWAEiQ6S', 'Collab4');
 insert into utilisateur (email, mot_de_passe, nom) values('collaborateur5@gestit.fr', '{bcrypt}$2a$10$L/EQZ3wYmahSmkz1K8sf8ec7Fl//1eHEyKmhXNgefxAbTwMIZKxom', 'Collab5');
 insert into utilisateur (email, mot_de_passe, nom) values('collaborateur6@gestit.fr', '{bcrypt}$2a$10$7SGXBgy8uqI6achM.YSOMuGJeBDXs0fIPmLUq5aifFvuZzA7k8F.q', 'Collab6');
 insert into utilisateur (email, mot_de_passe, nom) values('collaborateur7@gestit.fr', '{bcrypt}$2a$10$zXQkEgXm6CaRK4aRBL1xOOdK3jLsTp2dtoC.m04lSZ8a6u4b0ihJi', 'Collab7');
 insert into utilisateur (email, mot_de_passe, nom) values('collaborateur8@gestit.fr', '{bcrypt}$2a$10$DjY9HgawXQv3pxXDzB2uTOQRerjbPiOMNjnyb0bywYDBEdmvPtvo6', 'Collab8');
-insert into utilisateur (email, mot_de_passe, nom) values('organisateur1@gestit.fr
-', '{bcrypt}$2a$10$AmJTqxsvkrqwifEgaCbb7eGrkr26RjoESQxRkCivMyyIWyxcob9XS', 'Orga1');
+insert into utilisateur (email, mot_de_passe, nom) values('organisateur1@gestit.fr', '{bcrypt}$2a$10$AmJTqxsvkrqwifEgaCbb7eGrkr26RjoESQxRkCivMyyIWyxcob9XS', 'Orga1');
 insert into utilisateur (email, mot_de_passe, nom) values('organisateur2@gestit.fr', '{bcrypt}$2a$10$zyZFOVLXdoVnsMApvrzs/.snma322FQKQKwIR7GoaVGfMMRrT3F4i', 'Orga2');
 insert into utilisateur (email, mot_de_passe, nom) values('organisateur3@gestit.fr', '{bcrypt}$2a$10$QkzVFhm9MQz0AUxRuJhQFu58bPH0S3ZOocfVL08xYLUcekIa/pSqm', 'Orga3');
 insert into utilisateur (email, mot_de_passe, nom) values('organisateur4@gestit.fr', '{bcrypt}$2a$10$85cAUGUksAcPKxqP1vz6iOkahoAUPJtN/4uygoaiQtTAPYWNVs/T6', 'Orga4');

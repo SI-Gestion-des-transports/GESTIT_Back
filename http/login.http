@@ -1,16 +1,11 @@
 POST localhost:8080/signout
 Content-Type: application/json
-JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCR3UmRpTzc2YU5TUy81bkw4cERDNUJ1bU56czQvMnd1czMuL0tEUmFIckhkNVhtcDJGSnQ2ZSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiLCJBRE1JTklTVFJBVEVVUiJdLCJlbWFpbCI6ImRpamlhbGVpQ29sbEFkbWluQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiQ29sbEFkbWluIiwiZXhwIjoxNjkzNTY4MTQzfQ.HubVrr7ac_BjpngdWJ3h4IlWPkuMbzlijZ7soK5ms6I
-
-{
-}
-
-
-### USER 5
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRTRVVRdVk1TVUvYTBEaFFRRzhMTW0uajB0c1ZHakV4b0l6MWVjZnlzVmtHOW44OEhKZWRocSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiXSwiZW1haWwiOiJjb2xsYWJvcmF0ZXVyMUBnZXN0aXQuZnIiLCJ1c2VybmFtZSI6IkNvbGxhYjEiLCJleHAiOjE2OTQ4NTkxMTR9.kYJxDFQSeYpoqaTN3ZrxQ895sTj-IKbo3P15Q8iJ6tA
+### USER 1
 POST localhost:8080/login
 Content-Type: application/json
 
 {
-  "email": "collaborateur5@gestit.fr",
-  "motDePasse": "passCollab5"
+  "email": "collaborateur1@gestit.fr",
+  "motDePasse": "passCollab1"
 }
