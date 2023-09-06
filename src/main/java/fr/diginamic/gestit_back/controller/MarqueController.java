@@ -6,16 +6,21 @@ import fr.diginamic.gestit_back.service.MarqueService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
-@Secured({"COLLABORATEUR", "ADMINISTRATEUR"})
+//@Secured({"COLLABORATEUR", "ADMINISTRATEUR"})
 @Data
 @AllArgsConstructor
 @RequestMapping("marque")
 @Validated
+@CrossOrigin
 public class MarqueController {
 
     private MarqueService marqueService;
@@ -27,10 +32,12 @@ public class MarqueController {
     }
 
     @GetMapping("/list")
-    public void listerMarque() {
+    public ResponseEntity listerMarque() {
+        List<String> list = new ArrayList<>();
         for (Marque m : this.marqueService.listerMarques()) {
-            System.out.println(m.toString());
+            list.add(m.getNom());
         }
+        return ResponseEntity.status(200).body(list);
     }
 
     @PostMapping("/delete")
