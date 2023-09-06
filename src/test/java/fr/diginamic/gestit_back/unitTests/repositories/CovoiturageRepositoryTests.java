@@ -1,4 +1,4 @@
-package fr.diginamic.gestit_back.repository;
+package fr.diginamic.gestit_back.unitTests.repositories;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,10 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.Test;
 
@@ -29,6 +27,7 @@ import fr.diginamic.gestit_back.entites.Marque;
 import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.entites.VehiculePerso;
+import fr.diginamic.gestit_back.repository.CovoiturageRepository;
 import jakarta.validation.ConstraintViolationException;
 
 @RunWith(SpringRunner.class)

@@ -1,0 +1,13 @@
+[
+   {
+      "id": 1,
+      "date_depart": "2023-12-22T23:00:00.000Z",
+      "distance_km": 102,
+      "duree_trajet": 75,
+      "nombre_places_restantes": 3,
+      "adresse_arrivee_id": 1,
+      "adresse_depart_id": 2,
+      "organisateur_id": 1,
+      "vehicule_perso_id": 1
+   }
+]

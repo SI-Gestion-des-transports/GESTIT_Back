@@ -18,6 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import fr.diginamic.gestit_back.controller.EndPointsApp;
+
 import java.util.Map;
 
 @Configuration
@@ -33,7 +35,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTAuthFilter jwtAuthFilter) throws Exception {
         http.authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(HttpMethod.POST, "/utilisateur/create").permitAll()
+                                //.requestMatchers(HttpMethod.POST, "/utilisateur/create").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/login").anonymous()
                                 //.anyRequest().authenticated()
                                 .anyRequest().permitAll()

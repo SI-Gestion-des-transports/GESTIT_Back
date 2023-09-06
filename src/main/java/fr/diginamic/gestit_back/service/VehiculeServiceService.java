@@ -35,6 +35,9 @@ public class VehiculeServiceService {
         Page<VehiculeService> all = vehiculeServiceRepository.findAll(pages);
         return all.getContent().stream().map(VehiculeServiceDto::new).toList();
     }
+    public List<VehiculeServiceDto> listAllVehiculeService(){
+        return vehiculeServiceRepository.findAll().stream().map(VehiculeServiceDto::new).toList();
+    }
 
     public List<VehiculeService> listVehiculeServiceEnService() {
         return vehiculeServiceRepository.findVehiculeServiceByStatut(Statut.EN_SERVICE);
@@ -64,6 +67,10 @@ public class VehiculeServiceService {
     public void modifyVehiclueService(VehiculeServiceDto dto) {
         Modele modele = modeleRepository.findModeleByNom(dto.getModele());
         vehiculeServiceRepository.save(new VehiculeService(dto, modele));
+    }
+
+    public VehiculeService getVsById(Integer id){
+        return vehiculeServiceRepository.findById(id).get();
     }
 
 }

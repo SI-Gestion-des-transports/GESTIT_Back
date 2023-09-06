@@ -156,7 +156,7 @@ public class ReservationVehiculeServiceService {
      * @param date              Date à partir de laquelle les réservations doivent être supprimées.
      */
     @Transactional
-    @Secured("ADMINISTRATEUR")
+    //@Secured("ADMINISTRATEUR")
     public void adminDeleteAllReservationsByVehiculeServiceId(Integer vehiculeServiceId, LocalDateTime date) {
 
         List<ReservationVehiculeService> reservationsToDelete = reservationVehiculeServiceRepository.findAllByVehiculeServiceIdAndAndDateHeureDepart(vehiculeServiceId, date);

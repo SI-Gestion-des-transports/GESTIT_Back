@@ -19,6 +19,10 @@ public class MarqueService {
 
     private MarqueRepository marqueRepository;
 
+    public Marque getMarqueByName(String name){
+        return marqueRepository.findMarqueByNom(name);
+    }
+
     public List<Marque> listerMarques() {
         return this.marqueRepository.findAll();
     }
