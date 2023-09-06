@@ -23,7 +23,7 @@ import fr.diginamic.gestit_back.controller.EndPointsApp;
 import java.util.Map;
 
 @Configuration
-@EnableMethodSecurity(securedEnabled = false)
+@EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfiguration {
     private final AuthenticationConfiguration configuration;
 
@@ -35,7 +35,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTAuthFilter jwtAuthFilter) throws Exception {
         http.authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(HttpMethod.POST, "/utilisateur/create").permitAll()
+                                //.requestMatchers(HttpMethod.POST, "/utilisateur/create").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/login").anonymous()
                                 //.anyRequest().authenticated()
                                 .anyRequest().permitAll()

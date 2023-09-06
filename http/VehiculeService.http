@@ -6,7 +6,7 @@ X-XSRF-TOKEN: 4d57638b-da81-4fdb-b36a-5b766ce4d9fd
 
     "modele": "Megane",
     "nombreDePlaceDisponibles":5 ,
-    "immatriculation": "T123456",
+    "immatriculation": "D123456",
     "photoURL": "http://www.diginamic.fr/photo-car.jpg",
     "emissionCO2": 160,
     "motorisation": "HYBRIDE" ,
