@@ -1,5 +1,6 @@
 package fr.diginamic.gestit_back.controller;
 
+import fr.diginamic.gestit_back.configuration.JWTConfig;
 import fr.diginamic.gestit_back.dto.VehiculePersoDto;
 import fr.diginamic.gestit_back.entites.Commune;
 import fr.diginamic.gestit_back.entites.Covoiturage;
@@ -20,16 +21,18 @@ import java.util.List;
 @RestController
 @RequestMapping("vehiculeperso")
 //@Secured("COLLABORATEUR")
+
 @AllArgsConstructor
 public class VehiculePersoController {
     private VehiculePersoService vehiculePersoService;
     private JWTUtils jwtUtils;
     private CovoiturageService covoiturageService;
+    private JWTConfig jwtConfig;
 
 
     @PostMapping("/create")
     public ResponseEntity<List<VehiculePersoDto>> createVehiculePerso(@RequestHeader HttpHeaders httpHeaders,@Validated @RequestBody VehiculePersoDto dto){
-        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get(jwtConfig.getName()).get(0)).getSubject());
         System.out.println(userId);
         vehiculePersoService.createVehiculePerso(dto,userId);
         return ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
@@ -66,7 +69,7 @@ public class VehiculePersoController {
         vehiculePersoService.modifyVehiculePerso(dto,userId);
         return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
-    @CrossOrigin
+
     @PostMapping("/test")
     public ResponseEntity test(@RequestHeader HttpHeaders httpHeaders ,@RequestBody String username){
         System.out.println(httpHeaders.get("username").get(0));

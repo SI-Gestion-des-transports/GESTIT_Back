@@ -32,6 +32,8 @@ public class VehiculeServiceDto {
     @NotNull
     private Categorie categorie;
 
+    private String marque;
+
     public VehiculeServiceDto(VehiculeService vehiculeService){
         this.id = vehiculeService.getId();
         this.modele = vehiculeService.getModele().getNom();
@@ -42,6 +44,7 @@ public class VehiculeServiceDto {
         this.motorisation = vehiculeService.getMotorisation();
         this.statut= vehiculeService.getStatut();
         this.categorie = vehiculeService.getCategorie();
+        this.marque = vehiculeService.getModele().getMarque().getNom();
     }
 
 }
