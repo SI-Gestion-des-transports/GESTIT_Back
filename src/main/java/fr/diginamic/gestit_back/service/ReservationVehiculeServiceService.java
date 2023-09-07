@@ -2,6 +2,7 @@ package fr.diginamic.gestit_back.service;
 
 import fr.diginamic.gestit_back.dto.MessageDto;
 import fr.diginamic.gestit_back.dto.ReservationVehiculeServiceDto;
+import fr.diginamic.gestit_back.dto.UtilisateurDto;
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.entites.Utilisateur;
 import fr.diginamic.gestit_back.exceptions.NotFoundOrValidException;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service pour la gestion des réservations de véhicules de service.
@@ -40,9 +42,12 @@ public class ReservationVehiculeServiceService {
      * @return La liste des réservations de véhicule.
      */
     @Transactional
-    public List<ReservationVehiculeService> listeReservationVehiculeService(Integer utilisateurConnecteId) {
+    public List<ReservationVehiculeServiceDto> listeReservationVehiculeService(Integer utilisateurConnecteId) {
         return this.reservationVehiculeServiceRepository.findReservationVehiculeServiceByCollaborateur(
-                this.utilisateurService.trouverParId(utilisateurConnecteId));
+                this.utilisateurService.trouverParId(utilisateurConnecteId))
+                .stream()
+                .map(this::changeToResVSDto)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -52,9 +57,12 @@ public class ReservationVehiculeServiceService {
      * @return La liste des réservations de véhicule en cours.
      */
     @Transactional
-    public List<ReservationVehiculeService> listeReservationVSEnCours(Integer utilisateurConnecteId) {
+    public List<ReservationVehiculeServiceDto> listeReservationVSEnCours(Integer utilisateurConnecteId) {
         return this.reservationVehiculeServiceRepository.findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsAfter(
-                this.utilisateurService.trouverParId(utilisateurConnecteId), LocalDateTime.now());
+                this.utilisateurService.trouverParId(utilisateurConnecteId), LocalDateTime.now())
+                .stream()
+                .map(this::changeToResVSDto)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -64,9 +72,12 @@ public class ReservationVehiculeServiceService {
      * @return La liste des réservations de véhicule terminées.
      */
     @Transactional
-    public List<ReservationVehiculeService> listeReservationVSHistorique(Integer utilisateurConnecteId) {
+    public List<ReservationVehiculeServiceDto> listeReservationVSHistorique(Integer utilisateurConnecteId) {
         return this.reservationVehiculeServiceRepository.findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsBefore(
-                this.utilisateurService.trouverParId(utilisateurConnecteId), LocalDateTime.now());
+                this.utilisateurService.trouverParId(utilisateurConnecteId), LocalDateTime.now())
+                .stream()
+                .map(this::changeToResVSDto)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -191,5 +202,9 @@ public class ReservationVehiculeServiceService {
         } else {
             return Optional.empty();
         }
+    }
+
+    public ReservationVehiculeServiceDto changeToResVSDto(ReservationVehiculeService resVS){
+        return new ReservationVehiculeServiceDto(resVS.getId(), resVS.getVehiculeService().getId(), resVS.getDateHeureDepart(), resVS.getDateHeureRetour());
     }
 }

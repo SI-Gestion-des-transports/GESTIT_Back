@@ -39,8 +39,8 @@ public class VehiculeServiceService {
         return vehiculeServiceRepository.findAll().stream().map(VehiculeServiceDto::new).toList();
     }
 
-    public List<VehiculeService> listVehiculeServiceEnService() {
-        return vehiculeServiceRepository.findVehiculeServiceByStatut(Statut.EN_SERVICE);
+    public List<VehiculeServiceDto> listVehiculeServiceEnService() {
+        return vehiculeServiceRepository.findVehiculeServiceByStatut(Statut.EN_SERVICE).stream().map(VehiculeServiceDto::new).toList();
     }
 
     /*public List<VehiculeService> listVehiculeServiceDispo(LocalDateTime dateHeureDepart, LocalDateTime dateHeureRetour) {

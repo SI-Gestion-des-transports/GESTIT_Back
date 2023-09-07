@@ -37,8 +37,7 @@ public class ReservationVehiculeServiceController {
      * @return La liste des réservations.
      */
     @GetMapping
-    public ResponseEntity<List<ReservationVehiculeService>> listerReservations(@RequestHeader HttpHeaders httpHeaders) {
-
+    public ResponseEntity<List<ReservationVehiculeServiceDto>> listerReservations(@RequestHeader HttpHeaders httpHeaders) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }
@@ -50,7 +49,7 @@ public class ReservationVehiculeServiceController {
      * @return La liste des réservations à venir.
      */
     @GetMapping("/upcoming")
-    public ResponseEntity<List<ReservationVehiculeService>> listeReservationVSEnCours(@RequestHeader HttpHeaders httpHeaders) {
+    public ResponseEntity<List<ReservationVehiculeServiceDto>> listeReservationVSEnCours(@RequestHeader HttpHeaders httpHeaders) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVSEnCours(utilisateurConnecteId));
     }
@@ -62,7 +61,7 @@ public class ReservationVehiculeServiceController {
      * @return La liste des réservations passées.
      */
     @GetMapping("/past")
-    public ResponseEntity<List<ReservationVehiculeService>> listeReservationVSHistorique(@RequestHeader HttpHeaders httpHeaders) {
+    public ResponseEntity<List<ReservationVehiculeServiceDto>> listeReservationVSHistorique(@RequestHeader HttpHeaders httpHeaders) {
         System.out.println("*****************************************");
         System.out.println("SOUT TOKEN" + httpHeaders.get("JWT-TOKEN"));
         System.out.println("*****************************************");
@@ -79,7 +78,7 @@ public class ReservationVehiculeServiceController {
      */
 
     @PostMapping("/create")
-    public ResponseEntity<List<ReservationVehiculeService>> creerReservationVehiculeService(
+    public ResponseEntity<List<ReservationVehiculeServiceDto>> creerReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto resDto) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
@@ -96,7 +95,7 @@ public class ReservationVehiculeServiceController {
      * @return La liste mise à jour des réservations.
      */
     @PostMapping("/modify")
-    public ResponseEntity<List<ReservationVehiculeService>> modifierReservationVehiculeService(
+    public ResponseEntity<List<ReservationVehiculeServiceDto>> modifierReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto newResDto,
             @RequestParam Integer resId) {
@@ -116,7 +115,7 @@ public class ReservationVehiculeServiceController {
      * @return La liste mise à jour des réservations.
      */
     @PostMapping("/delete")
-    public ResponseEntity<List<ReservationVehiculeService>> supprimerReservationVehiculeService(
+    public ResponseEntity<List<ReservationVehiculeServiceDto>> supprimerReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             //@RequestBody @Valid ReservationVehiculeServiceDto resDto,
             @RequestParam Integer resId) {

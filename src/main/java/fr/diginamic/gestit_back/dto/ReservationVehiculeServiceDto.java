@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 
 public record ReservationVehiculeServiceDto (
-        @NotNull Integer userId,
+        Integer userId,
         @NotNull Integer vehiculeServiceId,
         @Valid LocalDateTime dateHeureDepart,
         @Valid LocalDateTime dateHeureRetour

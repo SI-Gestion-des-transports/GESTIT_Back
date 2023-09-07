@@ -52,7 +52,7 @@ public class ReservationVehiculeServiceServiceTest {
                 .thenReturn(expectedReservations);
 
         // Act
-        List<ReservationVehiculeService> result = reservationVehiculeServiceService.listeReservationVehiculeService(userId);
+        List<ReservationVehiculeServiceDto> result = reservationVehiculeServiceService.listeReservationVehiculeService(userId);
 
         // Assert
         assertEquals(expectedReservations, result);
@@ -71,7 +71,7 @@ public class ReservationVehiculeServiceServiceTest {
                 .thenReturn(List.of());
 
         // Act
-        List<ReservationVehiculeService> result = reservationVehiculeServiceService.listeReservationVehiculeService(userId);
+        List<ReservationVehiculeServiceDto> result = reservationVehiculeServiceService.listeReservationVehiculeService(userId);
 
         // Assert
         assertThat(result.isEmpty());
