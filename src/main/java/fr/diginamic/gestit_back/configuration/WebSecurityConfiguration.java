@@ -35,8 +35,8 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTAuthFilter jwtAuthFilter) throws Exception {
         http.authorizeHttpRequests(
                         auth -> auth
-                                //.requestMatchers(HttpMethod.POST, "/utilisateur/create").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/login").anonymous()
+                                .requestMatchers(HttpMethod.POST, "/vehiculeperso/test").permitAll()
+                                //.requestMatchers(HttpMethod.POST, "/login").anonymous()
                                 //.anyRequest().authenticated()
                                 .anyRequest().permitAll()
                 )
@@ -48,8 +48,7 @@ public class WebSecurityConfiguration {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //.headers(headers -> headers
                 // .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-        ;
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
