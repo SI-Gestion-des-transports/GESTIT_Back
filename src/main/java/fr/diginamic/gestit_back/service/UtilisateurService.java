@@ -49,6 +49,10 @@ public class UtilisateurService {
         return this.utilisateurRepository.findById(id).orElseThrow();
     }
 
+    public UtilisateurDto trouverDtoParId(Integer id) {
+        return this.changeToUtilisateurDto(this.utilisateurRepository.findById(id).orElseThrow());
+    }
+
     public Optional<Utilisateur> rechercheParId(Integer id) {
         return this.utilisateurRepository.findById(id);
     }
@@ -135,4 +139,9 @@ public class UtilisateurService {
             throw new NoSuchElementException("Utilisateur non trouvé");
         }
     }
+
+    public UtilisateurDto changeToUtilisateurDto(Utilisateur utilisateur){
+        return new UtilisateurDto(utilisateur.getId(), utilisateur.getNom(), utilisateur.getMotDePasse(), utilisateur.getEmail());
+    }
+
 }

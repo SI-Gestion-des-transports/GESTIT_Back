@@ -36,7 +36,7 @@ public class VehiculeServiceController {
     //@Secured({"COLLABORATEUR", "ADMINISTRATEUR"})
     @GetMapping("/list")
     public ResponseEntity<List<VehiculeServiceDto>> listVehiculeService() {
-        return ResponseEntity.status(200).body(vehiculeServiceService.listVehiculeService(0, 5));
+        return ResponseEntity.status(200).body(vehiculeServiceService.listVehiculeServiceEnService());
     }
 
 

@@ -22,4 +22,5 @@ public class CovoiturageDto {
     private List<UtilisateurDto> passagers = new ArrayList<>();
 
     private VehiculePersoDto vehiculePerso;
+
 }

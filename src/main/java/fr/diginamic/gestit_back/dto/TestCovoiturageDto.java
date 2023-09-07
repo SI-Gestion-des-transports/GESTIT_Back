@@ -13,7 +13,8 @@ public record TestCovoiturageDto(
          @NotNull Integer adresseDepartId,
          @NotNull Integer adresseArriveeID,
          @NotNull Integer organisateurId,
-         @NotNull Integer vehiculePersoId
+         @NotNull Integer vehiculePersoId,
+         @NotNull Integer[] passagersId
 
 ) {
 }

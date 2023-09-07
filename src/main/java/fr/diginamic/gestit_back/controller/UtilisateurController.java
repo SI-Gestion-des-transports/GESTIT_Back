@@ -20,8 +20,9 @@ import java.util.Optional;
 
 @RestController
 @Data
-@Secured({"COLLABORATEUR", "ADMINISTRATEUR"})
+//@Secured({"COLLABORATEUR", "ADMINISTRATEUR"})
 @AllArgsConstructor
+@CrossOrigin
 @RequestMapping("utilisateur")
 public class UtilisateurController {
     private UtilisateurService utilisateurCollaborateurService;
@@ -38,6 +39,17 @@ public class UtilisateurController {
     @GetMapping("/findNom")
     public List<Utilisateur> findNom() {
         return this.utilisateurCollaborateurService.listerUtilisateurParNom("Admin1");
+    }
+
+    /**
+     * Récupère une l'tilisateur avec l'id spécifié.
+     *
+     * @return Une liste d'utilisateur correspondant au nom "Admin1".
+     * @see Utilisateur
+     */
+    @GetMapping("/{userId}")
+    public UtilisateurDto findParId(@PathVariable Integer userId) {
+        return this.utilisateurCollaborateurService.trouverDtoParId(userId);
     }
 
     /**

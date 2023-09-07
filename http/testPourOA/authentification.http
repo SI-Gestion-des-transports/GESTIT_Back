@@ -1,5 +1,4 @@
 ### LOGIN COLLABORATEUR
-
 POST localhost:8080/login
 Content-Type: application/json
 
@@ -9,7 +8,6 @@ Content-Type: application/json
 }
 
 ### LOGIN ADMINISTRATEUR
-
 POST localhost:8080/login
 Content-Type: application/json
 
@@ -23,4 +21,4 @@ Content-Type: application/json
 
 POST localhost:8080/signout
 Content-Type: application/json
-JWT-TOKEN: "votre JWT-TOKEN reçu lors du logIn"
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCR3cHEubVRJaUthMEtuM1dLR0RkQ2p1YW1LVXd4Wi9EdS51R01rVkJzOHB3QXBXaXNuTTVXeSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiXSwiZW1haWwiOiJjb2xsYWJvcmF0ZXVyM0BnZXN0aXQuZnIiLCJ1c2VybmFtZSI6IkNvbGxhYjMiLCJleHAiOjE2OTM1ODM5MzN9.oqpR_FH9OIlIkSewehAc1vyvGIZNPjE80qaMOuF_3rE

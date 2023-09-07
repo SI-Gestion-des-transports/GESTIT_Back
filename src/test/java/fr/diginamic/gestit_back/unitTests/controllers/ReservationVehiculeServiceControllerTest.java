@@ -2,6 +2,7 @@ package fr.diginamic.gestit_back.unitTests.controllers;
 
 import fr.diginamic.gestit_back.configuration.JWTConfig;
 import fr.diginamic.gestit_back.controller.ReservationVehiculeServiceController;
+import fr.diginamic.gestit_back.dto.ReservationVehiculeServiceDto;
 import fr.diginamic.gestit_back.entites.ReservationVehiculeService;
 import fr.diginamic.gestit_back.service.ReservationVehiculeServiceService;
 import fr.diginamic.gestit_back.utils.JWTUtils;
@@ -15,6 +16,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,13 +49,13 @@ public class ReservationVehiculeServiceControllerTest {
     public void test_ListerReservations_Ok() throws Exception {
         Integer expectedUserId = 12;
         String jwtToken = "sample.jwt.token";
-
+        ReservationVehiculeServiceDto dto = new ReservationVehiculeServiceDto(expectedUserId, 1, LocalDateTime.now(), LocalDateTime.now().plusDays(1));
         Claims mockClaims = Mockito.mock(Claims.class);
         when(mockClaims.getSubject()).thenReturn(String.valueOf(expectedUserId));
         when(jwtUtils.parseJWT(jwtToken)).thenReturn(mockClaims);
 
         when(reservationVehiculeServiceService.listeReservationVehiculeService(expectedUserId))
-                .thenReturn(List.of(new ReservationVehiculeService()));
+                .thenReturn(List.of(dto));
 
         mockMvc = MockMvcBuilders.standaloneSetup(reservationVehiculeServiceController).build();
 
