@@ -28,7 +28,7 @@ public class VehiculePersoService {
     public List<VehiculePersoDto> listVehiculePersoByUserId(Integer userId) {
         Utilisateur utilisateur = utilisateurService.trouverParId(userId);
         List<VehiculePerso> list = vehiculePersoRepository.findVehiculePersoByProprietaire(utilisateur);
-        return list.stream().map(VehiculePersoDto::new).toList();
+        return list.stream().filter(vp->vp.getStatut()!=StatutPerso.SUPPRIMER).map(VehiculePersoDto::new).toList();
     }
 
 

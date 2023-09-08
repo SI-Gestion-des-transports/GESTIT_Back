@@ -31,19 +31,20 @@ public class VehiculePersoController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<List<VehiculePersoDto>> createVehiculePerso(@RequestHeader HttpHeaders httpHeaders,@Validated @RequestBody VehiculePersoDto dto){
+    public ResponseEntity<List<VehiculePersoDto>> createVehiculePerso(@RequestHeader HttpHeaders httpHeaders,
+                                                                      @Validated @RequestBody VehiculePersoDto dto){
         Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get(jwtConfig.getName()).get(0)).getSubject());
         System.out.println(userId);
         vehiculePersoService.createVehiculePerso(dto,userId);
-        return ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
+        return ResponseEntity.status(200).build();
     }
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<List<VehiculePersoDto>> deleteVehiculePerso(
             @RequestParam Integer id,
             //@RequestParam Integer userId,
             @RequestHeader HttpHeaders httpHeaders
     ) throws CovoiturageNotFoundException {
-        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get(jwtConfig.getName()).get(0)).getSubject());
 
         List<Covoiturage> covoiturages = covoiturageService.findCovoituragesByVehiculePerSupprimer(vehiculePersoService.findVehiculePersoById(id));
 
@@ -60,22 +61,22 @@ public class VehiculePersoController {
     public ResponseEntity<List<VehiculePersoDto>> listVehiculePerso(
             @RequestHeader HttpHeaders httpHeaders
     ){
-        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        System.out.println(httpHeaders.get(jwtConfig.getName()).get(0));
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get(jwtConfig.getName()).get(0)).getSubject());
         return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
     }
-    @PostMapping("/modify")
-    public ResponseEntity<List<VehiculePersoDto>> modifyVehiculePerso(@RequestHeader HttpHeaders httpHeaders,@Validated @RequestBody VehiculePersoDto dto){
-        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+    @PutMapping("/modify")
+    public ResponseEntity modifyVehiculePerso(@RequestHeader HttpHeaders httpHeaders,@Validated @RequestBody VehiculePersoDto dto){
+        Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get(jwtConfig.getName()).get(0)).getSubject());
         vehiculePersoService.modifyVehiculePerso(dto,userId);
-        return  ResponseEntity.status(200).body(vehiculePersoService.listVehiculePersoByUserId(userId));
+        return  ResponseEntity.status(200).build();
     }
 
-    @PostMapping("/test")
-    public ResponseEntity test(@RequestHeader HttpHeaders httpHeaders ,@RequestBody String username){
-        System.out.println(httpHeaders.get("username").get(0));
-        System.out.println(username);
-        System.out.println(httpHeaders.get("Content-Type"));
-        return ResponseEntity.status(200).body(new Commune("d",222));
+
+    @GetMapping("/findById")
+    public ResponseEntity<VehiculePersoDto> findById(@RequestParam Integer id){
+        return ResponseEntity.status(200).body(new VehiculePersoDto(vehiculePersoService.findVehiculePersoById(id)));
+
     }
 
 }

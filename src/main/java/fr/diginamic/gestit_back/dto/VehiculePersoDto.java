@@ -22,10 +22,12 @@ public class VehiculePersoDto {
     private String immatriculation;
 
     private Integer userId;
+    private String marque;
 
     public VehiculePersoDto(VehiculePerso vehiculePerso){
         this.id= vehiculePerso.getId();
         this.modele= vehiculePerso.getModele().getNom();
+        this.marque= vehiculePerso.getModele().getMarque().getNom();
         this.userId= vehiculePerso.getProprietaire().getId();
         this.nombreDePlaceDisponibles = vehiculePerso.getNombreDePlaceDisponibles();
         this.immatriculation = vehiculePerso.getImmatriculation();
