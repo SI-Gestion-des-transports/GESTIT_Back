@@ -1,7 +1,10 @@
 package fr.diginamic.gestit_back.controller;
+import fr.diginamic.gestit_back.dto.CovoiturageDto;
+import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
 
 
+import jakarta.validation.Valid;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,7 @@ import fr.diginamic.gestit_back.entites.Modele;
 import fr.diginamic.gestit_back.entites.Marque;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @RestController
 // @Secured("COLLABORATEUR")
@@ -61,6 +65,43 @@ public class CovoiturageController {
     public List<Covoiturage> getCovoiturages() {
         return covoiturageService.list();
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Integer id,
+                                    @RequestBody @Valid Covoiturage covoiturage) {
+        try {
+            covoiturage.setId(id);
+            Covoiturage updatedCovoiturage = covoiturageService.update(covoiturage);
+            return ResponseEntity.ok(entity2Dto(updatedCovoiturage));
+        } catch (CovoiturageNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+        try {
+            covoiturageService.delete(id);
+            return ResponseEntity.noContent().build();
+
+        } catch (CovoiturageNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    private CovoiturageDto entity2Dto(Covoiturage entity) {
+        return modelMapper.map(entity, CovoiturageDto.class);
+    }
+
+    private List<CovoiturageDto> list2Dto(List<Covoiturage> listCovoiturages) {
+        return listCovoiturages.stream().map(
+                        entity -> entity2Dto(entity))
+                .collect(Collectors.toList());
+    }
+
 
     /* Fonctions utilitaires */
     public static Covoiturage Covoiturage_instanceExample() {

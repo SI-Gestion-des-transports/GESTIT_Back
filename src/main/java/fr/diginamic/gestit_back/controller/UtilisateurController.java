@@ -22,7 +22,7 @@ import java.util.Optional;
 @Data
 //@Secured({"COLLABORATEUR", "ADMINISTRATEUR"})
 @AllArgsConstructor
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("utilisateur")
 public class UtilisateurController {
     private UtilisateurService utilisateurCollaborateurService;

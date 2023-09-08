@@ -83,11 +83,13 @@ insert into utilisateur_roles (roles, utilisateur_id) values('ADMINISTRATEUR',13
 insert into utilisateur_roles (roles, utilisateur_id) values('ADMINISTRATEUR',14);
 insert into vehicule_perso(modele_id, nombre_de_place_disponibles, proprietaire_id, immatriculation) values (1, 5, 5, '34-XXX-43');
 insert into vehicule_perso(modele_id, nombre_de_place_disponibles, proprietaire_id, immatriculation) values (2, 5, 6, '43-YYY-34');
-insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (1, 5, '11-ZZZ-11', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://m.media-amazon.com/images/I/71E32iPE92L._AC_SL1500_.jpg');
-insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (3, 5, '22-AAA-22', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://m.media-amazon.com/images/I/71E32iPE92L._AC_SL1500_.jpg');
+insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (1, 5, '11-ZZZ-11', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://images.caradisiac.com/images/6/8/4/3/176843/S8-nouvelle-peugeot-208-prix-a-partir-de-15-500-eur-593600.jpg');
+insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (2, 5, '22-AAA-22', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://images.caradisiac.com/logos-ref/modele/modele--peugeot-2008-2e-generation/S8-modele--peugeot-2008-2e-generation.jpg');
+insert into vehicule_service(modele_id, nombre_de_place_disponibles, immatriculation, categorie, motorisation, statut, photo_url) values (3, 5, 'HX-800-HV', 'COMPACTES', 'THERMIQUE', 'EN_SERVICE','https://images.caradisiac.com/logos-ref/modele/modele--peugeot-308-3e-generation/S8-modele--peugeot-308-3e-generation.jpg');
 insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (1, 1, '2023-07-30 14:00:00', '2023-08-01 16:00:00');
 insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (1, 1, '2023-07-31 18:00:00', '2023-08-04 13:30:00');
 insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (12, 2, '2023-06-30 19:00:00', '2023-08-04 13:30:00');
+insert into reservation_vehicule_service (collaborateur_id, vehicule_service_id, date_heure_depart, date_heure_retour) values (1, 2, '2023-09-30 19:00:00', '2023-10-04 13:30:00');
 insert into covoiturage (distance_km, duree_trajet, nombre_places_restantes, date_depart, adresse_arrivee_id, adresse_depart_id, organisateur_id, vehicule_perso_id) values (150, 3, 1, '2023-08-01', 1, 3, 5, 1);
 insert into covoiturage (distance_km, duree_trajet, nombre_places_restantes, date_depart, adresse_arrivee_id, adresse_depart_id, organisateur_id, vehicule_perso_id) values (110, 3, 4, '2019-08-01', 1, 3, 5, 1);
 insert into covoiturages_collaborateur (collaborateur_id, covoiturage_id) values (4,1);
