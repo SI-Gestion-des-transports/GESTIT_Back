@@ -49,7 +49,7 @@ public class ReservationVehiculeServiceControllerTest {
     public void test_ListerReservations_Ok() throws Exception {
         Integer expectedUserId = 12;
         String jwtToken = "sample.jwt.token";
-        ReservationVehiculeServiceDto dto = new ReservationVehiculeServiceDto(expectedUserId, 1, LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+        ReservationVehiculeServiceDto dto = new ReservationVehiculeServiceDto(expectedUserId, 1, 1, LocalDateTime.now(), LocalDateTime.now().plusDays(1));
         Claims mockClaims = Mockito.mock(Claims.class);
         when(mockClaims.getSubject()).thenReturn(String.valueOf(expectedUserId));
         when(jwtUtils.parseJWT(jwtToken)).thenReturn(mockClaims);
