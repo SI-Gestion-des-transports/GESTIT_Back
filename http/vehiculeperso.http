@@ -1,12 +1,12 @@
 POST 127.0.0.1:8080/vehiculeperso/create
 Content-Type: application/json
-JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCR3UmRpTzc2YU5TUy81bkw4cERDNUJ1bU56czQvMnd1czMuL0tEUmFIckhkNVhtcDJGSnQ2ZSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiLCJBRE1JTklTVFJBVEVVUiJdLCJlbWFpbCI6ImRpamlhbGVpQ29sbEFkbWluQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiQ29sbEFkbWluIiwiZXhwIjoxNjkzNDkzNjQyfQ.cqfbJxJlkp3naSQCZQhu3c16yhZje7c_cL2vuvhq5sc
+JWT_TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCR3UmRpTzc2YU5TUy81bkw4cERDNUJ1bU56czQvMnd1czMuL0tEUmFIckhkNVhtcDJGSnQ2ZSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiLCJBRE1JTklTVFJBVEVVUiJdLCJlbWFpbCI6ImRpamlhbGVpQ29sbEFkbWluQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiQ29sbEFkbWluIiwiZXhwIjoxNjk1MDI4NjEyfQ.w5P13NoJEzSxxA2IRkM62YKurvkMn63Muo_wWvGBdq8
 
 {
-  "modele" : "208",
+  "modele" : "Megane",
   "nombreDePlaceDisponibles": 5,
-  "immatriculation":  "test423456",
-  "userId": 3
+  "immatriculation":  "test234567",
+  "userId": 2
 }
 
 ###

@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 //@Secured("ADMINISTRATEUR")
 @RequestMapping("admin/vehiculeservice")
-//@CrossOrigin
+
 public class VehiculeServiceController {
     private VehiculeServiceService vehiculeServiceService;
     private ReservationVehiculeServiceService reservationVehiculeServiceService;
