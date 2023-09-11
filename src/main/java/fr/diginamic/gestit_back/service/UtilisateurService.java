@@ -141,7 +141,7 @@ public class UtilisateurService {
     }
 
     public UtilisateurDto changeToUtilisateurDto(Utilisateur utilisateur){
-        return new UtilisateurDto(utilisateur.getId(), utilisateur.getNom(), utilisateur.getMotDePasse(), utilisateur.getEmail());
+        return new UtilisateurDto(utilisateur.getId(), utilisateur.getNom(), utilisateur.getMotDePasse(), utilisateur.getEmail(),utilisateur.getRoles());
     }
 
 }

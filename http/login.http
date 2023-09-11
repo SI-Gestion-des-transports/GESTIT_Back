@@ -11,6 +11,12 @@ Content-Type: application/json
 }
 
 ###
+GET localhost:8080/getuserbyjwt
+Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCR3UmRpTzc2YU5TUy81bkw4cERDNUJ1bU56czQvMnd1czMuL0tEUmFIckhkNVhtcDJGSnQ2ZSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiLCJBRE1JTklTVFJBVEVVUiJdLCJlbWFpbCI6ImRpamlhbGVpQ29sbEFkbWluQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiQ29sbEFkbWluIiwiZXhwIjoxNjk1MzM4MzM1fQ.Y4DePUEb-i0U_J7NvMnJLzFakaNdv1sE6OzbUyvKpeM
+
+
+###
 POST localhost:8080/login
 Content-Type: application/json
 
