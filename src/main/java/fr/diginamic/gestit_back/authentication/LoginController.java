@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
-@CrossOrigin
+
 @AllArgsConstructor
 public class LoginController {
     private LoginService loginService;

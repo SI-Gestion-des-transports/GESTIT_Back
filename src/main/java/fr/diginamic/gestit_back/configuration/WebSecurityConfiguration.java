@@ -35,10 +35,10 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JWTAuthFilter jwtAuthFilter) throws Exception {
         http.authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers(HttpMethod.POST, "/vehiculeperso/test").permitAll()
-                                //.requestMatchers(HttpMethod.POST, "/login").anonymous()
-                                //.anyRequest().authenticated()
-                                .anyRequest().permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/login").anonymous()
+                                .anyRequest().authenticated()
+                                //.anyRequest().permitAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable
                         //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
