@@ -46,7 +46,7 @@ public class ReservationVehiculeServiceService {
         return this.reservationVehiculeServiceRepository.findReservationVehiculeServiceByCollaborateur(
                 this.utilisateurService.trouverParId(utilisateurConnecteId))
                 .stream()
-                .map(this::changeToResVSDto)
+                .map(resVs -> this.changeToResVSDto(resVs, utilisateurConnecteId))
                 .collect(Collectors.toList());
     }
 
@@ -58,10 +58,21 @@ public class ReservationVehiculeServiceService {
      */
     @Transactional
     public List<ReservationVehiculeServiceDto> listeReservationVSEnCours(Integer utilisateurConnecteId) {
+        List<ReservationVehiculeServiceDto> reservationVSEnCours = new ArrayList<>();
+        reservationVSEnCours.addAll(this.reservationVehiculeServiceRepository.findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsAfter(
+                        this.utilisateurService.trouverParId(utilisateurConnecteId), LocalDateTime.now())
+                .stream()
+                .map(resVs -> this.changeToResVSDto(resVs, utilisateurConnecteId))
+                .collect(Collectors.toList()));
+
+        for(ReservationVehiculeServiceDto res : reservationVSEnCours){
+            System.out.println(res);
+        }
+
         return this.reservationVehiculeServiceRepository.findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsAfter(
                 this.utilisateurService.trouverParId(utilisateurConnecteId), LocalDateTime.now())
                 .stream()
-                .map(this::changeToResVSDto)
+                .map(resVs -> this.changeToResVSDto(resVs, utilisateurConnecteId))
                 .collect(Collectors.toList());
     }
 
@@ -76,7 +87,7 @@ public class ReservationVehiculeServiceService {
         return this.reservationVehiculeServiceRepository.findAllReservationsVehiculeServiceByCollaborateurAndDateHeureRetourIsBefore(
                 this.utilisateurService.trouverParId(utilisateurConnecteId), LocalDateTime.now())
                 .stream()
-                .map(this::changeToResVSDto)
+                .map(resVs -> this.changeToResVSDto(resVs, utilisateurConnecteId))
                 .collect(Collectors.toList());
     }
 
@@ -204,7 +215,7 @@ public class ReservationVehiculeServiceService {
         }
     }
 
-    public ReservationVehiculeServiceDto changeToResVSDto(ReservationVehiculeService resVS){
-        return new ReservationVehiculeServiceDto(resVS.getId(), resVS.getVehiculeService().getId(), resVS.getDateHeureDepart(), resVS.getDateHeureRetour());
+    public ReservationVehiculeServiceDto changeToResVSDto(ReservationVehiculeService resVS, Integer utilisateurConnecteId){
+        return new ReservationVehiculeServiceDto(resVS.getId(),utilisateurConnecteId, resVS.getVehiculeService().getId(), resVS.getDateHeureDepart(), resVS.getDateHeureRetour());
     }
 }

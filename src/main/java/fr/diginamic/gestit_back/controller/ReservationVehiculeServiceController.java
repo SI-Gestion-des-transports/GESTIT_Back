@@ -51,6 +51,18 @@ public class ReservationVehiculeServiceController {
     @GetMapping("/upcoming")
     public ResponseEntity<List<ReservationVehiculeServiceDto>> listeReservationVSEnCours(@RequestHeader HttpHeaders httpHeaders) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+
+        System.out.println("*****************************************");
+        System.out.println("SOUT TOKEN : " + httpHeaders.get("JWT-TOKEN"));
+        System.out.println("User connected : " + utilisateurConnecteId);
+        System.out.println("*****************************************");
+
+        List<ReservationVehiculeServiceDto> incomingRes = this.reservationVehiculeServiceService.listeReservationVSHistorique(utilisateurConnecteId);
+        System.out.println("incomingRes :" + incomingRes);
+        for(ReservationVehiculeServiceDto iR : incomingRes){
+            System.out.println("Incoming res : " + iR.userId());
+        }
+
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVSEnCours(utilisateurConnecteId));
     }
 
@@ -62,11 +74,18 @@ public class ReservationVehiculeServiceController {
      */
     @GetMapping("/past")
     public ResponseEntity<List<ReservationVehiculeServiceDto>> listeReservationVSHistorique(@RequestHeader HttpHeaders httpHeaders) {
-        System.out.println("*****************************************");
-        System.out.println("SOUT TOKEN" + httpHeaders.get("JWT-TOKEN"));
-        System.out.println("*****************************************");
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
-        return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVSHistorique(utilisateurConnecteId));
+        System.out.println("*****************************************");
+        System.out.println("SOUT TOKEN : " + httpHeaders.get("JWT-TOKEN"));
+        System.out.println("User connected : " + utilisateurConnecteId);
+        System.out.println("*****************************************");
+
+        List<ReservationVehiculeServiceDto> pastRes = this.reservationVehiculeServiceService.listeReservationVSHistorique(utilisateurConnecteId);
+        System.out.println("pastRes :" + pastRes);
+        for(ReservationVehiculeServiceDto pR : pastRes){
+            System.out.println("Past res : " + pR.userId());
+        }
+        return ResponseEntity.status(200).body(pastRes);
     }
 
     /**
@@ -94,7 +113,7 @@ public class ReservationVehiculeServiceController {
      * @param resId       ID de la réservation à modifier.
      * @return La liste mise à jour des réservations.
      */
-    @PostMapping("/modify")
+    @PutMapping("/modify")
     public ResponseEntity<List<ReservationVehiculeServiceDto>> modifierReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto newResDto,
@@ -114,13 +133,15 @@ public class ReservationVehiculeServiceController {
      * @param resId       ID de la réservation à supprimer.
      * @return La liste mise à jour des réservations.
      */
-    @PostMapping("/delete")
+    @DeleteMapping("/{resId}")
     public ResponseEntity<List<ReservationVehiculeServiceDto>> supprimerReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             //@RequestBody @Valid ReservationVehiculeServiceDto resDto,
-            @RequestParam Integer resId) {
+            @PathVariable Integer resId) {
+        System.out.println("—————— ReservationVS Ctlr — DeleteMapping Called");
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         this.reservationVehiculeServiceService.supprimerReservationVehiculeService(utilisateurConnecteId, resId);
+        System.out.println("—————— ReservationVS Ctlr — Delete done, returning LIST");
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }
 
