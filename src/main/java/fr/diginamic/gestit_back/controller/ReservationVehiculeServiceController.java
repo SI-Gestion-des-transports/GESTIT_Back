@@ -113,7 +113,7 @@ public class ReservationVehiculeServiceController {
      * @param resId       ID de la réservation à modifier.
      * @return La liste mise à jour des réservations.
      */
-    @PostMapping("/modify")
+    @PutMapping("/modify")
     public ResponseEntity<List<ReservationVehiculeServiceDto>> modifierReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto newResDto,
