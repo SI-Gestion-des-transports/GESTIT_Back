@@ -1,13 +1,18 @@
 package fr.diginamic.gestit_back.service;
 
 import fr.diginamic.gestit_back.dto.AdresseDto;
+import fr.diginamic.gestit_back.dto.CovoiturageDtoRecord;
 import fr.diginamic.gestit_back.entites.Adresse;
 import fr.diginamic.gestit_back.entites.Commune;
+import fr.diginamic.gestit_back.entites.Covoiturage;
 import fr.diginamic.gestit_back.repository.AdresseRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -32,5 +37,16 @@ public class AdresseService {
         nouvelleAdresse.setCommune(commune);
         // Sauvegarde de l'adresse
         this.adresseRepository.save(nouvelleAdresse);
+    }
+
+
+    public AdresseDto changeToAdresseDto(Adresse adresse){
+
+        return new AdresseDto(
+                adresse.getId(),
+                adresse.getCommune().getNom(),
+                adresse.getCommune().getCodePostal(),
+                adresse.getNumero(),
+                adresse.getVoie());
     }
 }

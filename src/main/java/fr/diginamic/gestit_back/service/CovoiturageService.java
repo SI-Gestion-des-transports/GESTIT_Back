@@ -34,6 +34,7 @@ public class CovoiturageService {
     private AdresseRepository adresseRepository;
     private VehiculePersoRepository vehiculePersoRepository;
     private UtilisateurService utilisateurService;
+    private AdresseService adresseService;
 
     public Covoiturage add(Covoiturage covoiturage) {
         return covoiturageRepository.save(covoiturage);
@@ -57,8 +58,8 @@ public class CovoiturageService {
         if (connectedUser.isPresent() && !connectedUser.get().getVehiculesPerso().isEmpty()) {
 
             LocalDate dateDepart = covoiturageDto.dateDepart();
-            Adresse adresseDepart = adresseRepository.findById(covoiturageDto.adresseDepartId()).orElseThrow();
-            Adresse adresseArrivee = adresseRepository.findById(covoiturageDto.adresseArriveeID()).orElseThrow();
+            Adresse adresseDepart = adresseRepository.findById(covoiturageDto.adresseDepart().id()).orElseThrow();
+            Adresse adresseArrivee = adresseRepository.findById(covoiturageDto.adresseArrivee().id()).orElseThrow();
             Utilisateur organisateur = utilisateurRepository.findById(connectedUser.get().getId()).orElseThrow();
             VehiculePerso vehiculePerso = vehiculePersoRepository.findVehiculePersoByProprietaire(organisateur).get(0);
 
@@ -187,12 +188,13 @@ public class CovoiturageService {
                 covoiturage.getDureeTrajet(),
                 covoiturage.getDistanceKm(),
                 covoiturage.getDateDepart(),
-                covoiturage.getAdresseDepart().getId(),
-                covoiturage.getAdresseArrivee().getId(),
+                this.adresseService.changeToAdresseDto(covoiturage.getAdresseDepart()),
+                this.adresseService.changeToAdresseDto(covoiturage.getAdresseArrivee()),
                 covoiturage.getOrganisateur().getId(),
                 covoiturage.getVehiculePerso().getId(),
                 allPassengers);
     }
+
 
 
     public void delete(Integer id) throws CovoiturageNotFoundException {
