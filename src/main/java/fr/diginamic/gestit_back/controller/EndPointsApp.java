@@ -13,7 +13,7 @@ public class EndPointsApp {
       public static final String COVOITURAGE_URN = DOMAIN_TEST + PORT_TEST + COVOITURAGE_ENDPOINT;
 
       /* getAllCovoiturages */
-      public static final String COVOITURAGE_GET_ALL_RESOURCE = "/getAllCovoiturages";
+      public static final String COVOITURAGE_GET_ALL_RESOURCE = "/listall";
       public static final String COVOITURAGE_GET_ALL_PATH_MVCTEST = COVOITURAGE_ENDPOINT + COVOITURAGE_GET_ALL_RESOURCE;
       public static final String COVOITURAGE_GET_ALL_URI = COVOITURAGE_URL + COVOITURAGE_GET_ALL_RESOURCE;
 

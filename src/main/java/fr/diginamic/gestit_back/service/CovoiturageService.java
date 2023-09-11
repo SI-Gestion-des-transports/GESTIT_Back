@@ -1,11 +1,8 @@
 package fr.diginamic.gestit_back.service;
 
+import fr.diginamic.gestit_back.dto.CovoiturageDtoRecord;
 import fr.diginamic.gestit_back.dto.MessageDto;
-import fr.diginamic.gestit_back.dto.TestCovoiturageDto;
-import fr.diginamic.gestit_back.entites.Adresse;
-import fr.diginamic.gestit_back.entites.Covoiturage;
-import fr.diginamic.gestit_back.entites.Utilisateur;
-import fr.diginamic.gestit_back.entites.VehiculePerso;
+import fr.diginamic.gestit_back.entites.*;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.exceptions.NotFoundOrValidException;
 import fr.diginamic.gestit_back.repository.AdresseRepository;
@@ -23,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -53,7 +51,7 @@ public class CovoiturageService {
      * @throws CovoiturageNotFoundException Si la création du covoiturage échoue pour une raison quelconque.
      */
     @Transactional
-    public Covoiturage creerCovoiturage(TestCovoiturageDto covoiturageDto, Integer userId) throws CovoiturageNotFoundException {
+    public Covoiturage creerCovoiturage(CovoiturageDtoRecord covoiturageDto, Integer userId) throws CovoiturageNotFoundException {
         Optional<Utilisateur> connectedUser = utilisateurService.rechercheParId(userId);
 
         if (connectedUser.isPresent() && !connectedUser.get().getVehiculesPerso().isEmpty()) {
@@ -169,6 +167,34 @@ public class CovoiturageService {
 
     }
 
+    public List<CovoiturageDtoRecord> listall() {
+        return covoiturageRepository.findAll().stream()
+                .map(covoit -> this.changeToCovoitDto(covoit))
+                .collect(Collectors.toList());
+
+
+
+    }
+
+
+    public CovoiturageDtoRecord changeToCovoitDto(Covoiturage covoiturage){
+        List<Integer> passengersIdList = covoiturage.getPassagers().stream().map(passager -> passager.getId()).collect(Collectors.toList());
+        Integer[] allPassengers = passengersIdList.toArray(new Integer[0]);
+
+        return new CovoiturageDtoRecord(
+                covoiturage.getId(),
+                covoiturage.getNombrePlacesRestantes(),
+                covoiturage.getDureeTrajet(),
+                covoiturage.getDistanceKm(),
+                covoiturage.getDateDepart(),
+                covoiturage.getAdresseDepart().getId(),
+                covoiturage.getAdresseArrivee().getId(),
+                covoiturage.getOrganisateur().getId(),
+                covoiturage.getVehiculePerso().getId(),
+                allPassengers);
+    }
+
+
     public void delete(Integer id) throws CovoiturageNotFoundException {
 
         if (covoiturageRepository.existsById(id)) {
@@ -196,7 +222,7 @@ public class CovoiturageService {
         return ResponseEntity.status(200).body(covoiturage.get());
     }
 
-/*    public Integer testCreate(TestCovoiturageDto tcd) throws CovoiturageNotFoundException {
+/*    public Integer testCreate(CovoiturageDtoRecord tcd) throws CovoiturageNotFoundException {
         System.out.println("Entrée testCreate");
         LocalDate dateDepart = tcd.dateDepart();
         Adresse adresseDepart = adresseRepository.findById(tcd.adresseDepartId()).orElseThrow();

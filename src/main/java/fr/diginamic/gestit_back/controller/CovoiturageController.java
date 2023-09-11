@@ -1,23 +1,16 @@
 package fr.diginamic.gestit_back.controller;
 import fr.diginamic.gestit_back.dto.CovoiturageDto;
+import fr.diginamic.gestit_back.dto.CovoiturageDtoRecord;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
-import fr.diginamic.gestit_back.dto.CovoiturageDto;
-import fr.diginamic.gestit_back.dto.TestCovoiturageDto;
 import fr.diginamic.gestit_back.dto.TestDto;
-import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
-import fr.diginamic.gestit_back.service.CovoiturageService;
-import fr.diginamic.gestit_back.service.UtilisateurService;
 import fr.diginamic.gestit_back.utils.JWTUtils;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.validation.Valid;
 import jakarta.validation.Valid;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 import fr.diginamic.gestit_back.entites.Covoiturage;
@@ -35,7 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@Secured("COLLABORATEUR")
+//@Secured("COLLABORATEUR")
 @Data
 @RequestMapping("/covoiturages")
 public class CovoiturageController {
@@ -61,6 +54,7 @@ public class CovoiturageController {
      */
     @GetMapping("/listerorganises")
     public ResponseEntity<List<Covoiturage>> listerCovoiturageOrganises(@RequestHeader HttpHeaders httpHeaders) {
+        System.out.println("GET listeorganise");
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         URI uri = URI.create("/covoiturages/listerorganises");
         return ResponseEntity.created(uri).body(this.covoiturageService.listerCovoiturageOrganises(utilisateurConnecteId));
@@ -76,7 +70,7 @@ public class CovoiturageController {
      */
     @PostMapping("/create")
     public ResponseEntity<Covoiturage> creerCovoiturage(
-            @RequestBody @Valid TestCovoiturageDto covoiturageDto,
+            @RequestBody @Valid CovoiturageDtoRecord covoiturageDto,
             @RequestHeader HttpHeaders httpHeaders
     ) throws CovoiturageNotFoundException {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
@@ -156,13 +150,14 @@ public class CovoiturageController {
         CovoiturageDto covoiturageDto = entity2Dto(persistedCovoiturage);
 
         URI uri = URI.create("/covoiturages/" + covoiturageDto.getId());
-
+        System.out.println();
         return ResponseEntity.created(uri).body(covoiturageDto);
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@PathVariable("id") Integer id) {
+        System.out.println("GET id");
         try {
             Covoiturage covoiturage = covoiturageService.get(id);
             return ResponseEntity.ok(entity2Dto(covoiturage));
@@ -179,13 +174,27 @@ public class CovoiturageController {
      * @return Une liste de tous les covoiturages enregistrés dans le système
      * @author AtsuhikoMochizuki
      */
-    @GetMapping
+/*
+    @GetMapping("/listall")
     public ResponseEntity<?> list() {
+        System.out.println("GET list");
         List<Covoiturage> listCovoiturages = covoiturageService.list();
         if (listCovoiturages.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(list2Dto(listCovoiturages));
+    }
+*/
+
+    @GetMapping("/listall")
+    public ResponseEntity<List<CovoiturageDtoRecord>> listall() {
+        System.out.println("GET listall");
+        List<CovoiturageDtoRecord> listCovoiturages = covoiturageService.listall();
+/*
+        if (listCovoiturages.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }*/
+        return ResponseEntity.status(200).body(listCovoiturages);
     }
       
       
@@ -233,7 +242,7 @@ public class CovoiturageController {
     }
 
 /*    @PostMapping("/create")
-    public void testCreate(@RequestBody TestCovoiturageDto tcd) throws CovoiturageNotFoundException {
+    public void testCreate(@RequestBody CovoiturageDtoRecord tcd) throws CovoiturageNotFoundException {
         Integer covoitId = covoiturageService.testCreate(tcd);
 
         covoiturageService.testFindPassager(covoitId);

@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-public record TestCovoiturageDto(
+public record CovoiturageDtoRecord(
+        Integer id,
          @NotNull Integer nombrePlacesRestantes,
          @NotNull Integer dureeTrajet,
          @NotNull Integer distanceKm,

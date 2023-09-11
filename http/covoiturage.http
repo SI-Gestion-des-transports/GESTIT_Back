@@ -46,10 +46,16 @@ GET http://localhost:8080/RestTemplate/getAllCovoiturages
 Content-Type: application/json
 
 ### USER 6
-POST http://localhost:8080/RestTemplate/addCovoiturage
+GET http://localhost:8080/covoiturages/listall
 Content-Type: application/json
+JWT-TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGFzc3dvcmQiOiJ7YmNyeXB0fSQyYSQxMCRTRVVRdVk1TVUvYTBEaFFRRzhMTW0uajB0c1ZHakV4b0l6MWVjZnlzVmtHOW44OEhKZWRocSIsInJvbGVzIjpbIkNPTExBQk9SQVRFVVIiXSwiZW1haWwiOiJjb2xsYWJvcmF0ZXVyMUBnZXN0aXQuZnIiLCJ1c2VybmFtZSI6IkNvbGxhYjEiLCJleHAiOjE2OTUyOTUzMzB9.1Jp2nyU3B3ZlQS83QYOuBYuf7nYkPJ81tggdx92caGw
+
+
+
 {
   "nombrePlacesRestantes": 4,
   "dateDepart": "2023-09-02T17:05:00"
-
 }
+
+
+
