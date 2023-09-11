@@ -28,6 +28,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResponseEntity login(Utilisateur utilisateur) {
+        System.out.println("AAAAAAAAAA" + utilisateur.getEmail());
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(utilisateur.getEmail(), utilisateur.getMotDePasse());

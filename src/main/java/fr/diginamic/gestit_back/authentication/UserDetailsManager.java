@@ -17,6 +17,7 @@ public class UserDetailsManager implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("username : "+ username);
         Optional<Utilisateur> loginUser = utilisateurRepository.findByEmail(username);
         return new LoginUser(loginUser.orElseThrow(() -> new RuntimeException("No such user !")));
     }

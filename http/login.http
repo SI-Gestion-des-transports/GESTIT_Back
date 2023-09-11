@@ -9,3 +9,13 @@ Content-Type: application/json
   "email": "collaborateur1@gestit.fr",
   "motDePasse": "passCollab1"
 }
+
+###
+POST localhost:8080/login
+Content-Type: application/json
+
+{
+  "nom": "nom7",
+  "email": "nom8@nom.com",
+  "motDePasse": "1234"
+}

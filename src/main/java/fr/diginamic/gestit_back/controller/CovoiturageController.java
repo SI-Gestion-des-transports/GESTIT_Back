@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@Secured("COLLABORATEUR")
+//@Secured("COLLABORATEUR")
 @Data
 @RequestMapping("/covoiturages")
 public class CovoiturageController {
