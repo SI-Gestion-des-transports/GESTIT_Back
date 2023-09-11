@@ -60,6 +60,20 @@ public class CovoiturageController {
         return ResponseEntity.created(uri).body(this.covoiturageService.listerCovoiturageOrganises(utilisateurConnecteId));
     }
 
+    @GetMapping("/upcoming")
+    public ResponseEntity<List<CovoiturageDtoRecord>> listeCovoitOrganisesEnCours(@RequestHeader HttpHeaders httpHeaders) {
+        System.out.println("******************——— GET UPCOMING ———******************");
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        return ResponseEntity.status(200).body(this.covoiturageService.listerDTOCovoiturageOrganisesUpcoming(utilisateurConnecteId));
+    }
+    @GetMapping("/past")
+    public ResponseEntity<List<CovoiturageDtoRecord>> listeCovoitOrganisesPast(@RequestHeader HttpHeaders httpHeaders) {
+        System.out.println("******************——— GET PAST ———******************");
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        return ResponseEntity.status(200).body(this.covoiturageService.listerDTOCovoiturageOrganisesPast(utilisateurConnecteId));
+    }
+
+
     /**
      * Crée un nouveau covoiturage basé sur les données fournies par le DTO.
      *
@@ -69,14 +83,16 @@ public class CovoiturageController {
      * @throws CovoiturageNotFoundException Si le covoiturage n'a pas été trouvé ou ne peut être créé pour une raison quelconque.
      */
     @PostMapping("/create")
-    public ResponseEntity<Covoiturage> creerCovoiturage(
-            @RequestBody @Valid CovoiturageDtoRecord covoiturageDto,
+    public ResponseEntity<List<CovoiturageDtoRecord>> creerCovoiturage(
+            @RequestBody CovoiturageDtoRecord covoiturageDto,
             @RequestHeader HttpHeaders httpHeaders
-    ) throws CovoiturageNotFoundException {
+    ) {
+        System.out.println("C CTRLR");
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
 
+        this.covoiturageService.creerCovoiturage(covoiturageDto, utilisateurConnecteId);
         URI uri = URI.create("/covoiturages/create");
-        return ResponseEntity.created(uri).body(this.covoiturageService.creerCovoiturage(covoiturageDto, utilisateurConnecteId));
+        return ResponseEntity.status(200).body(this.covoiturageService.listerDTOCovoiturageOrganisesPast(utilisateurConnecteId));
     }
 
 

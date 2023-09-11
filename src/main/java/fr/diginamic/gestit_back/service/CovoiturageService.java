@@ -52,23 +52,27 @@ public class CovoiturageService {
      * @throws CovoiturageNotFoundException Si la création du covoiturage échoue pour une raison quelconque.
      */
     @Transactional
-    public Covoiturage creerCovoiturage(CovoiturageDtoRecord covoiturageDto, Integer userId) throws CovoiturageNotFoundException {
+    public Covoiturage creerCovoiturage(CovoiturageDtoRecord covoiturageDto, Integer userId) {
         Optional<Utilisateur> connectedUser = utilisateurService.rechercheParId(userId);
-
-        if (connectedUser.isPresent() && !connectedUser.get().getVehiculesPerso().isEmpty()) {
-
+        System.out.println("C SERVICE : creerCovoiturage");
+        if (connectedUser.isPresent() /*&& !connectedUser.get().getVehiculesPerso().isEmpty()*/) {
+            System.out.println("CONNECTED USER ID : " + connectedUser.get().getId());
             LocalDate dateDepart = covoiturageDto.dateDepart();
             Adresse adresseDepart = adresseRepository.findById(covoiturageDto.adresseDepart().id()).orElseThrow();
             Adresse adresseArrivee = adresseRepository.findById(covoiturageDto.adresseArrivee().id()).orElseThrow();
             Utilisateur organisateur = utilisateurRepository.findById(connectedUser.get().getId()).orElseThrow();
+            System.out.println("organisateur : "+organisateur);
             VehiculePerso vehiculePerso = vehiculePersoRepository.findVehiculePersoByProprietaire(organisateur).get(0);
 
             Covoiturage covoiturage = new Covoiturage(covoiturageDto.nombrePlacesRestantes(), covoiturageDto.dureeTrajet(), covoiturageDto.distanceKm(), dateDepart, adresseDepart, adresseArrivee, new ArrayList<>(), organisateur, vehiculePerso);
 
             return covoiturageRepository.save(covoiturage);
-        } else {
+        } /*else {
             throw new CovoiturageNotFoundException();
+
         }
+            */
+        return null;
     }
 
     /**
@@ -88,6 +92,42 @@ public class CovoiturageService {
         covoituragesOrganises = covoiturageRepository.findCovoituragesByOrganisateur(connectedUser.get());
         return covoituragesOrganises;
     }
+
+    /**
+     * Liste tous les covoiturages organisés par un utilisateur spécifié par son ID.
+     *
+     * @param userId L'ID de l'utilisateur pour lequel les covoiturages organisés doivent être listés.
+     * @return Une liste de covoiturages organisés par l'utilisateur. Si l'utilisateur n'est pas trouvé, renvoie null.
+     */
+    @Transactional
+    public List<CovoiturageDtoRecord> listerDTOCovoiturageOrganisesUpcoming(Integer userId) {
+        System.out.println("******************——— listerDTOCovoiturageOrganisesUpcoming ———******************");
+        Optional<Utilisateur> connectedUser = utilisateurService.rechercheParId(userId);
+
+        List<CovoiturageDtoRecord> covoituragesOrganises;
+        if (connectedUser.isEmpty()) {
+            return null;
+        }
+        covoituragesOrganises = covoiturageRepository.findCovoituragesByOrganisateurIdAndDateDepartAfter(userId, LocalDate.now()).stream().map(covoit -> this.changeToCovoitDto(covoit)).collect(Collectors.toList());
+        System.out.println("******************——— listerDTOCovoiturageOrganisesUpcoming to repo ———******************");
+        return covoituragesOrganises;
+    }
+
+    @Transactional
+    public List<CovoiturageDtoRecord> listerDTOCovoiturageOrganisesPast(Integer userId) {
+        System.out.println("******************——— listerDTOCovoiturageOrganisesPast ———******************");
+        Optional<Utilisateur> connectedUser = utilisateurService.rechercheParId(userId);
+
+        List<CovoiturageDtoRecord> covoituragesOrganises;
+        if (connectedUser.isEmpty()) {
+            return null;
+        }
+        covoituragesOrganises = covoiturageRepository.findCovoituragesByOrganisateurIdAndDateDepartBefore(userId, LocalDate.now()).stream().map(covoit -> this.changeToCovoitDto(covoit)).collect(Collectors.toList());
+        System.out.println("******************——— listerDTOCovoiturageOrganisesPast to repo ———******************");
+        return covoituragesOrganises;
+    }
+
+
 
     /**
      * Ajoute un passager à un covoiturage spécifié par son ID.
@@ -172,16 +212,12 @@ public class CovoiturageService {
         return covoiturageRepository.findAll().stream()
                 .map(covoit -> this.changeToCovoitDto(covoit))
                 .collect(Collectors.toList());
-
-
-
     }
 
 
     public CovoiturageDtoRecord changeToCovoitDto(Covoiturage covoiturage){
         List<Integer> passengersIdList = covoiturage.getPassagers().stream().map(passager -> passager.getId()).collect(Collectors.toList());
         Integer[] allPassengers = passengersIdList.toArray(new Integer[0]);
-
         return new CovoiturageDtoRecord(
                 covoiturage.getId(),
                 covoiturage.getNombrePlacesRestantes(),
@@ -280,4 +316,6 @@ public class CovoiturageService {
 
 
     }
+
+
 }
