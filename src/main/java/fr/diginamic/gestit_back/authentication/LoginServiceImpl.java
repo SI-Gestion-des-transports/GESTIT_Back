@@ -55,7 +55,7 @@ public class LoginServiceImpl implements LoginService {
         System.out.println(loginUser.getUsername());
         System.out.println(token);
         redisUtils.deleteRedisCache(loginUser.getUsername(), token);
-        return ResponseEntity.status(200).body("Logout successful ! Token deleted!");
+        return ResponseEntity.status(200).build();
     }
 
     @Override

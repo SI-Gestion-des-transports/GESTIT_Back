@@ -18,7 +18,7 @@ public class LoginController {
         return loginService.login(utilisateur);
     }
 
-    @PostMapping("/signout")
+    @GetMapping("/signout")
     public ResponseEntity signout(@RequestHeader HttpHeaders httpHeaders) {
         return loginService.signout(httpHeaders);
     }
