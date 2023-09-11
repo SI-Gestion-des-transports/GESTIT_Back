@@ -113,15 +113,27 @@ public class ReservationVehiculeServiceController {
      * @param resId       ID de la réservation à modifier.
      * @return La liste mise à jour des réservations.
      */
-    @PutMapping("/modify")
+    @PutMapping("/{resId}")
     public ResponseEntity<List<ReservationVehiculeServiceDto>> modifierReservationVehiculeService(
             @RequestHeader HttpHeaders httpHeaders,
             @RequestBody @Valid ReservationVehiculeServiceDto newResDto,
-            @RequestParam Integer resId) {
+            @PathVariable Integer resId) {
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        System.out.println("*****************************************");
+        System.out.println("************—— PUT UPDATE  ——************");
+        System.out.println("*****************************************");
         if (!newResDto.userId().equals(utilisateurConnecteId)) {
             throw new NotFoundOrValidException(new MessageDto("Problème d'authentification : les id ne correspondent pas !!"));
         }
+        System.out.println("*****************************************");
+        System.out.println("************—— PUT UPDATE  ——************");
+        System.out.println("*****************************************");
+        System.out.println("resDto : " + newResDto);
+        System.out.println("SOUT TOKEN : " + httpHeaders.get("JWT-TOKEN"));
+        System.out.println("User connected : " + utilisateurConnecteId);
+        System.out.println("*****************************************");
+        System.out.println("************—— PUT UPDATE  ——************");
+        System.out.println("*****************************************");
         this.reservationVehiculeServiceService.modifierReservationVehiculeService(utilisateurConnecteId, newResDto, resId);
         return ResponseEntity.status(200).body(this.reservationVehiculeServiceService.listeReservationVehiculeService(utilisateurConnecteId));
     }
