@@ -148,6 +148,7 @@ public class CovoiturageController {
         covoiturage.setPassagers(passagersABord);
 
         return covoiturage;
+    }
 
     @PostMapping
     public ResponseEntity<?> add(@RequestBody @Valid Covoiturage covoiturage) {
