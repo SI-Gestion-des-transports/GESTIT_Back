@@ -49,4 +49,11 @@ public class AdresseService {
                 adresse.getNumero(),
                 adresse.getVoie());
     }
+
+    public Adresse changeToAdresse(AdresseDto adresseDto){
+        return new Adresse(
+                adresseDto.numero(),
+                adresseDto.voie(),
+                new Commune(adresseDto.commune(), adresseDto.codePostal()));
+    }
 }

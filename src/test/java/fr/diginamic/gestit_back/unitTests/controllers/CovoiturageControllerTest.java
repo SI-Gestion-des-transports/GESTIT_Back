@@ -321,7 +321,7 @@ public class CovoiturageControllerTest {
 		this.covoiturageExample.setId(notAvailableId);
 		String requestURI = String.format("%s/%d", END_POINT_PATH, this.covoiturageExample.getId());
 
-		Mockito.when(this.doublureCovoiturageService.update(this.covoiturageExample))
+		Mockito.when(this.doublureCovoiturageService.updateOrganise(this.covoiturageExample))
 				.thenThrow(CovoiturageNotFoundException.class);
 
 		String requestBody = this.convertisseurJavaJson.writeValueAsString(this.covoiturageExample);
@@ -330,7 +330,7 @@ public class CovoiturageControllerTest {
 				.andExpect(status().isNotFound())
 				.andDo(print());
 
-		Mockito.verify(this.doublureCovoiturageService, times(1)).update(this.covoiturageExample);
+		Mockito.verify(this.doublureCovoiturageService, times(1)).updateOrganise(this.covoiturageExample);
 	}
 
 	/***
@@ -375,7 +375,7 @@ public class CovoiturageControllerTest {
 
 		String requestURI = String.format("%s/%d", END_POINT_PATH, this.covoiturageExample.getId());
 
-		Mockito.when(this.doublureCovoiturageService.update(this.covoiturageExample))
+		Mockito.when(this.doublureCovoiturageService.updateOrganise(this.covoiturageExample))
 				.thenReturn(this.covoiturageExample);
 
 		String requestBody = this.convertisseurJavaJson.writeValueAsString(this.covoiturageExample);
@@ -386,7 +386,7 @@ public class CovoiturageControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(this.covoiturageExample.getId()))
 				.andDo(print());
-		Mockito.verify(this.doublureCovoiturageService, times(1)).update(this.covoiturageExample);
+		Mockito.verify(this.doublureCovoiturageService, times(1)).updateOrganise(this.covoiturageExample);
 	}
 
 	/***

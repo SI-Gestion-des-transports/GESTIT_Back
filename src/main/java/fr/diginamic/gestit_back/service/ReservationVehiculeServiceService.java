@@ -147,6 +147,10 @@ public class ReservationVehiculeServiceService {
             reservationVSaModifier.setVehiculeService(this.vehiculeServiceService.trouverParId(newRes.vehiculeServiceId()));
             reservationVSaModifier.setDateHeureDepart(newRes.dateHeureDepart());
             reservationVSaModifier.setDateHeureRetour(newRes.dateHeureRetour());
+            System.out.println("*****************************************");
+            System.out.println("**********—— PUT UPDATE SRV  ——**********");
+            System.out.println(newRes);
+            System.out.println("*****************************************");
             reservationVehiculeServiceRepository.save(reservationVSaModifier);
         } else {
             throw new NotFoundOrValidException(new MessageDto("MOD - La modification n'est pas possible !"));
