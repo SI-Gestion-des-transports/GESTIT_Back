@@ -51,6 +51,8 @@ public class CovoiturageService {
      * @param userId         L'ID de l'utilisateur souhaitant créer le covoiturage.
      * @return Le covoiturage nouvellement créé.
      * @throws CovoiturageNotFoundException Si la création du covoiturage échoue pour une raison quelconque.
+     *
+     * @CovoiturageOrganisés
      */
     @Transactional
     public Covoiturage creerCovoiturage(CovoiturageDtoRecord covoiturageDto, Integer userId) {
@@ -59,10 +61,19 @@ public class CovoiturageService {
         if (connectedUser.isPresent() /*&& !connectedUser.get().getVehiculesPerso().isEmpty()*/) {
             System.out.println("CONNECTED USER ID : " + connectedUser.get().getId());
             LocalDate dateDepart = covoiturageDto.dateDepart();
-            Adresse adresseDepart = adresseRepository.findById(covoiturageDto.adresseDepart().id()).orElseThrow();
-            Adresse adresseArrivee = adresseRepository.findById(covoiturageDto.adresseArrivee().id()).orElseThrow();
+            System.out.println("***************************************");
+            System.out.println("********  COVOITURAGE SERVICE  ********");
+            System.out.println("***************************************");
+            System.out.println("covoiturageDto : " + covoiturageDto);
+            System.out.println("covoiturageDto.adresseDepartId : " + covoiturageDto.adresseDepartId());
+            System.out.println("covoiturageDto.adresseArriveeId : " + covoiturageDto.adresseArriveeId());
+            System.out.println("***************************************");
+            System.out.println("***************************************");
+            Integer adresseDepartId = covoiturageDto.adresseDepartId();
+            Adresse adresseDepart = adresseRepository.findById(adresseDepartId).orElseThrow();
+            Adresse adresseArrivee = adresseRepository.findById(covoiturageDto.adresseArriveeId()).orElseThrow();
             Utilisateur organisateur = utilisateurRepository.findById(connectedUser.get().getId()).orElseThrow();
-            System.out.println("organisateur : "+organisateur);
+            System.out.println("organisateur : " + organisateur.getId());
             VehiculePerso vehiculePerso = vehiculePersoRepository.findVehiculePersoByProprietaire(organisateur).get(0);
 
             Covoiturage covoiturage = new Covoiturage(covoiturageDto.nombrePlacesRestantes(), covoiturageDto.dureeTrajet(), covoiturageDto.distanceKm(), dateDepart, adresseDepart, adresseArrivee, new ArrayList<>(), organisateur, vehiculePerso);
@@ -99,6 +110,8 @@ public class CovoiturageService {
      *
      * @param userId L'ID de l'utilisateur pour lequel les covoiturages organisés doivent être listés.
      * @return Une liste de covoiturages organisés par l'utilisateur. Si l'utilisateur n'est pas trouvé, renvoie null.
+     *
+     * @CovoiturageOrganisés
      */
     @Transactional
     public List<CovoiturageDtoRecord> listerDTOCovoiturageOrganisesUpcoming(Integer userId) {
@@ -113,6 +126,14 @@ public class CovoiturageService {
         System.out.println("******************——— listerDTOCovoiturageOrganisesUpcoming to repo ———******************");
         return covoituragesOrganises;
     }
+
+    /**
+     *
+     * @param userId
+     * @return
+     *
+     * @CovoiturageOrganisés
+     */
 
     @Transactional
     public List<CovoiturageDtoRecord> listerDTOCovoiturageOrganisesPast(Integer userId) {
@@ -173,16 +194,55 @@ public class CovoiturageService {
      * Sinon, le covoiturage est mis à jour dans la base de données.
      * </p>
      *
-     * @param covoiturage Le covoiturage à mettre à jour, identifié par son ID.
+     * @param covoiturageDtoRecord Le covoiturage à mettre à jour, identifié par son ID.
      * @return Le covoiturage mis à jour.
      * @throws CovoiturageNotFoundException Si aucun covoiturage avec l'ID spécifié n'est trouvé.
+     *
+     * @CovoiturageOrganisés
      */
-    public Covoiturage update(Covoiturage covoiturage) throws CovoiturageNotFoundException {
-        if (!covoiturageRepository.existsById(covoiturage.getId())) {
-            throw new CovoiturageNotFoundException();
-        }
+    public Covoiturage updateOrganise(CovoiturageDtoRecord covoiturageDtoRecord, Integer utilisateurConnecteId) throws CovoiturageNotFoundException {
 
-        return covoiturageRepository.save(covoiturage);
+        if (!covoiturageRepository.existsById(covoiturageDtoRecord.id())) {
+            throw new CovoiturageNotFoundException();
+        } else if (covoiturageDtoRecord.organisateurId().equals(utilisateurConnecteId)){
+            Covoiturage covoiturageUpdated = covoiturageRepository.findById(covoiturageDtoRecord.id()).get();
+            //covoiturageUpdated.setAdresseDepart(this.adresseService.changeToAdresse(covoiturageDtoRecord.adresseDepartId()));
+            //covoiturageUpdated.setAdresseArrivee(this.adresseService.changeToAdresse(covoiturageDtoRecord.adresseArriveeId()));
+            covoiturageUpdated.setDistanceKm(covoiturageDtoRecord.distanceKm());
+            covoiturageUpdated.setDureeTrajet(covoiturageDtoRecord.dureeTrajet());
+            covoiturageUpdated.setVehiculePerso(this.vehiculePersoRepository.findById(covoiturageDtoRecord.vehiculePersoId()).get());
+            return covoiturageRepository.save(covoiturageUpdated);
+        } else {
+            throw new NotFoundOrValidException(new MessageDto("MOD - La modification n'est pas possible !"));
+        }
+    }
+
+    /**
+     * Met à jour un covoiturage existant.
+     *
+     * <p>
+     * Si le covoiturage n'existe pas dans le référentiel, une exception est levée.
+     * Sinon, le covoiturage est mis à jour dans la base de données.
+     * </p>
+     *
+     * @param covoiturageDtoRecord Le covoiturage à mettre à jour, identifié par son ID.
+     * @param id
+     * @return Le covoiturage mis à jour.
+     * @throws CovoiturageNotFoundException Si aucun covoiturage avec l'ID spécifié n'est trouvé.
+     *
+     * @CovoituragePassager
+     */
+    public Covoiturage updatePassager(CovoiturageDtoRecord covoiturageDtoRecord, Integer utilisateurConnecteId, Integer id) throws CovoiturageNotFoundException {
+        if (!covoiturageRepository.existsById(covoiturageDtoRecord.id())) {
+            throw new CovoiturageNotFoundException();
+        } else {
+            Covoiturage covoiturageUpdated = covoiturageRepository.findById(covoiturageDtoRecord.id()).get();
+            List<Utilisateur> passagers = covoiturageUpdated.getPassagers();
+            passagers.add(this.utilisateurRepository.findById(utilisateurConnecteId).orElseThrow());
+            System.out.println(covoiturageUpdated.getPassagers());
+            covoiturageUpdated.setPassagers(passagers);
+            return covoiturageRepository.save(covoiturageUpdated);
+        }
     }
 
     /**
@@ -242,8 +302,8 @@ public class CovoiturageService {
                 covoiturage.getDureeTrajet(),
                 covoiturage.getDistanceKm(),
                 covoiturage.getDateDepart(),
-                this.adresseService.changeToAdresseDto(covoiturage.getAdresseDepart()),
-                this.adresseService.changeToAdresseDto(covoiturage.getAdresseArrivee()),
+                covoiturage.getAdresseDepart().getId(),
+                covoiturage.getAdresseArrivee().getId(),
                 covoiturage.getOrganisateur().getId(),
                 covoiturage.getVehiculePerso().getId(),
                 allPassengers);

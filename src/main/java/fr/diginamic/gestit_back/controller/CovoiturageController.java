@@ -1,7 +1,9 @@
 package fr.diginamic.gestit_back.controller;
 import fr.diginamic.gestit_back.dto.CovoiturageDto;
 import fr.diginamic.gestit_back.dto.CovoiturageDtoRecord;
+import fr.diginamic.gestit_back.dto.MessageDto;
 import fr.diginamic.gestit_back.exceptions.CovoiturageNotFoundException;
+import fr.diginamic.gestit_back.exceptions.NotFoundOrValidException;
 import fr.diginamic.gestit_back.service.CovoiturageService;
 import fr.diginamic.gestit_back.dto.TestDto;
 import fr.diginamic.gestit_back.repository.UtilisateurRepository;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 //@Secured("COLLABORATEUR")
 @Data
+@CrossOrigin
 @RequestMapping("/covoiturages")
 public class CovoiturageController {
 
@@ -51,6 +54,9 @@ public class CovoiturageController {
      *
      * @param httpHeaders Les entêtes HTTP, contenant notamment le JWT pour l'authentification.
      * @return Une réponse contenant la liste des covoiturages organisés par l'utilisateur.
+     *
+     * @CovoiturageOrgansés
+     * Non-used
      */
     @GetMapping("/listerorganises")
     public ResponseEntity<List<Covoiturage>> listerCovoiturageOrganises(@RequestHeader HttpHeaders httpHeaders) {
@@ -60,12 +66,19 @@ public class CovoiturageController {
         return ResponseEntity.created(uri).body(this.covoiturageService.listerCovoiturageOrganises(utilisateurConnecteId));
     }
 
+    /**
+     * @CovoiturageOrganisés
+     */
     @GetMapping("/upcoming")
     public ResponseEntity<List<CovoiturageDtoRecord>> listeCovoitOrganisesEnCours(@RequestHeader HttpHeaders httpHeaders) {
         System.out.println("******************——— GET UPCOMING ———******************");
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
         return ResponseEntity.status(200).body(this.covoiturageService.listerDTOCovoiturageOrganisesUpcoming(utilisateurConnecteId));
     }
+
+    /**
+     * @CovoiturageOrganisés
+     */
     @GetMapping("/past")
     public ResponseEntity<List<CovoiturageDtoRecord>> listeCovoitOrganisesPast(@RequestHeader HttpHeaders httpHeaders) {
         System.out.println("******************——— GET PAST ———******************");
@@ -80,6 +93,9 @@ public class CovoiturageController {
      * @param covoiturageDto Le DTO contenant les informations sur le covoiturage à créer.
      * @param httpHeaders    Les entêtes HTTP, contenant notamment le JWT pour l'authentification.
      * @return Une réponse contenant le covoiturage créé.
+     *
+     *
+     * @CovoiturageOrganisés
      */
     @PostMapping("/create")
     public ResponseEntity<List<CovoiturageDtoRecord>> creerCovoiturage(
@@ -87,10 +103,15 @@ public class CovoiturageController {
             @RequestHeader HttpHeaders httpHeaders
     ) {
         System.out.println("C CTRLR");
+        System.out.println("———————————————————————————————————————");
+        System.out.println("———————  COVOITURAGE CONTROLLER  ——————");
+        System.out.println("———————————————————————————————————————");
+        System.out.println("covoiturageDto : " + covoiturageDto);
+        System.out.println("———————————————————————————————————————");
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
 
         this.covoiturageService.creerCovoiturage(covoiturageDto, utilisateurConnecteId);
-        URI uri = URI.create("/covoiturages/create");
+        //URI uri = URI.create("/covoiturages/create");
         return ResponseEntity.status(200).body(this.covoiturageService.listerDTOCovoiturageOrganisesPast(utilisateurConnecteId));
     }
 
@@ -154,6 +175,9 @@ public class CovoiturageController {
     }
 */
 
+    /**
+     * @CovoituragePassagers
+     */
     @GetMapping("/listall")
     public ResponseEntity<List<CovoiturageDtoRecord>> listall() {
         System.out.println("GET listall");
@@ -164,24 +188,55 @@ public class CovoiturageController {
         }*/
         return ResponseEntity.status(200).body(listCovoiturages);
     }
-      
-      
-      
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Integer id,
-                                    @RequestBody @Valid Covoiturage covoiturage) {
+
+
+    /**
+     * @CovoiturageOrganisés
+     */
+    @PutMapping("/co{id}")
+    public ResponseEntity<List<CovoiturageDtoRecord>> update(@PathVariable("id") Integer id,
+                                    @RequestBody CovoiturageDtoRecord covoiturageDtoRecord,
+                                    @RequestHeader HttpHeaders httpHeaders) {
+
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+
         try {
-            covoiturage.setId(id);
-            Covoiturage updatedCovoiturage = covoiturageService.update(covoiturage);
-            return ResponseEntity.ok(entity2Dto(updatedCovoiturage));
+            //covoiturage.setId(id);
+            this.covoiturageService.updateOrganise(covoiturageDtoRecord, utilisateurConnecteId);
+            //return ResponseEntity.ok(entity2Dto(updatedCovoiturage));
+            return ResponseEntity.status(200).body(this.covoiturageService.listerDTOCovoiturageOrganisesUpcoming(utilisateurConnecteId));
         } catch (CovoiturageNotFoundException e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
 
-      
-          @DeleteMapping("/{id}")
+
+    /**
+     * @CovoituragePassager
+     */
+    @PutMapping("/cp{id}")
+    public ResponseEntity<List<CovoiturageDtoRecord>> updatePassager(@PathVariable("id") Integer covoitId,
+                                                             @RequestBody CovoiturageDtoRecord covoiturageDtoRecord,
+                                                             @RequestHeader HttpHeaders httpHeaders) {
+        Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
+        try {
+            //covoiturage.setId(id);
+            this.covoiturageService.updatePassager(covoiturageDtoRecord, utilisateurConnecteId, covoitId);
+            //return ResponseEntity.ok(entity2Dto(updatedCovoiturage));
+            return ResponseEntity.status(200).body(this.covoiturageService.listerDTOCovoiturageOrganisesUpcoming(utilisateurConnecteId));
+        } catch (CovoiturageNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
+    /**
+     * @CovoiturageOrganisés
+     */
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         try {
             covoiturageService.delete(id);
@@ -196,6 +251,9 @@ public class CovoiturageController {
     private CovoiturageDto entity2Dto(Covoiturage entity) {
         return modelMapper.map(entity, CovoiturageDto.class);
     }
+
+
+
 
     private List<CovoiturageDto> list2Dto(List<Covoiturage> listCovoiturages) {
         return listCovoiturages.stream().map(

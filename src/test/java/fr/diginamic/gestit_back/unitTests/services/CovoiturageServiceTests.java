@@ -222,7 +222,7 @@ public class CovoiturageServiceTests {
                 .thenReturn(false);
 
         assertThrows(CovoiturageNotFoundException.class, () -> {
-            covoiturageService.update(this.exampleCovoiturage);
+            covoiturageService.updateOrganise(this.exampleCovoiturage);
         });
 
         Mockito.verify(doublureCovoiturageRepository, times(1)).existsById(notAvailableId);
@@ -253,7 +253,7 @@ public class CovoiturageServiceTests {
                 .thenThrow(IllegalArgumentException.class);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            covoiturageService.update(this.exampleCovoiturage);
+            covoiturageService.updateOrganise(this.exampleCovoiturage);
         });
 
         Mockito.verify(doublureCovoiturageRepository, times(1)).existsById(availableId);
@@ -278,7 +278,7 @@ public class CovoiturageServiceTests {
         when(this.doublureCovoiturageRepository.existsById(availableId)).thenReturn(true);
         when(this.doublureCovoiturageRepository.save(this.exampleCovoiturage)).thenReturn(this.exampleCovoiturage);
 
-        Covoiturage returned = covoiturageService.update(this.exampleCovoiturage);
+        Covoiturage returned = covoiturageService.updateOrganise(this.exampleCovoiturage);
         assertThat(returned.getId()).isSameAs(this.exampleCovoiturage.getId());
 
         Mockito.verify(doublureCovoiturageRepository, times(1)).existsById(availableId);
