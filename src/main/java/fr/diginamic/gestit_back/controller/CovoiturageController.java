@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 @RestController
 //@Secured("COLLABORATEUR")
 @Data
+@CrossOrigin
 @RequestMapping("/covoiturages")
 public class CovoiturageController {
 
@@ -102,10 +103,15 @@ public class CovoiturageController {
             @RequestHeader HttpHeaders httpHeaders
     ) {
         System.out.println("C CTRLR");
+        System.out.println("———————————————————————————————————————");
+        System.out.println("———————  COVOITURAGE CONTROLLER  ——————");
+        System.out.println("———————————————————————————————————————");
+        System.out.println("covoiturageDto : " + covoiturageDto);
+        System.out.println("———————————————————————————————————————");
         Integer utilisateurConnecteId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get("JWT-TOKEN").get(0)).getSubject());
 
         this.covoiturageService.creerCovoiturage(covoiturageDto, utilisateurConnecteId);
-        URI uri = URI.create("/covoiturages/create");
+        //URI uri = URI.create("/covoiturages/create");
         return ResponseEntity.status(200).body(this.covoiturageService.listerDTOCovoiturageOrganisesPast(utilisateurConnecteId));
     }
 

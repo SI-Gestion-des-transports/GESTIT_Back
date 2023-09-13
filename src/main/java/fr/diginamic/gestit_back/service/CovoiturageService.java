@@ -60,10 +60,19 @@ public class CovoiturageService {
         if (connectedUser.isPresent() /*&& !connectedUser.get().getVehiculesPerso().isEmpty()*/) {
             System.out.println("CONNECTED USER ID : " + connectedUser.get().getId());
             LocalDate dateDepart = covoiturageDto.dateDepart();
-            Adresse adresseDepart = adresseRepository.findById(covoiturageDto.adresseDepart().id()).orElseThrow();
-            Adresse adresseArrivee = adresseRepository.findById(covoiturageDto.adresseArrivee().id()).orElseThrow();
+            System.out.println("***************************************");
+            System.out.println("********  COVOITURAGE SERVICE  ********");
+            System.out.println("***************************************");
+            System.out.println("covoiturageDto : " + covoiturageDto);
+            System.out.println("covoiturageDto.adresseDepartId : " + covoiturageDto.adresseDepartId());
+            System.out.println("covoiturageDto.adresseArriveeId : " + covoiturageDto.adresseArriveeId());
+            System.out.println("***************************************");
+            System.out.println("***************************************");
+            Integer adresseDepartId = covoiturageDto.adresseDepartId();
+            Adresse adresseDepart = adresseRepository.findById(adresseDepartId).orElseThrow();
+            Adresse adresseArrivee = adresseRepository.findById(covoiturageDto.adresseArriveeId()).orElseThrow();
             Utilisateur organisateur = utilisateurRepository.findById(connectedUser.get().getId()).orElseThrow();
-            System.out.println("organisateur : "+organisateur);
+            System.out.println("organisateur : " + organisateur.getId());
             VehiculePerso vehiculePerso = vehiculePersoRepository.findVehiculePersoByProprietaire(organisateur).get(0);
 
             Covoiturage covoiturage = new Covoiturage(covoiturageDto.nombrePlacesRestantes(), covoiturageDto.dureeTrajet(), covoiturageDto.distanceKm(), dateDepart, adresseDepart, adresseArrivee, new ArrayList<>(), organisateur, vehiculePerso);
@@ -196,8 +205,8 @@ public class CovoiturageService {
             throw new CovoiturageNotFoundException();
         } else if (covoiturageDtoRecord.organisateurId().equals(utilisateurConnecteId)){
             Covoiturage covoiturageUpdated = covoiturageRepository.findById(covoiturageDtoRecord.id()).get();
-            covoiturageUpdated.setAdresseDepart(this.adresseService.changeToAdresse(covoiturageDtoRecord.adresseDepart()));
-            covoiturageUpdated.setAdresseArrivee(this.adresseService.changeToAdresse(covoiturageDtoRecord.adresseArrivee()));
+            //covoiturageUpdated.setAdresseDepart(this.adresseService.changeToAdresse(covoiturageDtoRecord.adresseDepartId()));
+            //covoiturageUpdated.setAdresseArrivee(this.adresseService.changeToAdresse(covoiturageDtoRecord.adresseArriveeId()));
             covoiturageUpdated.setDistanceKm(covoiturageDtoRecord.distanceKm());
             covoiturageUpdated.setDureeTrajet(covoiturageDtoRecord.dureeTrajet());
             covoiturageUpdated.setVehiculePerso(this.vehiculePersoRepository.findById(covoiturageDtoRecord.vehiculePersoId()).get());
@@ -275,8 +284,8 @@ public class CovoiturageService {
                 covoiturage.getDureeTrajet(),
                 covoiturage.getDistanceKm(),
                 covoiturage.getDateDepart(),
-                this.adresseService.changeToAdresseDto(covoiturage.getAdresseDepart()),
-                this.adresseService.changeToAdresseDto(covoiturage.getAdresseArrivee()),
+                covoiturage.getAdresseDepart().getId(),
+                covoiturage.getAdresseArrivee().getId(),
                 covoiturage.getOrganisateur().getId(),
                 covoiturage.getVehiculePerso().getId(),
                 allPassengers);

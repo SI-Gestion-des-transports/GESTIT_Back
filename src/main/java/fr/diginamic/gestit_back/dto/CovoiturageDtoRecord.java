@@ -11,10 +11,10 @@ public record CovoiturageDtoRecord(
         @NotNull Integer dureeTrajet,
         @NotNull Integer distanceKm,
         @Valid LocalDate dateDepart,
-        @NotNull AdresseDto adresseDepart,
-        @NotNull AdresseDto adresseArrivee,
+        @NotNull Integer adresseDepartId,
+        @NotNull Integer adresseArriveeId,
         @NotNull Integer organisateurId,
-        Integer vehiculePersoId,
+        @NotNull Integer vehiculePersoId,
         Integer[] passagersId
 
 ) {

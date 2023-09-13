@@ -20,12 +20,17 @@ public class AdresseController {
     private CommuneService communeService;
 
     @PostMapping
-    public void creerAdresse(@RequestBody AdresseDto adresseDto) {
-        this.adresseService.nouvelleAdresse(adresseDto);
+    public AdresseDto creerAdresse(@RequestBody AdresseDto adresseDto) {
+        return this.adresseService.nouvelleAdresse(adresseDto);
     }
 
     @GetMapping("/find")
     public Commune find() {
         return this.communeService.verifierExistenceCommune("Montpellier", 34000);
     }
+
+    @GetMapping("/{adresseId}")
+    public AdresseDto findAdresseById(@PathVariable Integer adresseId){
+        return this.adresseService.findAdresseById(adresseId);
+        }
 }
