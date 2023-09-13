@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("marque")
 @Validated
-@CrossOrigin
+
 public class MarqueController {
 
     private MarqueService marqueService;

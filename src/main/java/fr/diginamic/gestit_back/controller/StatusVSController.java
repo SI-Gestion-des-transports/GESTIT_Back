@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 //@Secured("ADMINISTRATEUR")
 @RequestMapping("/statusVS")
-@CrossOrigin
+
 public class StatusVSController {
     @GetMapping
     public ResponseEntity<List<String>> getStatutVS() {

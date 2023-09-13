@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 //@Secured("ADMINISTRATEUR")
 @RequestMapping("/motorisation")
-@CrossOrigin
+
 public class MotorisationContoller {
     @GetMapping
     public ResponseEntity<List<String>> getMotorisation(){

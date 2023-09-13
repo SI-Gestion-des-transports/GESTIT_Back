@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 //@Secured("ADMINISTRATEUR")
 @RequestMapping("/categorie")
-@CrossOrigin
+
 public class CategorieController {
     @GetMapping
     public ResponseEntity<List<String>> getCategories(){

@@ -35,6 +35,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String token = request.getHeader(jwtConfig.getName());
+        System.out.println("JWTAuthFilter============>"+ token);
         if (StringUtils.hasText(token)) {
 
             Claims body;

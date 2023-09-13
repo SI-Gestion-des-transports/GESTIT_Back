@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 //@Secured("ADMINISTRATEUR")
 @RequestMapping("/modele")
-@CrossOrigin
+
 public class ModeleController {
     private MarqueService marqueService;
     private ModeleService modeleService;

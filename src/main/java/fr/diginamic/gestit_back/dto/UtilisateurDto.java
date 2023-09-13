@@ -13,7 +13,8 @@ public record UtilisateurDto(
         Integer id,
         @NotNull String nom,
         @NotNull String motDePasse,
-        @NotNull @Email String email
+        @NotNull @Email String email,
+        List<String> roles
 ) {
 
 }
