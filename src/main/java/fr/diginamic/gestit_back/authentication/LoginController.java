@@ -40,7 +40,7 @@ public class LoginController {
         Integer userId = Integer.decode(jwtUtils.parseJWT(httpHeaders.get(jwtConfig.getName()).get(0)).getSubject());
         LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Utilisateur utilisateur = loginUser.getUtilisateur();
-        UtilisateurDto dto = new UtilisateurDto(userId, utilisateur.getNom(),"gestitsecret", utilisateur.getEmail(),utilisateur.getRoles());
+        UtilisateurDto dto = new UtilisateurDto(userId, utilisateur.getNom(),"gestitsecret", "utilisateurEmail()",utilisateur.getRoles());
         return ResponseEntity.status(200).body(dto);
     }
 }
