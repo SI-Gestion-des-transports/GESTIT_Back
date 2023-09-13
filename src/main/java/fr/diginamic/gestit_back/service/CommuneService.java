@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +26,9 @@ public class CommuneService {
     public Commune verifierExistenceCommune(String commune, Integer codePostal) {
         Optional<Commune> optionalCommune = this.communeRepository.findCommuneByNomAndCodePostal(commune, codePostal);
         return optionalCommune.orElse(null);
+    }
+
+    public List<Commune> findAll(){
+        return this.communeRepository.findAll();
     }
 }

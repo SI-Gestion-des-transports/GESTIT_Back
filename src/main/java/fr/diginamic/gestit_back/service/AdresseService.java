@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,6 +42,21 @@ public class AdresseService {
         // Sauvegarde de l'adresse
         Adresse adresse = this.adresseRepository.save(nouvelleAdresse);
         return changeToAdresseDto(adresse);
+    }
+
+    @Transactional
+    public List<AdresseDto> findAll(){
+       List<Adresse> adresses = this.adresseRepository.findAll();
+       List<AdresseDto> adresseDtos = new ArrayList<>();
+       List<Commune> communes = this.communeService.findAll();
+        if (!adresses.isEmpty()) {
+            for (Adresse a : adresses) {
+                adresseDtos.add(changeToAdresseDto(a));
+            }
+            return adresseDtos;
+        } else {
+            throw new NotFoundOrValidException(new MessageDto("Pas d'adresses"));
+        }
     }
 
     @Transactional
