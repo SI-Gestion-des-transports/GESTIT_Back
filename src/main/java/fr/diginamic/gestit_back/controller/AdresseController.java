@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Data
-@Secured("COLLABORATEUR")
+//@Secured("COLLABORATEUR")
 @AllArgsConstructor
 @RequestMapping("adresse")
 public class AdresseController {

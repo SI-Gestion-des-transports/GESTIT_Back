@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @Validated
 /*@Secured("COLLABORATEUR")*/
-@CrossOrigin
+
 @RequestMapping("reservation")
 public class ReservationVehiculeServiceController {
 
