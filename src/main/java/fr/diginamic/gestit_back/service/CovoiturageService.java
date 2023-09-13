@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -209,6 +210,23 @@ public class CovoiturageService {
     }
 
     public List<CovoiturageDtoRecord> listall() {
+        List listeCovoitsAmodifier = covoiturageRepository.findAll();
+        ListIterator<Covoiturage> covoitList= listeCovoitsAmodifier.listIterator();
+        while (covoitList.hasNext()) {
+            Covoiturage covoiturageAmettreAJour = covoitList.next();
+
+            int nbrePlacesVehicule = covoiturageAmettreAJour
+            .getVehiculePerso().getNombreDePlaceDisponibles();
+
+            int nbrePlacesDejaReservees = covoiturageAmettreAJour
+            .getPassagers().size();
+
+
+            covoiturageAmettreAJour.setNombrePlacesRestantes(nbrePlacesVehicule - nbrePlacesDejaReservees);
+            covoiturageRepository.save(covoiturageAmettreAJour);
+
+        }
+        
         return covoiturageRepository.findAll().stream()
                 .map(covoit -> this.changeToCovoitDto(covoit))
                 .collect(Collectors.toList());
