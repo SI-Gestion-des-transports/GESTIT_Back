@@ -21,6 +21,11 @@ Pour l'interface de test, l'application est fournie avec une interface grapghiqu
 Elle est accessible depuis cette adresse :
 http://localhost:8080/swagger-ui.html
 
+Nota : Le démarrage de l'application depuis la ligne de commande peut s'effectuer avec la commande suivante:
+```bash
+mvn spring-boot:run
+```
+
 Il reste possible de faire manuellement des requêtes http depuis 
 
 ## Pour démarrer
